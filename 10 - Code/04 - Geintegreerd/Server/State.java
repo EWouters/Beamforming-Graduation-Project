@@ -1,0 +1,2 @@
+public enum State
+{CONFIGURING, IDLE, STREAMING}

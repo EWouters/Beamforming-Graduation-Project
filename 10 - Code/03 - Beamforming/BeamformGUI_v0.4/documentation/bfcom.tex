@@ -1,0 +1,227 @@
+
+% This LaTeX was auto-generated from MATLAB code.
+% To make changes, update the MATLAB code and republish this document.
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{color}
+
+\sloppy
+\definecolor{lightgray}{gray}{0.5}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+    
+    
+\subsection*{Contents}
+
+\begin{itemize}
+\setlength{\itemsep}{-1ex}
+   \item bfcom class
+   \item Example 1
+   \item Example 2
+   \item Properties
+   \item Methods
+   \item Constructor
+   \item New Samples Available Function
+   \item New Connection Function
+   \item Lost Connection Function
+   \item Face Up Function
+   \item Is Moving Function
+   \item Orientation Change Function
+   \item ID2phone Function
+\end{itemize}
+\begin{verbatim}
+classdef bfcom < handle
+\end{verbatim}
+
+
+\subsection*{bfcom class}
+
+\begin{par}
+Class to answer calls from Man in the Middle.
+\end{par} \vspace{1em}
+
+
+\subsection*{Example 1}
+
+\begin{verbatim}s = bfcom;
+s.orientationChange('phoneID', 'azimuth', 'elevation');
+s.phones(2) = s.phones(1); s.phones(3) = s.phones(1);
+s.phones(2).phoneID = 'ID2';
+s.phones(3).phoneID = 'ID3';
+disp(\{s.phones.phoneID\});
+locs = \{s.phones.location\};
+disp(locs\{1\});\end{verbatim}
+
+
+\subsection*{Example 2}
+
+\begin{verbatim}s = bfcom;s.phones(2) = s.phones(1); s.phones(3) = s.phones(1);s.phones(2).phoneID = 'ID2';s.phones(3).phoneID = 'ID3';s.ID2phone('ID2')
+s.newSamplesAvailable([[1 2 3 4];[9 8 7 6]], \{'ID1' 'ID2'\})
+s.newConnection('ID99',1,2*pi)
+s.orientationChange('ID99', pi, pi/2)
+s.lostConnection('ID99')\end{verbatim}
+
+
+\subsection*{Properties}
+
+\begin{verbatim}
+    properties
+        defaults    % default phone properties
+        phones      % array of phone properties
+    end
+\end{verbatim}
+
+
+\subsection*{Methods}
+
+\begin{verbatim}
+    methods
+\end{verbatim}
+
+
+\subsection*{Constructor}
+
+\begin{verbatim}
+        function obj = bfcom
+            obj.phones(1).phoneID = 'ID1';        % Identification string for Phone
+            obj.phones(1).location = [0,0,0];     % (x,y,z) coordinates of Phone
+            obj.phones(1).azimuth = 0;            % Angle of microphone relative to magnetic north (counter-clockwise positive)
+            obj.phones(1).elevation = 0;          % Angle with respect to horizon (upward positive)
+            obj.phones(1).faceUp = 1;             % Screen of phone is on the top if faceUp = 1
+            obj.phones(1).isMoving = 0;           % 1 if phone is moving
+            obj.phones(1).samples = [];           % Array of samples. samples(end,:) gives most recent sample frame
+            obj.defaults = obj.phones(1);         % Store defaults for when a new phone is added
+        end
+\end{verbatim}
+
+        \color{lightgray} \begin{verbatim}
+ans = 
+
+  bfcom with properties:
+
+    defaults: [1x1 struct]
+      phones: [1x1 struct]
+
+\end{verbatim} \color{black}
+    
+
+\subsection*{New Samples Available Function}
+
+\begin{verbatim}
+        function newSamplesAvailable(obj, samples, phoneIDs)
+        % Function to input samples
+        %   samples: matrix of samples dim = (numberOfPhones,numberOfSamples)
+        %   phoneIDs: cell of strings
+        % Example:
+        %   s.newSamplesAvailable([[1 2 3 4];[9 8 7 6]], {'ID1' 'ID2'})
+%             disp(samples);
+%             disp(phoneIDs);
+            for ii = 1:length(phoneIDs)
+                obj.phones(obj.ID2phone(phoneIDs{ii})).samples(end+1,:) = samples(ii,:);
+            end
+
+            % Might be handy to do some sanity checks here
+
+        end
+\end{verbatim}
+
+
+\subsection*{New Connection Function}
+
+\begin{verbatim}
+        function newConnection(obj, phoneID, azimuth, elevation)
+        % Function to add phone to array
+%             disp(phoneID);
+%             disp(azimuth);
+%             disp(elevation);
+            if ~obj.ID2phone(phoneID)
+                obj.phones(end+1) = obj.defaults;
+                obj.phones(end).phoneID = phoneID;
+                obj.phones(end).azimuth = azimuth;
+                obj.phones(end).elevation = elevation;
+            else
+                warning('connection ID is taken');
+            end
+        end
+\end{verbatim}
+
+
+\subsection*{Lost Connection Function}
+
+\begin{verbatim}
+        function lostConnection(obj, phoneID)
+        % Function to remove phone from array
+%             disp(phoneID);
+            phNum = obj.ID2phone(phoneID);
+            if phNum
+                obj.phones(phNum) = [];
+            else
+                warning(sprintf('Connection ID ''%s'' does not exist so it cannot be closed',phoneID));
+            end
+        end
+\end{verbatim}
+
+
+\subsection*{Face Up Function}
+
+\begin{verbatim}
+        function faceUp(obj, phoneID, faceUp)
+        % Function to let algorithm know whether the phone is screen-up
+            obj.phones(obj.ID2phone(phoneID)).faceUp = faceUp;
+        end
+\end{verbatim}
+
+
+\subsection*{Is Moving Function}
+
+\begin{verbatim}
+        function isMoving(obj, phoneID, isMoving)
+        % Function to let algorithm know that phone not stationary
+            obj.phones(obj.ID2phone(phoneID)).isMoving = isMoving;
+        end
+\end{verbatim}
+
+
+\subsection*{Orientation Change Function}
+
+\begin{verbatim}
+        function orientationChange(obj, phoneID, azimuth, elevation)
+        % Function to update orientation
+            obj.phones(obj.ID2phone(phoneID)).azimuth = azimuth;
+            obj.phones(obj.ID2phone(phoneID)).elevation = elevation;
+        end
+\end{verbatim}
+
+
+\subsection*{ID2phone Function}
+
+\begin{verbatim}
+        function num = ID2phone(obj, phoneID)
+        % Function to find the right phone number for a phoneID
+            for ii = 1:length(obj.phones)
+                if strcmp(phoneID,obj.phones(ii).phoneID)
+                    num = ii;
+                    return
+                else
+                    num = 0;
+                end
+            end
+%             if ~exist('num')
+%                 error(sprintf('PhoneID ''%s'' could not be matched to phone',phoneID));
+%             end
+        end
+\end{verbatim}
+\begin{verbatim}
+    end
+\end{verbatim}
+\begin{verbatim}
+end
+\end{verbatim}
+
+
+
+\end{document}
+    

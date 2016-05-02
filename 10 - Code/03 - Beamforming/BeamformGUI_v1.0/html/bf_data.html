@@ -1,0 +1,2262 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>bf_data</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-03"><meta name="DC.source" content="bf_data.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#3">Constructor Function</a></li><li><a href="#4">Load Function</a></li><li><a href="#5">Save Function</a></li><li><a href="#6">Play Function</a></li><li><a href="#7">AudioData Functions</a></li><li><a href="#8">Names and Locations Functions</a></li><li><a href="#9">Audio Data Functions</a></li></ul></div><pre class="codeinput"><span class="keyword">classdef</span> bf_data &lt; handle
+    <span class="comment">% BF_DATA Beamformer Audio Buffer. Has many functions to label the</span>
+    <span class="comment">%   channels and add data from different sources. The time indices of the</span>
+    <span class="comment">%   data in the buffer can be kept in sync using different methods.</span>
+    <span class="comment">%</span>
+    <span class="comment">%   BF_DATA(OBJ) create empty file object</span>
+    <span class="comment">%   BF_DATA(OBJ, MAINOBJ) create file object and add handle to main object</span>
+    <span class="comment">%   BF_DATA(OBJ, MAINOBJ, SOURCEID) create empty file object and set SourceID</span>
+    <span class="comment">%   BF_DATA(OBJ, MAINOBJ, SOURCEID, FILENAME) add file named fileName to object</span>
+    <span class="comment">%   BF_DATA(OBJ, MAINOBJ, SOURCEID, FILENAME, LOCATIONS) add file with locations</span>
+    <span class="comment">%   BF_DATA(OBJ, MAINOBJ, SOURCEID, FILENAME, LOCATIONS, CHANNAMES) add file with</span>
+    <span class="comment">%   locations and channel names</span>
+    <span class="comment">%</span>
+    <span class="comment">% Example 1:</span>
+    <span class="comment">%   obj = bf_data</span>
+    <span class="comment">%   obj.setChanNames({'S1','S2','S3','S4'})</span>
+    <span class="comment">%   obj.setTotalSamples(100)</span>
+    <span class="comment">%   obj.addSamples([1;2;3;4;[5:100]'],'S3')</span>
+    <span class="comment">%   obj.getAudioData({'S3','S1'})</span>
+    <span class="comment">%</span>
+    <span class="comment">% Example 2:</span>
+    <span class="comment">%   obj = bf_data</span>
+    <span class="comment">%   obj.setChanNames({'S1','S2','S3','S4'})</span>
+    <span class="comment">%   obj.addSamples([1;2;3;4;[5:100]'],'S1',1,25)</span>
+    <span class="comment">%</span>
+    <span class="comment">% Example 3:</span>
+    <span class="comment">%   obj = bf_data</span>
+    <span class="comment">%   obj.setChanNames({'S1','S2','S3','S4'})</span>
+    <span class="comment">%   obj.setDelays(5,{'S2'})</span>
+    <span class="comment">%   obj.addSamples([1;2;3;4;[5:100]'],'S3',1)</span>
+    <span class="comment">%</span>
+    <span class="comment">% BF_DATA Methods:</span>
+    <span class="comment">%   load            - Load data from audio or matlab file.</span>
+    <span class="comment">%   save            - Save data to audio or matlab file.</span>
+    <span class="comment">%   play            - Play the data using an audio device.</span>
+    <span class="comment">%   setNChan        - Set number of channels.</span>
+    <span class="comment">%   setTotalSamples - Set total number of samples.</span>
+    <span class="comment">%   setLocations    - Set Channel Locations.</span>
+    <span class="comment">%   setChanNames    - Set Channel Names.</span>
+    <span class="comment">%   setDelays       - Set Delay Times.</span>
+    <span class="comment">%   addSamples      - Add samples to the data.</span>
+    <span class="comment">%   getAudioData    - Get samples out of buffer (time axes of channels agree).</span>
+    <span class="comment">%   resampleData    - Resample data using matlab resample function</span>
+    <span class="comment">%   delayData       - Delay data so when data is loaded the time axes agree.</span>
+    <span class="comment">%   names2inds      - Get index of channel(s) in audiodata matrix</span>
+    <span class="comment">%</span>
+    <span class="comment">% BF_DATA Properties:</span>
+    <span class="comment">%   FileName      - Name of the audio file to save including extention</span>
+    <span class="comment">%   FilePath      - Path of the audio file to save</span>
+    <span class="comment">%   SourceID      - Identifier for source device or file in use.</span>
+    <span class="comment">%   Fs            - Sampling Frequency in Hz</span>
+    <span class="comment">%   BitsPerSample - Number of Bits per audio Sample</span>
+    <span class="comment">%   NChan         - Number of audio channels in File</span>
+    <span class="comment">%   Comment       - Comment of audio file</span>
+    <span class="comment">%   Locations     - Channel locations [x y z az el up]</span>
+    <span class="comment">%   ChanNames     - Channel names</span>
+    <span class="comment">%   DelaySamples  - Delays in samples for each channel</span>
+    <span class="comment">%   CurrentSample - Current sample for each channel, can be used to</span>
+    <span class="comment">%                   store sample offset TODO</span>
+    <span class="comment">%   TotalSamples  - Total length of the audio data in samples</span>
+    <span class="comment">%   IsInitialized - Has the source been correctly initialized</span>
+    <span class="comment">%   AudioData     - Audio Data matrix size = [TotalSamples NChan]</span>
+    <span class="comment">%   Tag           - Tag to find object</span>
+    <span class="comment">%</span>
+    <span class="comment">%   Written for the BSc graduation project Acoustic Enhancement via</span>
+    <span class="comment">%   Beamforming Using Smartphones.</span>
+    <span class="comment">%</span>
+    <span class="comment">%   Team:       S. Bosma                R. Brinkman</span>
+    <span class="comment">%               T. de Rooij             R. Smeding</span>
+    <span class="comment">%               N. van Wijngaarden      E. Wouters</span>
+    <span class="comment">%</span>
+    <span class="comment">%   Supervisor: Jorge Mart&iacute;nez Casta&ntilde;eda</span>
+    <span class="comment">%</span>
+    <span class="comment">%   Contact: E.H.Wouters@student.tudelft.nl</span>
+    <span class="comment">%</span>
+    <span class="comment">%   See also BF_DATA/LOAD, BF_DATA/SAVE, BF_DATA/PLAY, BF_DATA/ADDSAMPLES,</span>
+    <span class="comment">%   BF_DATA/SETNCHAN, BF_DATA/SETTOTALSAMPLES, BF_DATA/SETLOCATIONS,</span>
+    <span class="comment">%   BF_DATA/SETCHANNAMES, BF_DATA/SETDELAYS, BF_DATA/ADDSAMPLES,</span>
+    <span class="comment">%   BF_DATA/GETAUDIODATA, BF_DATA/RESAMPLEDATA, BF_DATA/DELAYDATA,</span>
+    <span class="comment">%   BF_DATA/NAMES2INDS, MITM, SITM, AUDIOREAD, AUDIOWRITE, SAVE, LOAD</span>
+
+    <span class="comment">% Properties</span>
+    <span class="keyword">properties</span>
+        MainObj
+        FileName      = <span class="string">''</span>;          <span class="comment">% Name of the audio file to save including extention</span>
+        FilePath      = <span class="string">''</span>;          <span class="comment">% Path of the audio file to save</span>
+        SourceID      = <span class="string">''</span>;          <span class="comment">% Identifier for source device or file in use.</span>
+        Fs            = 48000;       <span class="comment">% Sampling Frequency in Hz</span>
+        BitsPerSample = 16;          <span class="comment">% Number of Bits per audio Sample</span>
+        NChan         = 0;           <span class="comment">% Number of audio channels in File</span>
+        Comment       = <span class="string">''</span>;          <span class="comment">% Comment of audio file</span>
+        Locations     = [];          <span class="comment">% Channel locations [x y z az el up]'</span>
+        ChanNames     = {};          <span class="comment">% Channel names</span>
+        DelaySamples  = [];          <span class="comment">% Delay in samples for each channel</span>
+        CurrentSample = [];          <span class="comment">% Current sample for each channel, can be used to store sample offset</span>
+        TotalSamples  = 0;           <span class="comment">% Total length of the audio data in samples</span>
+        IsInitialized = false;       <span class="comment">% Has the source been correctly initialized</span>
+        AudioData     = [];          <span class="comment">% Audio Data matrix size = [TotalSamples NChan]</span>
+        Tag           = <span class="string">'bf_data'</span>;   <span class="comment">% Tag to find object</span>
+    <span class="keyword">end</span>
+    <span class="keyword">properties</span> (Constant)
+        DefaultLoc = [0 0 0 0 pi 0]; <span class="comment">% [x y z az el up]</span>
+    <span class="keyword">end</span>
+    <span class="comment">% Methods</span>
+    <span class="keyword">methods</span>
+</pre><pre class="codeinput">        <span class="comment">%------------------------------------------------------------------</span>
+</pre><h2>Constructor Function<a name="3"></a></h2><pre class="codeinput">        <span class="comment">%------------------------------------------------------------------</span>
+
+        <span class="keyword">function</span> obj = bf_data(mainObj, sourceID, fileName, locations, chanNames, totalSamples)
+            help <span class="string">bf_data</span>
+            narginchk(0,6)
+            <span class="keyword">if</span> nargin &gt;= 1
+                obj.MainObj = mainObj;
+            <span class="keyword">else</span>
+                obj.MainObj.update = @() disp(<span class="string">'Update Called'</span>);
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> nargin &lt; 2
+                obj.SourceID = <span class="string">'untitled source'</span>;
+            <span class="keyword">elseif</span> ischar(sourceID)
+                obj.SourceID = sourceID;
+            <span class="keyword">else</span>
+                error(<span class="string">'bf_data:%s: SourceID argument rejected'</span>,obj.SourceID)
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> nargin &lt; 3
+                obj.FileName = <span class="string">''</span>;
+            <span class="keyword">elseif</span> ischar(fileName)
+                <span class="keyword">if</span> exist(fileName, <span class="string">'file'</span>) == 2
+                    obj.FileName = fileName;
+                <span class="keyword">else</span>
+                    error(<span class="string">'bf_data:%s: fileName argument rejected, file not found'</span>,obj.SourceID)
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> nargin &lt; 4
+                obj.setNChan(0);
+            <span class="keyword">elseif</span> isnumeric(locations) &amp;&amp; (size(locations,2) == 6 || size(locations,2) == 3)
+                obj.setNChan(size(locations,1));
+            <span class="keyword">else</span>
+                error(<span class="string">'bf_data:%s: Locations argument rejected'</span>,obj.SourceID)
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> nargin &lt; 5
+                obj.setChanNames;
+            <span class="keyword">else</span>
+                obj.setChanNames(chanNames);
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> nargin &gt;= 6
+                obj.setTotalSamples(totalSamples);
+            <span class="keyword">end</span>
+
+            <span class="comment">% Debug</span>
+            assignin(<span class="string">'base'</span>,<span class="string">'obj'</span>,obj);
+        <span class="keyword">end</span>
+
+        <span class="comment">%------------------------------------------------------------------</span>
+</pre><pre class="codeoutput">  BF_DATA Beamformer Audio Buffer. Has many functions to label the
+    channels and add data from different sources. The time indices of the 
+    data in the buffer can be kept in sync using different methods.
+ 
+    BF_DATA(OBJ) create empty file object
+    BF_DATA(OBJ, MAINOBJ) create file object and add handle to main object
+    BF_DATA(OBJ, MAINOBJ, SOURCEID) create empty file object and set SourceID
+    BF_DATA(OBJ, MAINOBJ, SOURCEID, FILENAME) add file named fileName to object
+    BF_DATA(OBJ, MAINOBJ, SOURCEID, FILENAME, LOCATIONS) add file with locations
+    BF_DATA(OBJ, MAINOBJ, SOURCEID, FILENAME, LOCATIONS, CHANNAMES) add file with
+    locations and channel names
+ 
+  Example 1:
+    obj = bf_data
+    obj.setChanNames({'S1','S2','S3','S4'})
+    obj.setTotalSamples(100)
+    obj.addSamples([1;2;3;4;[5:100]'],'S3')
+    obj.getAudioData({'S3','S1'})
+ 
+  Example 2:
+    obj = bf_data
+    obj.setChanNames({'S1','S2','S3','S4'})
+    obj.addSamples([1;2;3;4;[5:100]'],'S1',1,25)
+ 
+  Example 3:
+    obj = bf_data
+    obj.setChanNames({'S1','S2','S3','S4'})
+    obj.setDelays(5,{'S2'})
+    obj.addSamples([1;2;3;4;[5:100]'],'S3',1)
+ 
+  BF_DATA Methods:
+    load            - Load data from audio or matlab file.
+    save            - Save data to audio or matlab file.
+    play            - Play the data using an audio device.
+    setNChan        - Set number of channels.
+    setTotalSamples - Set total number of samples.
+    setLocations    - Set Channel Locations.
+    setChanNames    - Set Channel Names.
+    setDelays       - Set Delay Times.
+    addSamples      - Add samples to the data.
+    getAudioData    - Get samples out of buffer (time axes of channels agree).
+    resampleData    - Resample data using matlab resample function
+    delayData       - Delay data so when data is loaded the time axes agree.
+    names2inds      - Get index of channel(s) in audiodata matrix
+ 
+  BF_DATA Properties:
+    FileName      - Name of the audio file to save including extention
+    FilePath      - Path of the audio file to save
+    SourceID      - Identifier for source device or file in use.
+    Fs            - Sampling Frequency in Hz
+    BitsPerSample - Number of Bits per audio Sample
+    NChan         - Number of audio channels in File
+    Comment       - Comment of audio file
+    Locations     - Channel locations [x y z az el up]
+    ChanNames     - Channel names
+    DelaySamples  - Delays in samples for each channel
+    CurrentSample - Current sample for each channel, can be used to
+                    store sample offset TODO
+    TotalSamples  - Total length of the audio data in samples
+    IsInitialized - Has the source been correctly initialized
+    AudioData     - Audio Data matrix size = [TotalSamples NChan]
+    Tag           - Tag to find object
+ 
+    Written for the BSc graduation project Acoustic Enhancement via
+    Beamforming Using Smartphones.
+ 
+    Team:       S. Bosma                R. Brinkman
+                T. de Rooij             R. Smeding
+                N. van Wijngaarden      E. Wouters
+ 
+    Supervisor: Jorge Mart&iacute;nez Casta&ntilde;eda
+ 
+    Contact: E.H.Wouters@student.tudelft.nl
+ 
+    See also BF_DATA/LOAD, BF_DATA/SAVE, BF_DATA/PLAY, BF_DATA/ADDSAMPLES,
+    BF_DATA/SETNCHAN, BF_DATA/SETTOTALSAMPLES, BF_DATA/SETLOCATIONS, 
+    BF_DATA/SETCHANNAMES, BF_DATA/SETDELAYS, BF_DATA/ADDSAMPLES, 
+    BF_DATA/GETAUDIODATA, BF_DATA/RESAMPLEDATA, BF_DATA/DELAYDATA,
+    BF_DATA/NAMES2INDS, MITM, SITM, AUDIOREAD, AUDIOWRITE, SAVE, LOAD
+
+</pre><h2>Load Function<a name="4"></a></h2><pre class="codeinput">        <span class="comment">%------------------------------------------------------------------</span>
+
+        <span class="keyword">function</span> obj = load(obj)
+            <span class="comment">% LOAD Load data from audio or matlab file.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   LOAD(OBJ) Load file</span>
+
+            <span class="comment">% Get file name if empty</span>
+            <span class="keyword">if</span> isempty([obj.FileName obj.FilePath])
+                [name1,path1] = uigetfile(<span class="keyword">...</span>
+                    {<span class="string">'*.mat'</span>,<span class="string">'MAT-files (*.mat)'</span>;<span class="keyword">...</span>
+                    <span class="string">'*.wav'</span>,<span class="string">'Waveform Audio File Format (*.wav)'</span>;<span class="keyword">...</span>
+                    <span class="string">'*.*'</span>,  <span class="string">'All Files (*.*)'</span>},<span class="keyword">...</span>
+                    <span class="string">'Save File'</span>,fullfile(pwd, <span class="string">'\files'</span>));
+                <span class="keyword">if</span> ~ischar(name1) || ~ischar(path1)
+                    warning(<span class="string">'bf_data:%s:load: Invalid file selected'</span>,obj.SourceID)
+                    <span class="keyword">return</span>
+                <span class="keyword">else</span>
+                    obj.FileName = name1;
+                    obj.FilePath = path1;
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+            <span class="comment">% Load file</span>
+            <span class="keyword">if</span> ~isempty([obj.FilePath obj.FileName])
+                <span class="keyword">if</span> isempty(strfind(obj.FileName,<span class="string">'.mat'</span>))
+                    [obj.AudioData, obj.Fs] = audioread(fullfile(obj.FilePath,obj.FileName));
+                    info = audioinfo(fullfile(obj.FilePath,obj.FileName));
+                    obj.BitsPerSample = info.BitsPerSample;
+                    obj.Fs = info.SampleRate;
+                    obj.setNChan(info.NumChannels);
+                    obj.setTotalSamples(info.TotalSamples);
+                    <span class="keyword">if</span> ischar(info.Title)
+                        obj.SourceID = info.Title;
+                    <span class="keyword">end</span>
+                    <span class="keyword">if</span> ischar(info.Comment)
+                        obj.Comment = info.Comment;
+                    <span class="keyword">end</span>
+                    locs = [];
+                    <span class="keyword">if</span> ~isempty(info.Comment)
+                        locs = str2num(info.Comment); <span class="comment">%#ok&lt;ST2NM&gt;</span>
+                    <span class="keyword">end</span>
+                    <span class="keyword">if</span> ~isempty(locs)
+                        obj.setLocations(locs);
+                    <span class="keyword">else</span>
+                        obj.setLocations(obj.Locations);
+                    <span class="keyword">end</span>
+                <span class="keyword">else</span>
+                    load(fullfile(obj.FilePath,obj.FileName));
+                    <span class="keyword">if</span> exist(<span class="string">'y'</span>,<span class="string">'var'</span>)
+                        obj.AudioData = y;
+                        obj.setNChan(size(y,2));
+                        obj.setTotalSamples(size(y,1));
+                        disp(<span class="string">'Samples loaded'</span>)
+                    <span class="keyword">else</span>
+                        error(<span class="string">'bf_data:%s:load: File does not contain ''y'' variable'</span>,obj.SourceID)
+                    <span class="keyword">end</span>
+                    <span class="keyword">if</span> exist(<span class="string">'Fs'</span>,<span class="string">'var'</span>)
+                        obj.Fs = Fs; <span class="comment">%#ok&lt;*CPROP&gt;</span>
+                    <span class="keyword">elseif</span> exist(<span class="string">'fs'</span>,<span class="string">'var'</span>)
+                        obj.Fs = fs;
+                    <span class="keyword">else</span>
+                        error(<span class="string">'bf_data:%s:load: File does not contain ''Fs'' variable'</span>,obj.SourceID)
+                    <span class="keyword">end</span>
+                    <span class="keyword">if</span> exist(<span class="string">'BitsPerSample'</span>,<span class="string">'var'</span>)
+                        obj.BitsPerSample = BitsPerSample;
+                    <span class="keyword">else</span>
+                        obj.BitsPerSample = 16;
+                    <span class="keyword">end</span>
+                    <span class="keyword">if</span> exist(<span class="string">'Comment'</span>,<span class="string">'var'</span>)
+                        obj.Comment = Comment;
+                    <span class="keyword">elseif</span> isempty(obj.Comment) || ~ischar(obj.Comment)
+                        obj.Comment = <span class="string">''</span>;
+                    <span class="keyword">end</span>
+                    <span class="keyword">if</span> exist(<span class="string">'SourceID'</span>,<span class="string">'var'</span>)
+                        obj.SourceID = SourceID;
+                    <span class="keyword">elseif</span> exist(<span class="string">'Title'</span>,<span class="string">'var'</span>)
+                        obj.SourceID = Title;
+                    <span class="keyword">elseif</span> isempty(obj.SourceID) || ~ischar(obj.SourceID)
+                        obj.SourceID = <span class="string">'Title'</span>;
+                    <span class="keyword">end</span>
+                    <span class="keyword">if</span> exist(<span class="string">'Locations'</span>,<span class="string">'var'</span>)
+                        obj.setLocations(Locations);
+                    <span class="keyword">end</span>
+                    <span class="keyword">if</span> exist(<span class="string">'ChanNames'</span>,<span class="string">'var'</span>)
+                        obj.setChanNames(ChanNames);
+                    <span class="keyword">end</span>
+                    <span class="keyword">if</span> exist(<span class="string">'DelaySamples'</span>,<span class="string">'var'</span>)
+                        obj.setDelays(DelaySamples);
+                    <span class="keyword">end</span>
+                    <span class="keyword">if</span> exist(<span class="string">'CurrentSample'</span>,<span class="string">'var'</span>)
+                        obj.CurrentSample = CurrentSample;
+                    <span class="keyword">end</span>
+                    <span class="keyword">if</span> exist(<span class="string">'TotalSamples'</span>,<span class="string">'var'</span>)
+                        obj.setTotalSamples(TotalSamples);
+                    <span class="keyword">end</span>
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">%------------------------------------------------------------------</span>
+</pre><h2>Save Function<a name="5"></a></h2><pre class="codeinput">        <span class="comment">%------------------------------------------------------------------</span>
+
+        <span class="keyword">function</span> save(obj, varargin)
+            <span class="comment">% SAVE Save data to audio or matlab file.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   SAVE(OBJ) Save file.</span>
+            <span class="comment">%   SAVE(OBJ, CHANNAMES) Save specific channels to file.</span>
+            <span class="comment">%   SAVE(OBJ, Y, FS) save file with samples y and sample rate Fs.</span>
+            <span class="comment">%   SAVE(OBJ, Y, FS, LOCATIONS) add file with samples y,</span>
+            <span class="comment">%   sample rate Fs and locations.</span>
+            <span class="comment">%   SAVE(OBJ, Y, FS, LOCATIONS, CHANNAMES) add file with</span>
+            <span class="comment">%   samples y, sample rate Fs, locations and channel names.</span>
+            <span class="comment">%</span>
+            <span class="comment">% SAVE Arguments option 1:</span>
+            <span class="comment">%   y         - Matrix of samples</span>
+            <span class="comment">%   Fs        - Sampling Frequency in Hz</span>
+            <span class="comment">%   locations - Channel locations [x y z az el up]</span>
+            <span class="comment">%   chanNames - Channel names cellstr</span>
+            <span class="comment">%</span>
+            <span class="comment">% SAVE Arguments option 2:</span>
+            <span class="comment">%   chanNames - Channel names cellstr</span>
+            narginchk(1,5)
+            <span class="keyword">if</span> nargin &gt;= 3
+                obj.Fs = varargin{3};
+                Fs = obj.Fs;
+                obj.setNChan(size(varargin{2},2));
+                obj.setTotalSamples(size(varargin{2},1));
+                obj.AudioData = varargin{2};  <span class="comment">% Store audio data in object</span>
+                y = obj.AudioData;
+                obj.CurrentSample = zeros(obj.NChan,1);
+            <span class="keyword">elseif</span> nargin == 1 &amp;&amp; obj.IsInitialized
+                y = obj.AudioData;  <span class="comment">% Load samples from object</span>
+                Fs = obj.Fs;
+            <span class="keyword">elseif</span> nargin == 2 &amp;&amp; obj.IsInitialized
+                <span class="keyword">if</span> iscellstr(varargin{1}) || ischar(varargin{1})
+                    chanNames = varargin{1};
+                <span class="keyword">else</span>
+                    error([<span class="string">'bf_data:%s:save:ChanNamesRejected: '</span>,<span class="keyword">...</span>
+                        <span class="string">'The file could not be saved because the channel'</span><span class="keyword">...</span>
+                        <span class="string">'names were rejected.'</span>],obj.SourceID);
+                <span class="keyword">end</span>
+                y = obj.getAudioData(chanNames);  <span class="comment">% Load samples from object</span>
+                Fs = obj.Fs;
+            <span class="keyword">else</span>
+                error([<span class="string">'bf_data:%s:save:NotInitialized: '</span>,<span class="keyword">...</span>
+                    <span class="string">'The file could not be saved because the object was'</span>,<span class="keyword">...</span>
+                    <span class="string">' not initialized.'</span>],obj.SourceID);
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> nargin &gt;= 4
+                obj.setLocations(varargin{4});
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> nargin &gt;= 5
+                obj.setLocations(varargin{5});
+            <span class="keyword">end</span>
+            <span class="comment">% Get file name if empty</span>
+            <span class="keyword">if</span> isempty([obj.FileName obj.FilePath])
+                [name1,path1] = uiputfile(<span class="keyword">...</span>
+                    {<span class="string">'*.wav'</span>,<span class="string">'Waveform Audio File Format (*.wav)'</span>;<span class="keyword">...</span>
+                    <span class="string">'*.mat'</span>,<span class="string">'MAT-files (*.mat)'</span>;<span class="keyword">...</span>
+                    <span class="string">'*.*'</span>,  <span class="string">'All Files (*.*)'</span>},<span class="keyword">...</span>
+                    <span class="string">'Save File'</span>,fullfile(pwd, <span class="string">'\files'</span>, sprintf(<span class="string">'Recording %s'</span>,datestr(now, <span class="string">'yyyy-mm-dd hhuMM'</span>))));
+                <span class="keyword">if</span> ~ischar(name1) || ~ischar(path1)
+                    warning(<span class="string">'bf_data:%s:save: Invalid file selected'</span>,obj.SourceID)
+                    <span class="keyword">return</span>
+                <span class="keyword">else</span>
+                    obj.FileName = name1;
+                    obj.FilePath = path1;
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+            obj.Comment = mat2str(obj.Locations);
+            <span class="comment">% Write to file</span>
+            <span class="keyword">if</span> isempty(strfind(obj.FileName,<span class="string">'.mat'</span>))
+                <span class="comment">% Save as audio file</span>
+                audiowrite(fullfile(obj.FilePath,obj.FileName),y,Fs,<span class="keyword">...</span>
+                    <span class="string">'BitsPerSample'</span>,obj.BitsPerSample,<span class="string">'Comment'</span>,obj.Comment,<span class="keyword">...</span>
+                    <span class="string">'Title'</span>,obj.SourceID,<span class="string">'Artist'</span>,<span class="string">'TU Delft Beamforming BSc Graduation Project EE'</span>);
+            <span class="keyword">else</span>
+                <span class="comment">% Save as mat file</span>
+                BitsPerSample = obj.BitsPerSample; <span class="comment">%#ok&lt;*PROP,*NASGU&gt;</span>
+                NChan         = obj.NChan;
+                SourceID      = obj.SourceID;
+                Comment       = obj.Comment;
+                Locations     = obj.Locations;
+                ChanNames     = obj.ChanNames;
+                DelaySamples  = obj.DelaySamples;
+                CurrentSample = obj.CurrentSample;
+                TotalSamples  = obj.TotalSamples;
+                save(fullfile(obj.FilePath,obj.FileName),<span class="string">'y'</span>,<span class="string">'Fs'</span>,<span class="string">'BitsPerSample'</span>,<span class="string">'NChan'</span>,<span class="keyword">...</span>
+                    <span class="string">'Comment'</span>,<span class="string">'Locations'</span>,<span class="string">'ChanNames'</span>,<span class="string">'DelaySamples'</span>,<span class="string">'CurrentSample'</span>,<span class="string">'TotalSamples'</span>);
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">%----------------------------------------------------------------------</span>
+</pre><h2>Play Function<a name="6"></a></h2><pre class="codeinput">        <span class="comment">%----------------------------------------------------------------------</span>
+
+        <span class="keyword">function</span> player = play(obj, deviceID, chanNames, firstSample, lastSample)
+            <span class="comment">% PLAY Play the data using an audio device.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   PLAY(OBJ) Play all audio data on default device.</span>
+            <span class="comment">%   PLAY(OBJ, DEVICEID) Play all audio data on specified device.</span>
+            <span class="comment">%   PLAY(OBJ, DEVICEID, CHANNAMES) Play audio from specified channels.</span>
+            <span class="comment">%   PLAY(OBJ, DEVICEID, CHANNAMES, FIRSTSAMPLE, LASTSAMPLE) Play</span>
+            <span class="comment">%   part of audio.</span>
+            <span class="comment">%   player = PLAY(obj,___) Returns audioplayer object.</span>
+            narginchk(1,5)
+            <span class="keyword">if</span> nargin &lt; 2
+                info1 = audiodevinfo;
+                deviceID = info1.output(1).ID;
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> nargin &lt; 3
+                chanNames = obj.ChanNames;
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> nargin &lt; 4
+                firstSample = 1;
+                lastSample = obj.TotalSamples;
+            <span class="keyword">elseif</span> isnumeric(firstSample) &amp;&amp; numel(firstSample) == 1 &amp;&amp; <span class="keyword">...</span>
+                    isnumeric(lastSample) &amp;&amp; numel(lastSample) == 1
+                <span class="keyword">if</span> firstSample &gt; lastSample || lastSample &gt; obj.TotalSamples
+                    warning([<span class="string">'bf_data:%s:play: Cannot play from %i to %i. Total'</span>,<span class="keyword">...</span>
+                        <span class="string">'samples is %i'</span>], obj.SourceID, firstSample, lastSample, obj.TotalSamples)
+                    firstSample = 1;
+                    lastSample = obj.TotalSamples;
+                <span class="keyword">end</span>
+            <span class="keyword">else</span>
+                firstSample = 1;
+                lastSample = obj.TotalSamples;
+            <span class="keyword">end</span>
+            <span class="comment">% Play signal</span>
+            <span class="keyword">if</span> obj.IsInitialized
+                <span class="keyword">if</span> length(obj.names2inds(chanNames)) &lt;= 2
+                    player = audioplayer(obj.getAudioData(chanNames,firstSample,lastSample),obj.Fs, obj.BitsPerSample, deviceID);
+                <span class="keyword">else</span>
+                    player = audioplayer(mean(obj.getAudioData(chanNames,firstSample,lastSample),2),obj.Fs, obj.BitsPerSample, deviceID);
+                <span class="keyword">end</span>
+                play(player);
+            <span class="keyword">else</span>
+                warning(<span class="string">'bf_data:%s:play: Object is not initialized'</span>,obj.SourceID)
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">% Check if object is initialized</span>
+        <span class="keyword">function</span> value = checkInitialized(obj)
+            <span class="comment">% Check dependent variables</span>
+            obj.checkAudioData;
+            obj.checkLocations;
+            obj.checkChanNames;
+            obj.DelaySamples = [obj.DelaySamples(1:min(end,obj.NChan)) zeros(1,max(0,obj.NChan-length(obj.DelaySamples)))];
+            obj.CurrentSample = [obj.CurrentSample(1:min(end,obj.NChan)) ones(1,max(0,obj.NChan-length(obj.CurrentSample)))];
+            <span class="keyword">if</span> obj.NChan &amp;&amp; obj.TotalSamples
+                obj.IsInitialized = true;
+            <span class="keyword">else</span>
+                obj.IsInitialized = false;
+            <span class="keyword">end</span>
+            value = obj.IsInitialized;
+        <span class="keyword">end</span>
+
+        <span class="comment">%------------------------------------------------------------------</span>
+</pre><h2>AudioData Functions<a name="7"></a></h2><pre class="codeinput">        <span class="comment">%------------------------------------------------------------------</span>
+
+        <span class="comment">% Set Number of Channels function</span>
+        <span class="keyword">function</span> obj = setNChan(obj, nChan)
+            <span class="comment">% SETNCHAN Set number of Channels.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   SETNCHAN(OBJ, NCHAN) Set the number of channels to object.</span>
+            <span class="comment">%   Makes sure size of AudioData, locations and chanNames are correct.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   nChan must be a non-negative scalar.</span>
+            <span class="keyword">if</span> isnumeric(nChan) &amp;&amp; numel(nChan) == 1 &amp;&amp; nChan(1) &gt;= 0
+                obj.NChan = nChan;
+            <span class="keyword">else</span>
+                error(<span class="string">'bf_data:%s:setNChan: nChan argument rejected'</span>,obj.SourceID)
+            <span class="keyword">end</span>
+            <span class="comment">% Check dependent variables</span>
+            obj.checkInitialized();
+        <span class="keyword">end</span>
+
+        <span class="comment">% Set Number of Channels function</span>
+        <span class="keyword">function</span> obj = removeChan(obj, chanNames)
+            <span class="comment">% REMOVECHAN Remove channel(s) from buffer.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   REMOVECHAN(OBJ, CHANNAMES) Remove channels from buffer.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   Audio data, name, location, delay time and current sample.</span>
+            inds = names2inds(chanNames);
+            <span class="keyword">if</span> ~isempty(inds)
+                obj.AudioData(inds,:)   = [];
+                obj.ChanNames(inds)     = [];
+                obj.Locations(inds,:)   = [];
+                obj.DelaySamples(inds)  = [];
+                obj.CurrentSample(inds) = [];
+            <span class="keyword">else</span>
+                error(<span class="string">'bf_data:%s:removeChan: chanNames argument rejected'</span>,obj.SourceID)
+            <span class="keyword">end</span>
+            <span class="comment">% Check dependent variables</span>
+            obj.checkInitialized();
+        <span class="keyword">end</span>
+
+        <span class="comment">% Set Total Samples function</span>
+        <span class="keyword">function</span> obj = setTotalSamples(obj, totalSamples)
+            <span class="comment">% SETTOTALSAMPLES Set total number of samples.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   SETTOTALSAMPLES(OBJ, TOTALSAMPLES) Set Total Samples value</span>
+            <span class="comment">%   to object. Makes sure size of AudioData is correct.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   totalSamples must be a non-negative scalar.</span>
+            <span class="keyword">if</span> isnumeric(totalSamples) &amp;&amp; numel(totalSamples) == 1 &amp;&amp; totalSamples &gt;= 0
+                obj.TotalSamples = totalSamples;
+            <span class="keyword">else</span>
+                error(<span class="string">'bf_data:%s:setTotalSamples: totalSamples argument rejected'</span>,obj.SourceID)
+            <span class="keyword">end</span>
+            obj.checkInitialized();
+        <span class="keyword">end</span>
+
+        <span class="comment">%------------------------------------------------------------------</span>
+</pre><h2>Names and Locations Functions<a name="8"></a></h2><pre class="codeinput">        <span class="comment">%------------------------------------------------------------------</span>
+
+        <span class="comment">% Set Locations function</span>
+        <span class="keyword">function</span> locations = setLocations(obj, locations, chanNames)
+            <span class="comment">% SETLOCATIONS Set Channel Locations.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   SETLOCATIONS(OBJ) Set Locations of channels to defaults.</span>
+            <span class="comment">%   SETLOCATIONS(OBJ, LOCATIONS) Set Locations of channels.</span>
+            <span class="comment">%   SETLOCATIONS(OBJ, LOCATIONS, CHANNAMES) Set Locations</span>
+            <span class="comment">%   specific channels.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   Locations must be a NChan by 3 or NChan by 6 numeric array</span>
+            narginchk(1,3)
+            <span class="keyword">if</span> nargin == 1
+                obj.Locations = repmat(obj.DefaultLoc,obj.NChan,1);
+            <span class="keyword">elseif</span> isnumeric(locations) &amp;&amp; size(locations,2) ==  6
+                obj.Locations = locations;
+            <span class="keyword">elseif</span> isnumeric(locations) &amp;&amp; size(locations,2) ==  3
+                obj.Locations = [locations, repmat(obj.DefaultLoc(4:6),size(locations,1),1)];
+            <span class="keyword">elseif</span> ~isempty(obj.Locations)
+                warning(<span class="string">'bf_data:setLocations:%s: Locations argument rejected'</span>,obj.SourceID)
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> nargin &gt;= 3
+                chanInds = obj.names2inds(chanNames);
+                <span class="keyword">if</span> length(chanInds) == length(locations)
+                    obj.Locations(chanInds) = locations;
+                <span class="keyword">else</span>
+                    warning(<span class="string">'bf_data:%s:setLocations: Channel locations could not be replaced'</span>,obj.SourceID)
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+            obj.checkLocations;
+            locations = obj.Locations;
+        <span class="keyword">end</span>
+        <span class="comment">% Check Locations function</span>
+        <span class="keyword">function</span> obj = checkLocations(obj)
+            <span class="comment">% CHECKLOCATIONS Check Channel Locations and add or remove</span>
+            <span class="comment">% incorrect ones.</span>
+            <span class="keyword">if</span> isempty(obj.Locations)
+                obj.Locations = repmat(obj.DefaultLoc,obj.NChan,1);
+            <span class="keyword">elseif</span> size(obj.Locations,1) &lt; obj.NChan
+                locs = repmat(obj.DefaultLoc,obj.NChan,1);
+                locs(1:size(obj.Locations,1),:) = obj.Locations;
+                obj.Locations = locs;
+<span class="comment">%                 warning('bf_data:%s:checkLocations: Locations argument too short',obj.SourceID)</span>
+            <span class="keyword">elseif</span> size(obj.Locations,1) &gt; obj.NChan
+                obj.Locations = obj.Locations(1:obj.NChan,:);
+<span class="comment">%                 warning('bf_data:%s:checkLocations: Locations argument too long',obj.SourceID)</span>
+            <span class="keyword">else</span>
+<span class="comment">%                 fprintf('bf_data:%s:checkLocations: Locations set correctly\n',obj.SourceID)</span>
+<span class="comment">%                 disp(obj.Locations)</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">% Set Channel Names function</span>
+        <span class="keyword">function</span> chanNames = setChanNames(obj, varargin)
+            <span class="comment">% SETCHANNAMES Set Channel Names.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   SETCHANNAMES(OBJ) Return channel names</span>
+            <span class="comment">%   SETCHANNAMES(OBJ, CHANNAMES) Set Channel Names of source.</span>
+            <span class="comment">%   SETCHANNAMES(OBJ, CHANNAMES, ADDNEW) Append channels to</span>
+            <span class="comment">%   object if addNew is true. Call this to add channels.</span>
+            <span class="comment">%   SETCHANNAMES(OBJ, OLDNAMES, NEWNAMES) Replace channel names.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   ChanNames must be a cellstr with NChan names.</span>
+            <span class="comment">%   AddNew must be a true or false value</span>
+            <span class="comment">%   OldNames must be a cellstr with existing names.</span>
+            <span class="comment">%   NewNames must be a cellstr with the new names.</span>
+            narginchk(1,3)
+            <span class="keyword">if</span> nargin == 1
+                <span class="keyword">if</span> isempty(obj.ChanNames)
+                    <span class="keyword">for</span> ii = 1:obj.NChan
+                        obj.ChanNames{ii} = sprintf(<span class="string">'Ch %i'</span>,ii);
+                    <span class="keyword">end</span>
+                <span class="keyword">end</span>
+            <span class="keyword">elseif</span> nargin == 2
+                <span class="keyword">if</span> iscellstr(varargin{1})
+                    obj.ChanNames = varargin{1};
+                    obj.setNChan(length(varargin{1}));
+                <span class="keyword">end</span>
+            <span class="keyword">elseif</span> nargin &gt;= 3
+                <span class="keyword">if</span> isnumeric(varargin{2})
+                    obj.names2inds(varargin{1:2})
+                <span class="keyword">else</span>
+                    <span class="keyword">if</span> ischar(varargin{2})
+                        varargin{2} = {varargin{2}}; <span class="comment">%#ok&lt;CCAT1&gt;</span>
+                    <span class="keyword">end</span>
+                    chanInds = obj.names2inds(varargin{1});
+                    <span class="keyword">if</span> length(chanInds) == length(varargin{2})
+                        obj.ChanNames(chanInds) = varargin{2};
+                    <span class="keyword">else</span>
+                        warning([<span class="string">'bf_data:%s:setChanNames: Channel names '</span>,<span class="keyword">...</span>
+                            <span class="string">'could not be replaced because the number of '</span>,<span class="keyword">...</span>
+                            <span class="string">'the old and the new channel names disagree.'</span>],obj.SourceID)
+                    <span class="keyword">end</span>
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+            obj.checkChanNames;
+            chanNames = obj.ChanNames;
+        <span class="keyword">end</span>
+        <span class="comment">% Check Channel Names function</span>
+        <span class="keyword">function</span> obj = checkChanNames(obj)
+            <span class="comment">% CHECKCHANNAMES Check Channel Names and add or remove</span>
+            <span class="comment">% incorrect ones.</span>
+            <span class="keyword">if</span> isempty(obj.ChanNames)
+                <span class="keyword">for</span> ii = 1:obj.NChan
+                    obj.ChanNames{ii} = sprintf(<span class="string">'Ch %i'</span>,ii);
+                <span class="keyword">end</span>
+            <span class="keyword">elseif</span> length(obj.ChanNames) &lt; obj.NChan
+                <span class="keyword">for</span> ii = length(obj.ChanNames)+1:obj.NChan
+                    obj.ChanNames{ii} = sprintf(<span class="string">'Ch %i'</span>,ii);
+                <span class="keyword">end</span>
+<span class="comment">%                 warning('bf_data:%s:checkChanNames: ChanNames argument has too few names',obj.SourceID)</span>
+            <span class="keyword">elseif</span> length(obj.ChanNames) &gt; obj.NChan
+                obj.ChanNames = obj.ChanNames(1:obj.NChan);
+<span class="comment">%                 warning('bf_data:%s:checkChanNames: ChanNames argument has too many names',obj.SourceID)</span>
+            <span class="keyword">else</span>
+<span class="comment">%                 fprintf('bf_data:%s:checkChanNames: Names set correctly\n',obj.SourceID)</span>
+<span class="comment">%                 disp(obj.ChanNames)</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">% Set Delays function</span>
+        <span class="keyword">function</span> obj = setDelays(obj, delaySamples, chanNames)
+            <span class="comment">% SETDELAYS Set Delay Time in samples.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   SETDELAYS(OBJ) Set Delay Time to defaults.</span>
+            <span class="comment">%   SETDELAYS(OBJ, DELAYSAMPLES) Set Delay Time of all channels.</span>
+            <span class="comment">%   SETDELAYS(OBJ, DELAYSAMPLES, CHANNAMES) Set Delay Time of</span>
+            <span class="comment">%   specific channels.</span>
+            <span class="comment">%</span>
+            narginchk(1,3)
+            allChans = false;
+            <span class="keyword">if</span> nargin == 1
+                obj.DelaySamples = zeros(1,obj.NChan);
+                <span class="keyword">return</span>;
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> nargin &lt; 3
+                chanNames = obj.ChanNames;
+                allChans = true;
+            <span class="keyword">end</span>
+            chanInds = obj.names2inds(chanNames);
+            <span class="keyword">if</span> length(delaySamples) == 1 &amp;&amp; ~allChans
+                delaySamples = repmat(delaySamples,1,length(chanInds));
+            <span class="keyword">end</span>
+            <span class="keyword">if</span>  length(delaySamples) ~= length(chanInds)
+                error([<span class="string">'bf_data:%s:setDelays: Number of elements in '</span>, <span class="keyword">...</span>
+                       <span class="string">'delayTimes and chanNames do not agree'</span>],obj.SourceID)
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> allChans
+                obj.delayData(delaySamples)
+            <span class="keyword">else</span>
+                obj.delayData(delaySamples,chanNames);
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">%------------------------------------------------------------------</span>
+</pre><h2>Audio Data Functions<a name="9"></a></h2><pre class="codeinput">        <span class="comment">%------------------------------------------------------------------</span>
+
+        <span class="comment">% Check Audio Data function</span>
+        <span class="keyword">function</span> obj = checkAudioData(obj)
+            <span class="comment">% CHECKAUDIODATA Check Audio Data and add or remove</span>
+            <span class="comment">% incorrect streams.</span>
+
+            <span class="comment">% Check number of Channels</span>
+            nChanDifference = obj.NChan - size(obj.AudioData,2);
+            <span class="keyword">if</span> isempty(obj.AudioData)
+                obj.AudioData = zeros(obj.TotalSamples,obj.NChan,obj.audioDataType); <span class="comment">% Create empty audio data</span>
+            <span class="keyword">elseif</span> nChanDifference &gt; 0
+                obj.AudioData(:,end+1:end+nChanDifference) = zeros(obj.TotalSamples,nChanDifference,obj.audioDataType); <span class="comment">% Add extra channels (zeros)</span>
+            <span class="keyword">elseif</span> nChanDifference &lt; 0
+                obj.AudioData(:,obj.NChan+1:end) = []; <span class="comment">% Remove extra channels</span>
+            <span class="keyword">end</span>
+            <span class="comment">% Check number of Samples</span>
+            totalSamplesDifference = obj.TotalSamples - length(obj.AudioData);
+            <span class="keyword">if</span> isempty(obj.AudioData)
+                obj.AudioData = zeros(obj.TotalSamples,obj.NChan,obj.audioDataType); <span class="comment">% Create empty audio data</span>
+            <span class="keyword">elseif</span> totalSamplesDifference &gt; 0
+                obj.AudioData(end+1:end+totalSamplesDifference,:) = zeros(totalSamplesDifference,obj.NChan,obj.audioDataType); <span class="comment">% Add extra samples (zeros)</span>
+            <span class="keyword">elseif</span> totalSamplesDifference &lt; 0
+                obj.AudioData(obj.TotalSamples+1:end,:) = []; <span class="comment">% Remove extra samples</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">% Add Samples function</span>
+        <span class="keyword">function</span> obj = addSamples(obj,y, varargin)
+            <span class="comment">% ADDSAMPLES Add samples to the data.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   ADDSAMPLES(OBJ, Y) Add samples at end of data.</span>
+            <span class="comment">%   ADDSAMPLES(OBJ, Y, SAMPLEINDS) Add samples at index or indices.</span>
+            <span class="comment">%   ADDSAMPLES(OBJ, Y, CHANNAMES) Add data to specified</span>
+            <span class="comment">%   channels.</span>
+            <span class="comment">%   ADDSAMPLES(OBJ, Y, CHANNAMES, ADDNEW) add data to specified</span>
+            <span class="comment">%   channels and create channels if they are not matched and</span>
+            <span class="comment">%   addNew is true.</span>
+            <span class="comment">%   ADDSAMPLES(OBJ, Y, CHANNAMES, ADDNEW, SAMPLEINDS) add</span>
+            <span class="comment">%   data to specified channels at index or indices and create</span>
+            <span class="comment">%   channels if they are not matched and addNew is true.</span>
+            <span class="comment">%</span>
+            <span class="comment">% NOTE: delaySamples has to be added - DONE</span>
+            narginchk(2,5)
+            <span class="keyword">if</span> ~obj.IsInitialized &amp;&amp; nargin &lt; 4
+                error(<span class="string">'bf_data:%s:addSamples: Cannot add samples when object is not initialized and addNew is false'</span>,obj.SourceID)
+<span class="comment">%     %% TODO        elseif ~varargin{2}</span>
+
+<span class="comment">%                 warning('bf_data:%s:addSamples: Cannot add samples when object is not initialized and addNew is false',obj.SourceID)</span>
+            <span class="keyword">end</span>
+<span class="comment">%             sampleInds = ones(1,size(y,2));</span>
+            sampleInds = obj.CurrentSample;
+            chanInds = 1:obj.NChan;
+            <span class="keyword">if</span> nargin &gt;= 3
+                <span class="keyword">if</span> isnumeric(varargin{1})
+                    <span class="keyword">if</span> length(varargin{1}) == 1 || length(varargin{1}) == obj.NChan
+                        sampleInds = varargin{1};
+                    <span class="keyword">else</span>
+                        error(<span class="string">'bf_data:%s:addSamples: Third argument rejected, expected SampleInds'</span>,obj.SourceID)
+                    <span class="keyword">end</span>
+                <span class="keyword">elseif</span> ischar(varargin{1}) || iscellstr(varargin{1})
+                    <span class="keyword">if</span> nargin &lt; 4
+                        addNew = false;
+                    <span class="keyword">else</span>
+                        addNew = varargin{2};
+                    <span class="keyword">end</span>
+                    chanInds = obj.names2inds(varargin{1}, addNew);
+                    sampleInds = obj.CurrentSample(chanInds);
+                <span class="keyword">else</span>
+                    error(<span class="string">'bf_data:%s:addSamples: Third argument rejected, expected ChanNames'</span>,obj.SourceID)
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> nargin &gt;= 5
+                <span class="keyword">if</span> isnumeric(varargin{3})
+                    <span class="keyword">if</span> length(varargin{3}) == 1 || length(varargin{3}) == length(chanInds)
+                        sampleInds = varargin{3};
+                    <span class="keyword">else</span>
+                        error(<span class="string">'bf_data:%s:addSamples: SampleInds has wrong number of elements'</span>,obj.SourceID)
+                    <span class="keyword">end</span>
+                <span class="keyword">else</span>
+                    error(<span class="string">'bf_data:%s:addSamples: Fifth argument rejected, expected SampleInds'</span>,obj.SourceID)
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+            nSamples = size(y,1);
+            <span class="keyword">if</span> obj.TotalSamples &lt; max(sampleInds)+nSamples-1
+                obj.setTotalSamples(max(sampleInds)+nSamples-1);
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> size(y,2) == length(chanInds)
+                <span class="comment">% add the data</span>
+                <span class="keyword">if</span> length(chanInds) == 1 || all(chanInds == 1:obj.NChan)
+                    obj.AudioData(sampleInds:sampleInds+nSamples-1,chanInds) = y; <span class="comment">% Add y to AudioData at correct channel and correct index</span>
+                <span class="keyword">else</span>
+                    <span class="keyword">for</span> ii = 1:length(sampleInds)
+                        obj.AudioData(sampleInds(ii):sampleInds(ii)+nSamples,chanInds(ii)) = y(:,ii); <span class="comment">% Add y to AudioData at correct channel and correct indices</span>
+                    <span class="keyword">end</span>
+                <span class="keyword">end</span>
+                <span class="comment">% Set current samples</span>
+                obj.CurrentSample(chanInds) = sampleInds + nSamples;
+
+            <span class="keyword">else</span>
+                error(<span class="string">'bf_data:%s:addSamples: size of y does not correspond to other inputs'</span>,obj.SourceID)
+            <span class="keyword">end</span>
+
+            <span class="comment">% Let mainObj know there may be new data to process</span>
+            obj.MainObj.update();
+        <span class="keyword">end</span>
+
+        <span class="comment">% Get Audio Data function</span>
+        <span class="keyword">function</span> [y, totalSamples] = getAudioData(obj,varargin)
+            <span class="comment">% GETAUDIODATA Gets Audio Data.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   y = GETAUDIODATA(OBJ) Returns all audiodata</span>
+            <span class="comment">%   y = GETAUDIODATA(OBJ, CHANNAMES) Returns auiodata for</span>
+            <span class="comment">%   specified channels</span>
+            <span class="comment">%   y = GETAUDIODATA(OBJ, FIRSTSAMPLE, LASTSAMPLE) Returns</span>
+            <span class="comment">%   audiodata in range for specified channels</span>
+            <span class="comment">%   y = GETAUDIODATA(OBJ, CHANNAMES, FIRSTSAMPLE, LASTSAMPLE)</span>
+            <span class="comment">%   Returns audiodata in range for specified channels</span>
+            narginchk(1,4)
+            <span class="keyword">if</span> obj.IsInitialized
+                <span class="keyword">if</span> nargin == 1
+                    y = obj.AudioData;
+                <span class="keyword">elseif</span> nargin == 2
+                    y = obj.AudioData(:,obj.names2inds(varargin{1}));
+                <span class="keyword">elseif</span> nargin == 3
+                    <span class="keyword">if</span> isnumeric(varargin{1}) &amp;&amp; numel(varargin{1}) == 1 &amp;&amp; <span class="keyword">...</span>
+                            isnemeric(varargin{2}) &amp;&amp; numel(varargin{2}) == 1 &amp;&amp; <span class="keyword">...</span>
+                            varargin{1} &gt; 0 &amp;&amp; varargin{2} &lt;= obj.TotalSamples &amp;&amp; <span class="keyword">...</span>
+                            varargin{1} &lt;= varargin{2}
+                        y = obj.AudioData(varargin{1:2},:);
+                    <span class="keyword">else</span>
+                        error(<span class="string">'bf_data:%s:getAudioData: Invalid call to y = GETAUDIODATA(OBJ, FIRSTSAMPLE, LASTSAMPLE)'</span>,obj.SourceID)
+                    <span class="keyword">end</span>
+                <span class="keyword">elseif</span> nargin == 4
+                    <span class="keyword">if</span> isnumeric(varargin{2}) &amp;&amp; numel(varargin{2}) == 1 &amp;&amp; <span class="keyword">...</span>
+                            isnumeric(varargin{3}) &amp;&amp; numel(varargin{3}) == 1 &amp;&amp; <span class="keyword">...</span>
+                            varargin{2} &gt; 0 &amp;&amp; varargin{3} &lt;= obj.TotalSamples &amp;&amp; <span class="keyword">...</span>
+                            varargin{2} &lt;= varargin{3} &amp;&amp; <span class="keyword">...</span>
+                            (ischar(varargin{1}) || iscellstr(varargin{1}))
+                        y = obj.AudioData(varargin{2}:varargin{3},obj.names2inds(varargin{1}));
+                    <span class="keyword">else</span>
+                        error(<span class="string">'bf_data:%s:getAudioData: Invalid call to y = GETAUDIODATA(OBJ, CHANNAMES, FIRSTSAMPLE, LASTSAMPLE)'</span>,obj.SourceID)
+                    <span class="keyword">end</span>
+                <span class="keyword">end</span>
+            <span class="keyword">else</span>
+                warning(<span class="string">'bf_data:%s:getAudioData: Object is not initialized'</span>,obj.SourceID)
+                y = [];
+            <span class="keyword">end</span>
+            totalSamples = obj.TotalSamples;
+
+
+            y = audiovideo.internal.audio.Converter.(<span class="string">'toDouble'</span>)(y);
+
+<span class="comment">%             outType = class(y);</span>
+<span class="comment">%             convertMethod = strcmp(oldType,{'double','int16','uint8'});</span>
+<span class="comment">%             if convertMethod(2)</span>
+<span class="comment">%                 y = audiovideo.internal.audio.Converter.('toInt16')(y);</span>
+<span class="comment">%             elseif convertMethod(3)</span>
+<span class="comment">%                 y = audiovideo.internal.audio.Converter.('toUint8')(y);</span>
+<span class="comment">%             elseif ~convertMethod(1)</span>
+<span class="comment">%                 y = cast(y,outType);</span>
+<span class="comment">%             end</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">% Resample function</span>
+        <span class="keyword">function</span> y = resampleData(obj, varargin)
+            <span class="comment">% RESAMPLEDATA find indices in audiodata of list of channel names.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   RESAMPLEDATA(OBJ, FS) Resample all channels to sample rate fs [Hz].</span>
+            <span class="comment">%   y = RESAMPLEDATA(OBJ, Y, FSNEW, FSOLD) resample y and</span>
+            <span class="comment">%   return the new samples</span>
+            <span class="comment">%   RESAMPLEDATA(OBJ, FSNEW, FSOLD, CHANNAMES) Resample the</span>
+            <span class="comment">%   channels corresponding to the list of names in chanNames</span>
+            <span class="comment">%   RESAMPLEDATA(OBJ, FSNEW, FSOLD, CHANNAMES, n, beta)</span>
+            <span class="comment">%   Resample the channels corresponding to the list of names in</span>
+            <span class="comment">%   chanNames and passes the extra arguments to the resample</span>
+            <span class="comment">%   function from matlab</span>
+            <span class="comment">%</span>
+            <span class="comment">%   If fs is a vector of length NChan the sample rate is</span>
+            <span class="comment">%   set to each channel individually.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   fs has units per second [Hz]</span>
+            <span class="comment">%</span>
+            <span class="comment">%   Resample using a polyphase filter TODO: add reference to</span>
+            <span class="comment">%   paper about polyphase filter</span>
+            <span class="comment">%</span>
+            <span class="comment">%   resample performs a FIR design using firls, followed by</span>
+            <span class="comment">%   rate changing implemented with upfirdn.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   See also BF_DATA/DELAYDATA, RESAMPLE, TIMESERIES, FIRLS,</span>
+            <span class="comment">%   UPFIRDN</span>
+            narginchk(2,Inf)
+            <span class="keyword">if</span> nargin == 2                      <span class="comment">% RESAMPLEDATA(OBJ, FS)</span>
+                nChan = obj.NChan;
+                saveInObj = true;
+                <span class="keyword">if</span> isnumeric(varargin{1}) &amp;&amp; (length(varargin{1}) == 1 || length(varargin{1}) == nChan)
+                    y = obj.AudioData;          <span class="comment">% Get audio data from object</span>
+                    fsNew = varargin{1};        <span class="comment">% Get new sample rate from input argument</span>
+                    fsOld = obj.Fs;             <span class="comment">% Get old sample rate from object</span>
+                <span class="keyword">else</span>
+                    error(<span class="string">'bf_data:%s:resampleData: First argument needs to be sample rate when using one argument'</span>,obj.SourceID)
+                <span class="keyword">end</span>
+            <span class="keyword">elseif</span> nargin &gt;= 4
+                <span class="keyword">if</span> isnumeric(varargin{3})       <span class="comment">% RESAMPLEDATA(OBJ, Y, FSNEW, FSOLD)</span>
+                    nChan = size(varargin{1},2);
+                    saveInObj = false;
+                    <span class="keyword">if</span> isnumeric(varargin{1}) &amp;&amp; isnumeric(varargin{2}) &amp;&amp; <span class="keyword">...</span>
+                            (length(varargin{2}) == 1 || length(varargin{2}) == nChan) &amp;&amp; <span class="keyword">...</span>
+                            (length(varargin{3}) == 1 || length(varargin{3}) == nChan)
+                        y = varargin{1};        <span class="comment">% Get audio data from input argument</span>
+                        fsNew = varargin{2};    <span class="comment">% Get new sample rate from input argument</span>
+                        fsOld = varargin{3};    <span class="comment">% Get old sample rate from input argument</span>
+                    <span class="keyword">else</span>
+                        error(<span class="string">'bf_data:%s:resampleData: Some arguments were rejected in call RESAMPLEDATA(OBJ, Y, FSNEW, FSOLD)'</span>,obj.SourceID)
+                    <span class="keyword">end</span>
+                <span class="keyword">else</span>                            <span class="comment">% RESAMPLEDATA(OBJ, FSNEW, FSOLD, CHANNAMES)</span>
+                    nChan = length(obj.names2inds(chanNames));
+                    saveInObj = true;
+                    <span class="keyword">if</span> isnumeric(varargin{1}) &amp;&amp; isnumeric(varargin{2}) &amp;&amp; <span class="keyword">...</span>
+                            (ischar(varargin{3}) || iscellstr(varargin{3})) &amp;&amp; <span class="keyword">...</span>
+                            (length(varargin{1}) == 1 || length(varargin{1}) == nChan) &amp;&amp; <span class="keyword">...</span>
+                            (length(varargin{2}) == 1 || length(varargin{2}) == nChan)
+                        y = obj.AudioData(names2inds(varargin{3})); <span class="comment">% Get audio data corresponding to channel names from object</span>
+                        fsNew = varargin{1};    <span class="comment">% Get new sample rate from input argument</span>
+                        fsOld = varargin{2};    <span class="comment">% Get old sample rate from input argument</span>
+                    <span class="keyword">else</span>
+                        error(<span class="string">'bf_data:%s:resampleData: Some arguments were rejected in call RESAMPLEDATA(OBJ, FSNEW, FSOLD, CHANNAMES)'</span>,obj.SourceID)
+                    <span class="keyword">end</span>
+                <span class="keyword">end</span>
+            <span class="keyword">else</span>
+                error(<span class="string">'bf_data:%s:resampleData: Function does not support using 2 arguments'</span>,obj.SourceID)
+            <span class="keyword">end</span>
+
+            <span class="comment">% Convert audio data to double and save original type because</span>
+            <span class="comment">% resampling is done with double precision</span>
+            oldType = class(y);
+            convertMethod = strcmp(oldType,{<span class="string">'double'</span>,<span class="string">'int16'</span>,<span class="string">'uint8'</span>});
+            <span class="keyword">if</span> ~convertMethod(1)
+                y = audiovideo.internal.audio.Converter.(<span class="string">'toDouble'</span>)(y);
+    <span class="comment">%             y = cast(y,'double'); is slower and less reliable</span>
+            <span class="keyword">end</span>
+
+            <span class="comment">% Do resampling using matlab resample function. Extra arguments are passed to resample function</span>
+            <span class="keyword">if</span> length(fsNew) == 1 &amp;&amp; length(fsOld) == 1
+                y = resample(y,fsNew,fsOld, varargin{4:end}); <span class="comment">% resample matrix</span>
+            <span class="keyword">else</span>
+                <span class="keyword">if</span> numel(fsNew) == 1
+                    fsNew = repmat(fsNew,1,nChan);
+                <span class="keyword">end</span>
+                <span class="keyword">if</span> numel(fsOld) == 1
+                    fsOld = repmat(fsOld,1,nChan);
+                <span class="keyword">end</span>
+                <span class="keyword">for</span> ii = 1:nChan
+                    y(:,ii) = resample(y(:,ii),fsNew(ii),fsOld(ii), varargin{4:end}); <span class="comment">% resample channels one by one</span>
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+
+            <span class="comment">% Convert data back to original data type</span>
+            <span class="keyword">if</span> convertMethod(2)
+                y = audiovideo.internal.audio.Converter.(<span class="string">'toInt16'</span>)(y);
+            <span class="keyword">elseif</span> convertMethod(3)
+                y = audiovideo.internal.audio.Converter.(<span class="string">'toUint8'</span>)(y);
+            <span class="keyword">elseif</span> ~convertMethod(1)
+                y = cast(y,oldType);
+            <span class="keyword">end</span>
+
+            <span class="comment">% Save result</span>
+            <span class="keyword">if</span> saveInObj
+                obj.AudioData = y;
+                obj.setTotalSamples(size(y,1));
+                <span class="keyword">if</span> numel(fsNew) == 1
+                    obj.Fs = fsNew;
+                <span class="keyword">else</span>
+                    warning(<span class="string">'bf_data:%s:resampleData: New sample rates can not be saved in object when using a vector argument for fsNew'</span>,obj.SourceID)
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">% Delay Data in Time function</span>
+        <span class="keyword">function</span> y = delayData(obj, delaySamples, chanNames)
+            <span class="comment">% DELAYDATA Set Channel Delay Time in samples for each channel.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   DELAYDATA(OBJ) Set Delay of channels into value(s)</span>
+            <span class="comment">%   specified in obj.DelaySamples.</span>
+            <span class="comment">%   DELAYDATA(OBJ, DELAYSAMPLES) Delay all channels by the</span>
+            <span class="comment">%   number of samples specified in delaySamples.</span>
+            <span class="comment">%   DELAYDATA(OBJ, DELAYSAMPLES, CHANNAMES) Delay the channels</span>
+            <span class="comment">%   corresponding to the list of names in chanNames.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   If delaySamples is a vector of length NChan the delays are</span>
+            <span class="comment">%   set to every channel individually.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   delaySamples has units samples</span>
+            <span class="comment">%</span>
+            <span class="comment">%   See also BF_DATA/SETDELAYS</span>
+
+            <span class="comment">%   See also BF_DATA/RESAMPLEDATA, RESAMPLE, TIMESERIES</span>
+            narginchk(2,3)
+            <span class="keyword">if</span> nargin &gt;= 2
+                <span class="keyword">if</span> ~isnumeric(delaySamples) || (~numel(delaySamples) == obj.NChan &amp;&amp; ~numel(delaySamples) == 1)
+                    error(<span class="string">'bf_data:%s:delayData: delaySamples should have length 1 or length nChan'</span>,obj.SourceID)
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> nargin &lt; 3
+                chanNames = obj.ChanNames;
+            <span class="keyword">end</span>
+            y = obj.getAudioData(chanNames);
+            chanInds = obj.names2inds(chanNames);
+            <span class="keyword">if</span> numel(delaySamples) == 1
+                delaySamples = repmat(delaySamples,1,length(chanInds));
+            <span class="keyword">end</span>
+            extraSampleLength = max(delaySamples);
+<span class="comment">%             y = [zeros(min(extraSampleLength-delaySamples),length(chanInds)); ...</span>
+<span class="comment">%                      obj.getAudioData(chanNames); ...</span>
+<span class="comment">%                      zeros(extraSampleLength-delaySamples,length(chanInds))];</span>
+                                                                                    <span class="comment">%             delaySamples = round(delaySamples.*obj.Fs);</span>
+                                                                                    <span class="comment">%             extraSampleLength = - min(delaySamples) + max(delaySamples);</span>
+                                                                                    <span class="comment">%             delaySamples = delaySamples - min(delaySamples); % to correct for negative delay times</span>
+
+                                                                                    <span class="comment">%             if length(delaySamples) == 1</span>
+                                                                                    <span class="comment">%                 delaySamples = repmat(delaySamples,1,nChan);</span>
+                                                                                    <span class="comment">%             elseif length(delaySamples) ~= nChan</span>
+                                                                                    <span class="comment">%                 error('bf_data:%s:delayData: delaySamples should have length 1 or length nChan',obj.SourceID)</span>
+                                                                                    <span class="comment">%             end</span>
+
+
+            <span class="keyword">if</span> length(delaySamples) == 1 <span class="comment">%|| all(chanInds == 1:obj.NChan)</span>
+                y = [zeros(delaySamples,length(chanInds)); <span class="keyword">...</span>
+                     y; <span class="keyword">...</span>
+                     zeros(extraSampleLength-delaySamples,length(chanInds))];
+            <span class="keyword">else</span>
+                y = [y; zeros(extraSampleLength,length(chanInds))]; <span class="comment">% First add extra zeros to end, then move samples to correct index</span>
+                <span class="keyword">for</span> ii = 1:length(chanInds)
+                    y(:,ii) = [zeros(delaySamples(ii),1); <span class="keyword">...</span>
+                               y(1:end-extraSampleLength,ii); <span class="keyword">...</span>
+                               zeros(extraSampleLength-delaySamples(ii),1)];
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+<span class="comment">%             obj.AudioData = [obj.AudioData; zeros(extraSampleLength,obj.NChan)];</span>
+            obj.setTotalSamples(obj.TotalSamples + extraSampleLength);
+<span class="comment">%             disp(size(obj.AudioData));disp(size(y));</span>
+            obj.AudioData(:,chanInds) = y;   <span class="comment">% Save the data to the channels</span>
+
+            <span class="comment">% Set current samples</span>
+<span class="comment">%             obj.CurrentSample = obj.CurrentSample + extraSampleLength;</span>
+            obj.CurrentSample(chanInds) = obj.CurrentSample(chanInds) + delaySamples;
+        <span class="keyword">end</span>
+
+        <span class="comment">%------------------------------------------------------------------</span>
+        <span class="comment">% Helper Functions</span>
+        <span class="comment">%------------------------------------------------------------------</span>
+
+
+        <span class="comment">% Names to indices function</span>
+        <span class="keyword">function</span> chanInds = names2inds(obj, chanNames, addNew)
+            <span class="comment">% NAMES2INDS find indices in audiodata of list of channel names.</span>
+            <span class="comment">%</span>
+            <span class="comment">%   chanInds = NAMES2INDS(OBJ, CHANNAMES) returns indices in</span>
+            <span class="comment">%   AudioData for string or cellstring of channel names</span>
+            <span class="comment">%   chanInds = NAMES2INDS(OBJ, CHANNAMES, ADDNEW) Add</span>
+            <span class="comment">%   unrecognized channel names to AudioData</span>
+            <span class="comment">%</span>
+            <span class="comment">%   chanNames - string or cellstring of channel names</span>
+            <span class="comment">%   addNew    - if true unrecognized channels will be added</span>
+            <span class="comment">%</span>
+            <span class="comment">% Example:</span>
+            <span class="comment">%   chanInds = names2inds(chanNames);</span>
+            <span class="comment">%   y = obj.AudioData(chanInds);</span>
+            <span class="comment">%</span>
+            narginchk(2,3)
+            <span class="keyword">if</span> nargin &lt; 3
+                addNew = false;
+            <span class="keyword">elseif</span> addNew
+                addNew = true;
+            <span class="keyword">else</span>
+                addNew = false;
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> ischar(chanNames)
+                chanNames = {chanNames};
+            <span class="keyword">end</span>
+            chanInds = zeros(size(chanNames));
+            <span class="keyword">if</span> iscellstr(chanNames)
+                <span class="keyword">for</span> ii = 1:length(chanInds)
+                    res = strcmp(chanNames{ii},obj.ChanNames);
+                    <span class="keyword">if</span> sum(res) == 1
+                        chanInds(ii) = find(res~=0, 1, <span class="string">'first'</span>);
+                    <span class="keyword">elseif</span> addNew &amp;&amp; sum(res) == 0
+                        obj.setNChan(obj.NChan+1);
+                        obj.ChanNames{end} = chanNames{ii};
+                        chanInds(ii) = obj.NChan;
+                    <span class="keyword">else</span>
+                        error(<span class="string">'bf_data:%s:names2inds: Channel Name not recognized: %s'</span>,obj.SourceID,chanNames{ii})
+                    <span class="keyword">end</span>
+                <span class="keyword">end</span>
+            <span class="keyword">else</span>
+                error(<span class="string">'bf_data:%s:names2inds: chanNames argument should be a string or a cellstring'</span>,obj.SourceID)
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> length(unique(chanInds)) ~= length(chanInds)
+                error(<span class="string">'bf_data:%s:names2inds: chanNames contains non-unique channels'</span>,obj.SourceID)
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">% Audio Data Type function</span>
+        <span class="keyword">function</span> value = audioDataType(obj)
+            <span class="comment">% 'double', 'single', 'int8', 'uint8', 'int16', 'uint16', 'int32', 'uint32', 'int64', 'uint64'</span>
+            <span class="keyword">switch</span> obj.BitsPerSample
+                <span class="keyword">case</span> 8
+                    value = <span class="string">'uint8'</span>;
+                <span class="keyword">case</span> 16
+                    value = <span class="string">'int16'</span>;
+                <span class="keyword">otherwise</span>
+                    value = <span class="string">'double'</span>;
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+</pre><pre class="codeoutput">
+ans = 
+
+  bf_data with properties:
+
+          MainObj: [1x1 struct]
+         FileName: ''
+         FilePath: ''
+         SourceID: 'untitled source'
+               Fs: 48000
+    BitsPerSample: 16
+            NChan: 0
+          Comment: ''
+        Locations: [0x6 double]
+        ChanNames: {}
+     DelaySamples: [1x0 double]
+    CurrentSample: [1x0 double]
+     TotalSamples: 0
+    IsInitialized: 0
+        AudioData: []
+              Tag: 'bf_data'
+       DefaultLoc: [0 0 0 0 3.1416 0]
+
+</pre><pre class="codeinput">    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+classdef bf_data < handle
+    % BF_DATA Beamformer Audio Buffer. Has many functions to label the
+    %   channels and add data from different sources. The time indices of the 
+    %   data in the buffer can be kept in sync using different methods.
+    %
+    %   BF_DATA(OBJ) create empty file object
+    %   BF_DATA(OBJ, MAINOBJ) create file object and add handle to main object
+    %   BF_DATA(OBJ, MAINOBJ, SOURCEID) create empty file object and set SourceID
+    %   BF_DATA(OBJ, MAINOBJ, SOURCEID, FILENAME) add file named fileName to object
+    %   BF_DATA(OBJ, MAINOBJ, SOURCEID, FILENAME, LOCATIONS) add file with locations
+    %   BF_DATA(OBJ, MAINOBJ, SOURCEID, FILENAME, LOCATIONS, CHANNAMES) add file with
+    %   locations and channel names
+    %
+    % Example 1:
+    %   obj = bf_data
+    %   obj.setChanNames({'S1','S2','S3','S4'})
+    %   obj.setTotalSamples(100)
+    %   obj.addSamples([1;2;3;4;[5:100]'],'S3')
+    %   obj.getAudioData({'S3','S1'})
+    %
+    % Example 2:
+    %   obj = bf_data
+    %   obj.setChanNames({'S1','S2','S3','S4'})
+    %   obj.addSamples([1;2;3;4;[5:100]'],'S1',1,25)
+    %
+    % Example 3:
+    %   obj = bf_data
+    %   obj.setChanNames({'S1','S2','S3','S4'})
+    %   obj.setDelays(5,{'S2'})
+    %   obj.addSamples([1;2;3;4;[5:100]'],'S3',1)
+    %
+    % BF_DATA Methods:
+    %   load            - Load data from audio or matlab file.
+    %   save            - Save data to audio or matlab file.
+    %   play            - Play the data using an audio device.
+    %   setNChan        - Set number of channels.
+    %   setTotalSamples - Set total number of samples.
+    %   setLocations    - Set Channel Locations.
+    %   setChanNames    - Set Channel Names.
+    %   setDelays       - Set Delay Times.
+    %   addSamples      - Add samples to the data.
+    %   getAudioData    - Get samples out of buffer (time axes of channels agree).
+    %   resampleData    - Resample data using matlab resample function
+    %   delayData       - Delay data so when data is loaded the time axes agree.
+    %   names2inds      - Get index of channel(s) in audiodata matrix
+    %
+    % BF_DATA Properties:
+    %   FileName      - Name of the audio file to save including extention
+    %   FilePath      - Path of the audio file to save
+    %   SourceID      - Identifier for source device or file in use.
+    %   Fs            - Sampling Frequency in Hz
+    %   BitsPerSample - Number of Bits per audio Sample
+    %   NChan         - Number of audio channels in File
+    %   Comment       - Comment of audio file
+    %   Locations     - Channel locations [x y z az el up]
+    %   ChanNames     - Channel names
+    %   DelaySamples  - Delays in samples for each channel
+    %   CurrentSample - Current sample for each channel, can be used to
+    %                   store sample offset TODO
+    %   TotalSamples  - Total length of the audio data in samples
+    %   IsInitialized - Has the source been correctly initialized
+    %   AudioData     - Audio Data matrix size = [TotalSamples NChan]
+    %   Tag           - Tag to find object
+    %
+    %   Written for the BSc graduation project Acoustic Enhancement via
+    %   Beamforming Using Smartphones.
+    %
+    %   Team:       S. Bosma                R. Brinkman
+    %               T. de Rooij             R. Smeding
+    %               N. van Wijngaarden      E. Wouters
+    %
+    %   Supervisor: Jorge Martínez Castañeda
+    %
+    %   Contact: E.H.Wouters@student.tudelft.nl
+    %
+    %   See also BF_DATA/LOAD, BF_DATA/SAVE, BF_DATA/PLAY, BF_DATA/ADDSAMPLES,
+    %   BF_DATA/SETNCHAN, BF_DATA/SETTOTALSAMPLES, BF_DATA/SETLOCATIONS, 
+    %   BF_DATA/SETCHANNAMES, BF_DATA/SETDELAYS, BF_DATA/ADDSAMPLES, 
+    %   BF_DATA/GETAUDIODATA, BF_DATA/RESAMPLEDATA, BF_DATA/DELAYDATA,
+    %   BF_DATA/NAMES2INDS, MITM, SITM, AUDIOREAD, AUDIOWRITE, SAVE, LOAD
+
+    % Properties
+    properties
+        MainObj
+        FileName      = '';          % Name of the audio file to save including extention
+        FilePath      = '';          % Path of the audio file to save
+        SourceID      = '';          % Identifier for source device or file in use.
+        Fs            = 48000;       % Sampling Frequency in Hz
+        BitsPerSample = 16;          % Number of Bits per audio Sample
+        NChan         = 0;           % Number of audio channels in File
+        Comment       = '';          % Comment of audio file
+        Locations     = [];          % Channel locations [x y z az el up]'
+        ChanNames     = {};          % Channel names
+        DelaySamples  = [];          % Delay in samples for each channel
+        CurrentSample = [];          % Current sample for each channel, can be used to store sample offset
+        TotalSamples  = 0;           % Total length of the audio data in samples
+        IsInitialized = false;       % Has the source been correctly initialized
+        AudioData     = [];          % Audio Data matrix size = [TotalSamples NChan]
+        Tag           = 'bf_data';   % Tag to find object
+    end
+    properties (Constant)
+        DefaultLoc = [0 0 0 0 pi 0]; % [x y z az el up]
+    end
+    % Methods
+    methods
+        
+        %REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+        %% Constructor Function
+        %REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+        
+        function obj = bf_data(mainObj, sourceID, fileName, locations, chanNames, totalSamples)
+            help bf_data
+            narginchk(0,6)
+            if nargin >= 1
+                obj.MainObj = mainObj;
+            else
+                obj.MainObj.update = @() disp('Update Called');
+            end
+            if nargin < 2
+                obj.SourceID = 'untitled source';
+            elseif ischar(sourceID)
+                obj.SourceID = sourceID;
+            else
+                error('bf_data:%s: SourceID argument rejected',obj.SourceID)
+            end
+            if nargin < 3
+                obj.FileName = '';
+            elseif ischar(fileName)
+                if exist(fileName, 'file') == 2
+                    obj.FileName = fileName;
+                else
+                    error('bf_data:%s: fileName argument rejected, file not found',obj.SourceID)
+                end
+            end
+            if nargin < 4
+                obj.setNChan(0);
+            elseif isnumeric(locations) && (size(locations,2) == 6 || size(locations,2) == 3)
+                obj.setNChan(size(locations,1));
+            else
+                error('bf_data:%s: Locations argument rejected',obj.SourceID)
+            end
+            if nargin < 5
+                obj.setChanNames;
+            else
+                obj.setChanNames(chanNames);
+            end
+            if nargin >= 6
+                obj.setTotalSamples(totalSamples);
+            end
+            
+            % Debug
+            assignin('base','obj',obj);
+        end
+        
+        %REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+        %% Load Function
+        %REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+        
+        function obj = load(obj)
+            % LOAD Load data from audio or matlab file.
+            %
+            %   LOAD(OBJ) Load file
+            
+            % Get file name if empty
+            if isempty([obj.FileName obj.FilePath])
+                [name1,path1] = uigetfile(...
+                    {'*.mat','MAT-files (*.mat)';...
+                    '*.wav','Waveform Audio File Format (*.wav)';...
+                    '*.*',  'All Files (*.*)'},...
+                    'Save File',fullfile(pwd, '\files'));
+                if ~ischar(name1) || ~ischar(path1)
+                    warning('bf_data:%s:load: Invalid file selected',obj.SourceID)
+                    return
+                else
+                    obj.FileName = name1;
+                    obj.FilePath = path1;
+                end
+            end
+            % Load file
+            if ~isempty([obj.FilePath obj.FileName])
+                if isempty(strfind(obj.FileName,'.mat'))
+                    [obj.AudioData, obj.Fs] = audioread(fullfile(obj.FilePath,obj.FileName));
+                    info = audioinfo(fullfile(obj.FilePath,obj.FileName));
+                    obj.BitsPerSample = info.BitsPerSample;
+                    obj.Fs = info.SampleRate;
+                    obj.setNChan(info.NumChannels);
+                    obj.setTotalSamples(info.TotalSamples);
+                    if ischar(info.Title)
+                        obj.SourceID = info.Title;
+                    end
+                    if ischar(info.Comment)
+                        obj.Comment = info.Comment;
+                    end
+                    locs = [];
+                    if ~isempty(info.Comment)
+                        locs = str2num(info.Comment); %#ok<ST2NM>
+                    end
+                    if ~isempty(locs)
+                        obj.setLocations(locs);
+                    else
+                        obj.setLocations(obj.Locations);
+                    end
+                else
+                    load(fullfile(obj.FilePath,obj.FileName));
+                    if exist('y','var')
+                        obj.AudioData = y;
+                        obj.setNChan(size(y,2));
+                        obj.setTotalSamples(size(y,1));
+                        disp('Samples loaded')
+                    else
+                        error('bf_data:%s:load: File does not contain ''y'' variable',obj.SourceID)
+                    end
+                    if exist('Fs','var')
+                        obj.Fs = Fs; %#ok<*CPROP>
+                    elseif exist('fs','var')
+                        obj.Fs = fs;
+                    else
+                        error('bf_data:%s:load: File does not contain ''Fs'' variable',obj.SourceID)
+                    end
+                    if exist('BitsPerSample','var')
+                        obj.BitsPerSample = BitsPerSample;
+                    else
+                        obj.BitsPerSample = 16;
+                    end
+                    if exist('Comment','var')
+                        obj.Comment = Comment;
+                    elseif isempty(obj.Comment) || ~ischar(obj.Comment)
+                        obj.Comment = '';
+                    end
+                    if exist('SourceID','var')
+                        obj.SourceID = SourceID;
+                    elseif exist('Title','var')
+                        obj.SourceID = Title;
+                    elseif isempty(obj.SourceID) || ~ischar(obj.SourceID)
+                        obj.SourceID = 'Title';
+                    end
+                    if exist('Locations','var')
+                        obj.setLocations(Locations);
+                    end
+                    if exist('ChanNames','var')
+                        obj.setChanNames(ChanNames);
+                    end
+                    if exist('DelaySamples','var')
+                        obj.setDelays(DelaySamples);
+                    end
+                    if exist('CurrentSample','var')
+                        obj.CurrentSample = CurrentSample;
+                    end
+                    if exist('TotalSamples','var')
+                        obj.setTotalSamples(TotalSamples);
+                    end
+                end
+            end
+        end
+        
+        %REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+        %% Save Function
+        %REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+        
+        function save(obj, varargin)
+            % SAVE Save data to audio or matlab file.
+            %
+            %   SAVE(OBJ) Save file.
+            %   SAVE(OBJ, CHANNAMES) Save specific channels to file.
+            %   SAVE(OBJ, Y, FS) save file with samples y and sample rate Fs.
+            %   SAVE(OBJ, Y, FS, LOCATIONS) add file with samples y, 
+            %   sample rate Fs and locations.
+            %   SAVE(OBJ, Y, FS, LOCATIONS, CHANNAMES) add file with 
+            %   samples y, sample rate Fs, locations and channel names.
+            %
+            % SAVE Arguments option 1:
+            %   y         - Matrix of samples
+            %   Fs        - Sampling Frequency in Hz
+            %   locations - Channel locations [x y z az el up]
+            %   chanNames - Channel names cellstr
+            %
+            % SAVE Arguments option 2:
+            %   chanNames - Channel names cellstr
+            narginchk(1,5)
+            if nargin >= 3
+                obj.Fs = varargin{3};
+                Fs = obj.Fs;
+                obj.setNChan(size(varargin{2},2));
+                obj.setTotalSamples(size(varargin{2},1));
+                obj.AudioData = varargin{2};  % Store audio data in object
+                y = obj.AudioData;
+                obj.CurrentSample = zeros(obj.NChan,1);
+            elseif nargin == 1 && obj.IsInitialized
+                y = obj.AudioData;  % Load samples from object
+                Fs = obj.Fs;
+            elseif nargin == 2 && obj.IsInitialized
+                if iscellstr(varargin{1}) || ischar(varargin{1})
+                    chanNames = varargin{1};
+                else
+                    error(['bf_data:%s:save:ChanNamesRejected: ',...
+                        'The file could not be saved because the channel'...
+                        'names were rejected.'],obj.SourceID);
+                end
+                y = obj.getAudioData(chanNames);  % Load samples from object
+                Fs = obj.Fs;
+            else
+                error(['bf_data:%s:save:NotInitialized: ',...
+                    'The file could not be saved because the object was',...
+                    ' not initialized.'],obj.SourceID);
+            end
+            if nargin >= 4
+                obj.setLocations(varargin{4});
+            end
+            if nargin >= 5
+                obj.setLocations(varargin{5});
+            end
+            % Get file name if empty
+            if isempty([obj.FileName obj.FilePath])
+                [name1,path1] = uiputfile(...
+                    {'*.wav','Waveform Audio File Format (*.wav)';...
+                    '*.mat','MAT-files (*.mat)';...
+                    '*.*',  'All Files (*.*)'},...
+                    'Save File',fullfile(pwd, '\files', sprintf('Recording %s',datestr(now, 'yyyy-mm-dd hhuMM'))));
+                if ~ischar(name1) || ~ischar(path1)
+                    warning('bf_data:%s:save: Invalid file selected',obj.SourceID)
+                    return
+                else
+                    obj.FileName = name1;
+                    obj.FilePath = path1;
+                end
+            end
+            obj.Comment = mat2str(obj.Locations);
+            % Write to file
+            if isempty(strfind(obj.FileName,'.mat'))
+                % Save as audio file
+                audiowrite(fullfile(obj.FilePath,obj.FileName),y,Fs,...
+                    'BitsPerSample',obj.BitsPerSample,'Comment',obj.Comment,...
+                    'Title',obj.SourceID,'Artist','TU Delft Beamforming BSc Graduation Project EE');
+            else
+                % Save as mat file
+                BitsPerSample = obj.BitsPerSample; %#ok<*PROP,*NASGU>
+                NChan         = obj.NChan;
+                SourceID      = obj.SourceID;
+                Comment       = obj.Comment;
+                Locations     = obj.Locations;
+                ChanNames     = obj.ChanNames;
+                DelaySamples  = obj.DelaySamples;
+                CurrentSample = obj.CurrentSample;
+                TotalSamples  = obj.TotalSamples;
+                save(fullfile(obj.FilePath,obj.FileName),'y','Fs','BitsPerSample','NChan',...
+                    'Comment','Locations','ChanNames','DelaySamples','CurrentSample','TotalSamples');
+            end
+        end
+        
+        %REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+        %% Play Function
+        %REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+        
+        function player = play(obj, deviceID, chanNames, firstSample, lastSample)
+            % PLAY Play the data using an audio device.
+            %
+            %   PLAY(OBJ) Play all audio data on default device.
+            %   PLAY(OBJ, DEVICEID) Play all audio data on specified device.
+            %   PLAY(OBJ, DEVICEID, CHANNAMES) Play audio from specified channels.
+            %   PLAY(OBJ, DEVICEID, CHANNAMES, FIRSTSAMPLE, LASTSAMPLE) Play 
+            %   part of audio.
+            %   player = PLAY(obj,___) Returns audioplayer object.
+            narginchk(1,5)
+            if nargin < 2
+                info1 = audiodevinfo;
+                deviceID = info1.output(1).ID;
+            end
+            if nargin < 3
+                chanNames = obj.ChanNames;
+            end
+            if nargin < 4
+                firstSample = 1;
+                lastSample = obj.TotalSamples;
+            elseif isnumeric(firstSample) && numel(firstSample) == 1 && ...
+                    isnumeric(lastSample) && numel(lastSample) == 1
+                if firstSample > lastSample || lastSample > obj.TotalSamples
+                    warning(['bf_data:%s:play: Cannot play from %i to %i. Total',...
+                        'samples is %i'], obj.SourceID, firstSample, lastSample, obj.TotalSamples)
+                    firstSample = 1;
+                    lastSample = obj.TotalSamples;
+                end
+            else
+                firstSample = 1;
+                lastSample = obj.TotalSamples;
+            end
+            % Play signal
+            if obj.IsInitialized
+                if length(obj.names2inds(chanNames)) <= 2
+                    player = audioplayer(obj.getAudioData(chanNames,firstSample,lastSample),obj.Fs, obj.BitsPerSample, deviceID);
+                else
+                    player = audioplayer(mean(obj.getAudioData(chanNames,firstSample,lastSample),2),obj.Fs, obj.BitsPerSample, deviceID);
+                end
+                play(player);
+            else
+                warning('bf_data:%s:play: Object is not initialized',obj.SourceID)
+            end
+        end
+        
+        % Check if object is initialized
+        function value = checkInitialized(obj)
+            % Check dependent variables
+            obj.checkAudioData;
+            obj.checkLocations;
+            obj.checkChanNames;
+            obj.DelaySamples = [obj.DelaySamples(1:min(end,obj.NChan)) zeros(1,max(0,obj.NChan-length(obj.DelaySamples)))];
+            obj.CurrentSample = [obj.CurrentSample(1:min(end,obj.NChan)) ones(1,max(0,obj.NChan-length(obj.CurrentSample)))];
+            if obj.NChan && obj.TotalSamples
+                obj.IsInitialized = true;
+            else
+                obj.IsInitialized = false;
+            end
+            value = obj.IsInitialized;
+        end
+        
+        %REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+        %% AudioData Functions
+        %REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+        
+        % Set Number of Channels function
+        function obj = setNChan(obj, nChan)
+            % SETNCHAN Set number of Channels.
+            %
+            %   SETNCHAN(OBJ, NCHAN) Set the number of channels to object. 
+            %   Makes sure size of AudioData, locations and chanNames are correct.
+            %
+            %   nChan must be a non-negative scalar.
+            if isnumeric(nChan) && numel(nChan) == 1 && nChan(1) >= 0
+                obj.NChan = nChan;
+            else
+                error('bf_data:%s:setNChan: nChan argument rejected',obj.SourceID)
+            end
+            % Check dependent variables
+            obj.checkInitialized();
+        end
+        
+        % Set Number of Channels function
+        function obj = removeChan(obj, chanNames)
+            % REMOVECHAN Remove channel(s) from buffer.
+            %
+            %   REMOVECHAN(OBJ, CHANNAMES) Remove channels from buffer.
+            %
+            %   Audio data, name, location, delay time and current sample.
+            inds = names2inds(chanNames);
+            if ~isempty(inds)
+                obj.AudioData(inds,:)   = [];
+                obj.ChanNames(inds)     = [];
+                obj.Locations(inds,:)   = [];
+                obj.DelaySamples(inds)  = [];
+                obj.CurrentSample(inds) = [];
+            else
+                error('bf_data:%s:removeChan: chanNames argument rejected',obj.SourceID)
+            end
+            % Check dependent variables
+            obj.checkInitialized();
+        end
+        
+        % Set Total Samples function
+        function obj = setTotalSamples(obj, totalSamples)
+            % SETTOTALSAMPLES Set total number of samples.
+            %
+            %   SETTOTALSAMPLES(OBJ, TOTALSAMPLES) Set Total Samples value
+            %   to object. Makes sure size of AudioData is correct.
+            %
+            %   totalSamples must be a non-negative scalar.
+            if isnumeric(totalSamples) && numel(totalSamples) == 1 && totalSamples >= 0
+                obj.TotalSamples = totalSamples;
+            else
+                error('bf_data:%s:setTotalSamples: totalSamples argument rejected',obj.SourceID)
+            end
+            obj.checkInitialized();
+        end
+        
+        %REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+        %% Names and Locations Functions
+        %REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+        
+        % Set Locations function
+        function locations = setLocations(obj, locations, chanNames)
+            % SETLOCATIONS Set Channel Locations.
+            %
+            %   SETLOCATIONS(OBJ) Set Locations of channels to defaults.
+            %   SETLOCATIONS(OBJ, LOCATIONS) Set Locations of channels.
+            %   SETLOCATIONS(OBJ, LOCATIONS, CHANNAMES) Set Locations
+            %   specific channels.
+            %
+            %   Locations must be a NChan by 3 or NChan by 6 numeric array
+            narginchk(1,3)
+            if nargin == 1
+                obj.Locations = repmat(obj.DefaultLoc,obj.NChan,1);
+            elseif isnumeric(locations) && size(locations,2) ==  6
+                obj.Locations = locations;
+            elseif isnumeric(locations) && size(locations,2) ==  3
+                obj.Locations = [locations, repmat(obj.DefaultLoc(4:6),size(locations,1),1)];
+            elseif ~isempty(obj.Locations)
+                warning('bf_data:setLocations:%s: Locations argument rejected',obj.SourceID)
+            end
+            if nargin >= 3
+                chanInds = obj.names2inds(chanNames);
+                if length(chanInds) == length(locations)
+                    obj.Locations(chanInds) = locations;
+                else
+                    warning('bf_data:%s:setLocations: Channel locations could not be replaced',obj.SourceID)
+                end
+            end
+            obj.checkLocations;
+            locations = obj.Locations;
+        end
+        % Check Locations function
+        function obj = checkLocations(obj)
+            % CHECKLOCATIONS Check Channel Locations and add or remove 
+            % incorrect ones.
+            if isempty(obj.Locations)
+                obj.Locations = repmat(obj.DefaultLoc,obj.NChan,1);
+            elseif size(obj.Locations,1) < obj.NChan
+                locs = repmat(obj.DefaultLoc,obj.NChan,1);
+                locs(1:size(obj.Locations,1),:) = obj.Locations;
+                obj.Locations = locs;
+%                 warning('bf_data:%s:checkLocations: Locations argument too short',obj.SourceID)
+            elseif size(obj.Locations,1) > obj.NChan
+                obj.Locations = obj.Locations(1:obj.NChan,:);
+%                 warning('bf_data:%s:checkLocations: Locations argument too long',obj.SourceID)
+            else
+%                 fprintf('bf_data:%s:checkLocations: Locations set correctly\n',obj.SourceID)
+%                 disp(obj.Locations)
+            end
+        end
+        
+        % Set Channel Names function
+        function chanNames = setChanNames(obj, varargin)
+            % SETCHANNAMES Set Channel Names.
+            %
+            %   SETCHANNAMES(OBJ) Return channel names
+            %   SETCHANNAMES(OBJ, CHANNAMES) Set Channel Names of source.
+            %   SETCHANNAMES(OBJ, CHANNAMES, ADDNEW) Append channels to
+            %   object if addNew is true. Call this to add channels.
+            %   SETCHANNAMES(OBJ, OLDNAMES, NEWNAMES) Replace channel names.
+            %
+            %   ChanNames must be a cellstr with NChan names.
+            %   AddNew must be a true or false value
+            %   OldNames must be a cellstr with existing names.
+            %   NewNames must be a cellstr with the new names.
+            narginchk(1,3)
+            if nargin == 1
+                if isempty(obj.ChanNames)
+                    for ii = 1:obj.NChan
+                        obj.ChanNames{ii} = sprintf('Ch %i',ii);
+                    end
+                end
+            elseif nargin == 2
+                if iscellstr(varargin{1})
+                    obj.ChanNames = varargin{1};
+                    obj.setNChan(length(varargin{1}));
+                end
+            elseif nargin >= 3
+                if isnumeric(varargin{2})
+                    obj.names2inds(varargin{1:2})
+                else
+                    if ischar(varargin{2})
+                        varargin{2} = {varargin{2}}; %#ok<CCAT1>
+                    end
+                    chanInds = obj.names2inds(varargin{1});
+                    if length(chanInds) == length(varargin{2})
+                        obj.ChanNames(chanInds) = varargin{2};
+                    else
+                        warning(['bf_data:%s:setChanNames: Channel names ',...
+                            'could not be replaced because the number of ',...
+                            'the old and the new channel names disagree.'],obj.SourceID)
+                    end
+                end
+            end
+            obj.checkChanNames;
+            chanNames = obj.ChanNames;
+        end
+        % Check Channel Names function
+        function obj = checkChanNames(obj)
+            % CHECKCHANNAMES Check Channel Names and add or remove 
+            % incorrect ones.
+            if isempty(obj.ChanNames)
+                for ii = 1:obj.NChan
+                    obj.ChanNames{ii} = sprintf('Ch %i',ii);
+                end
+            elseif length(obj.ChanNames) < obj.NChan
+                for ii = length(obj.ChanNames)+1:obj.NChan
+                    obj.ChanNames{ii} = sprintf('Ch %i',ii);
+                end
+%                 warning('bf_data:%s:checkChanNames: ChanNames argument has too few names',obj.SourceID)
+            elseif length(obj.ChanNames) > obj.NChan
+                obj.ChanNames = obj.ChanNames(1:obj.NChan);
+%                 warning('bf_data:%s:checkChanNames: ChanNames argument has too many names',obj.SourceID)
+            else
+%                 fprintf('bf_data:%s:checkChanNames: Names set correctly\n',obj.SourceID)
+%                 disp(obj.ChanNames)
+            end
+        end
+        
+        % Set Delays function
+        function obj = setDelays(obj, delaySamples, chanNames)
+            % SETDELAYS Set Delay Time in samples.
+            %
+            %   SETDELAYS(OBJ) Set Delay Time to defaults.
+            %   SETDELAYS(OBJ, DELAYSAMPLES) Set Delay Time of all channels.
+            %   SETDELAYS(OBJ, DELAYSAMPLES, CHANNAMES) Set Delay Time of 
+            %   specific channels.
+            %
+            narginchk(1,3)
+            allChans = false;
+            if nargin == 1
+                obj.DelaySamples = zeros(1,obj.NChan);
+                return;
+            end
+            if nargin < 3
+                chanNames = obj.ChanNames;
+                allChans = true;
+            end
+            chanInds = obj.names2inds(chanNames);
+            if length(delaySamples) == 1 && ~allChans
+                delaySamples = repmat(delaySamples,1,length(chanInds));
+            end
+            if  length(delaySamples) ~= length(chanInds)
+                error(['bf_data:%s:setDelays: Number of elements in ', ...
+                       'delayTimes and chanNames do not agree'],obj.SourceID)
+            end
+            if allChans
+                obj.delayData(delaySamples)
+            else
+                obj.delayData(delaySamples,chanNames);
+            end
+        end
+        
+        %REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+        %% Audio Data Functions
+        %REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+        
+        % Check Audio Data function
+        function obj = checkAudioData(obj)
+            % CHECKAUDIODATA Check Audio Data and add or remove 
+            % incorrect streams.
+            
+            % Check number of Channels
+            nChanDifference = obj.NChan - size(obj.AudioData,2);
+            if isempty(obj.AudioData)
+                obj.AudioData = zeros(obj.TotalSamples,obj.NChan,obj.audioDataType); % Create empty audio data
+            elseif nChanDifference > 0
+                obj.AudioData(:,end+1:end+nChanDifference) = zeros(obj.TotalSamples,nChanDifference,obj.audioDataType); % Add extra channels (zeros)
+            elseif nChanDifference < 0
+                obj.AudioData(:,obj.NChan+1:end) = []; % Remove extra channels
+            end
+            % Check number of Samples
+            totalSamplesDifference = obj.TotalSamples - length(obj.AudioData);
+            if isempty(obj.AudioData)
+                obj.AudioData = zeros(obj.TotalSamples,obj.NChan,obj.audioDataType); % Create empty audio data
+            elseif totalSamplesDifference > 0
+                obj.AudioData(end+1:end+totalSamplesDifference,:) = zeros(totalSamplesDifference,obj.NChan,obj.audioDataType); % Add extra samples (zeros)
+            elseif totalSamplesDifference < 0
+                obj.AudioData(obj.TotalSamples+1:end,:) = []; % Remove extra samples
+            end
+        end
+        
+        % Add Samples function
+        function obj = addSamples(obj,y, varargin)
+            % ADDSAMPLES Add samples to the data.
+            %
+            %   ADDSAMPLES(OBJ, Y) Add samples at end of data.
+            %   ADDSAMPLES(OBJ, Y, SAMPLEINDS) Add samples at index or indices.
+            %   ADDSAMPLES(OBJ, Y, CHANNAMES) Add data to specified
+            %   channels.
+            %   ADDSAMPLES(OBJ, Y, CHANNAMES, ADDNEW) add data to specified
+            %   channels and create channels if they are not matched and
+            %   addNew is true.
+            %   ADDSAMPLES(OBJ, Y, CHANNAMES, ADDNEW, SAMPLEINDS) add 
+            %   data to specified channels at index or indices and create 
+            %   channels if they are not matched and addNew is true.
+            %
+            % NOTE: delaySamples has to be added - DONE
+            narginchk(2,5)
+            if ~obj.IsInitialized && nargin < 4
+                error('bf_data:%s:addSamples: Cannot add samples when object is not initialized and addNew is false',obj.SourceID)
+%     %% TODO        elseif ~varargin{2}
+                
+%                 warning('bf_data:%s:addSamples: Cannot add samples when object is not initialized and addNew is false',obj.SourceID)
+            end
+%             sampleInds = ones(1,size(y,2));
+            sampleInds = obj.CurrentSample;
+            chanInds = 1:obj.NChan;
+            if nargin >= 3
+                if isnumeric(varargin{1})
+                    if length(varargin{1}) == 1 || length(varargin{1}) == obj.NChan
+                        sampleInds = varargin{1};
+                    else
+                        error('bf_data:%s:addSamples: Third argument rejected, expected SampleInds',obj.SourceID)
+                    end
+                elseif ischar(varargin{1}) || iscellstr(varargin{1})
+                    if nargin < 4
+                        addNew = false;
+                    else
+                        addNew = varargin{2};
+                    end
+                    chanInds = obj.names2inds(varargin{1}, addNew);
+                    sampleInds = obj.CurrentSample(chanInds);
+                else
+                    error('bf_data:%s:addSamples: Third argument rejected, expected ChanNames',obj.SourceID)
+                end
+            end
+            if nargin >= 5
+                if isnumeric(varargin{3})
+                    if length(varargin{3}) == 1 || length(varargin{3}) == length(chanInds)
+                        sampleInds = varargin{3};
+                    else
+                        error('bf_data:%s:addSamples: SampleInds has wrong number of elements',obj.SourceID)
+                    end
+                else
+                    error('bf_data:%s:addSamples: Fifth argument rejected, expected SampleInds',obj.SourceID)
+                end
+            end
+            nSamples = size(y,1);
+            if obj.TotalSamples < max(sampleInds)+nSamples-1
+                obj.setTotalSamples(max(sampleInds)+nSamples-1);
+            end
+            if size(y,2) == length(chanInds)
+                % add the data
+                if length(chanInds) == 1 || all(chanInds == 1:obj.NChan)
+                    obj.AudioData(sampleInds:sampleInds+nSamples-1,chanInds) = y; % Add y to AudioData at correct channel and correct index
+                else
+                    for ii = 1:length(sampleInds)
+                        obj.AudioData(sampleInds(ii):sampleInds(ii)+nSamples,chanInds(ii)) = y(:,ii); % Add y to AudioData at correct channel and correct indices
+                    end
+                end
+                % Set current samples
+                obj.CurrentSample(chanInds) = sampleInds + nSamples;
+
+            else
+                error('bf_data:%s:addSamples: size of y does not correspond to other inputs',obj.SourceID)
+            end
+            
+            % Let mainObj know there may be new data to process
+            obj.MainObj.update();
+        end
+        
+        % Get Audio Data function
+        function [y, totalSamples] = getAudioData(obj,varargin)
+            % GETAUDIODATA Gets Audio Data.
+            %
+            %   y = GETAUDIODATA(OBJ) Returns all audiodata
+            %   y = GETAUDIODATA(OBJ, CHANNAMES) Returns auiodata for
+            %   specified channels
+            %   y = GETAUDIODATA(OBJ, FIRSTSAMPLE, LASTSAMPLE) Returns 
+            %   audiodata in range for specified channels
+            %   y = GETAUDIODATA(OBJ, CHANNAMES, FIRSTSAMPLE, LASTSAMPLE)
+            %   Returns audiodata in range for specified channels
+            narginchk(1,4)
+            if obj.IsInitialized
+                if nargin == 1
+                    y = obj.AudioData;
+                elseif nargin == 2
+                    y = obj.AudioData(:,obj.names2inds(varargin{1}));
+                elseif nargin == 3
+                    if isnumeric(varargin{1}) && numel(varargin{1}) == 1 && ...
+                            isnemeric(varargin{2}) && numel(varargin{2}) == 1 && ...
+                            varargin{1} > 0 && varargin{2} <= obj.TotalSamples && ...
+                            varargin{1} <= varargin{2}
+                        y = obj.AudioData(varargin{1:2},:);
+                    else
+                        error('bf_data:%s:getAudioData: Invalid call to y = GETAUDIODATA(OBJ, FIRSTSAMPLE, LASTSAMPLE)',obj.SourceID)
+                    end
+                elseif nargin == 4
+                    if isnumeric(varargin{2}) && numel(varargin{2}) == 1 && ...
+                            isnumeric(varargin{3}) && numel(varargin{3}) == 1 && ...
+                            varargin{2} > 0 && varargin{3} <= obj.TotalSamples && ...
+                            varargin{2} <= varargin{3} && ...
+                            (ischar(varargin{1}) || iscellstr(varargin{1}))
+                        y = obj.AudioData(varargin{2}:varargin{3},obj.names2inds(varargin{1}));
+                    else
+                        error('bf_data:%s:getAudioData: Invalid call to y = GETAUDIODATA(OBJ, CHANNAMES, FIRSTSAMPLE, LASTSAMPLE)',obj.SourceID)
+                    end
+                end
+            else
+                warning('bf_data:%s:getAudioData: Object is not initialized',obj.SourceID)
+                y = [];
+            end
+            totalSamples = obj.TotalSamples;
+                
+            
+            y = audiovideo.internal.audio.Converter.('toDouble')(y);
+            
+%             outType = class(y);
+%             convertMethod = strcmp(oldType,{'double','int16','uint8'});
+%             if convertMethod(2)
+%                 y = audiovideo.internal.audio.Converter.('toInt16')(y);
+%             elseif convertMethod(3)
+%                 y = audiovideo.internal.audio.Converter.('toUint8')(y);
+%             elseif ~convertMethod(1)
+%                 y = cast(y,outType);
+%             end
+        end
+        
+        % Resample function
+        function y = resampleData(obj, varargin)
+            % RESAMPLEDATA find indices in audiodata of list of channel names.
+            %
+            %   RESAMPLEDATA(OBJ, FS) Resample all channels to sample rate fs [Hz].
+            %   y = RESAMPLEDATA(OBJ, Y, FSNEW, FSOLD) resample y and
+            %   return the new samples
+            %   RESAMPLEDATA(OBJ, FSNEW, FSOLD, CHANNAMES) Resample the
+            %   channels corresponding to the list of names in chanNames
+            %   RESAMPLEDATA(OBJ, FSNEW, FSOLD, CHANNAMES, n, beta) 
+            %   Resample the channels corresponding to the list of names in
+            %   chanNames and passes the extra arguments to the resample
+            %   function from matlab
+            %   
+            %   If fs is a vector of length NChan the sample rate is
+            %   set to each channel individually.
+            %
+            %   fs has units per second [Hz]
+            %
+            %   Resample using a polyphase filter TODO: add reference to
+            %   paper about polyphase filter
+            %
+            %   resample performs a FIR design using firls, followed by 
+            %   rate changing implemented with upfirdn.
+            %
+            %   See also BF_DATA/DELAYDATA, RESAMPLE, TIMESERIES, FIRLS,
+            %   UPFIRDN
+            narginchk(2,Inf)
+            if nargin == 2                      % RESAMPLEDATA(OBJ, FS)
+                nChan = obj.NChan;
+                saveInObj = true;
+                if isnumeric(varargin{1}) && (length(varargin{1}) == 1 || length(varargin{1}) == nChan)
+                    y = obj.AudioData;          % Get audio data from object
+                    fsNew = varargin{1};        % Get new sample rate from input argument
+                    fsOld = obj.Fs;             % Get old sample rate from object
+                else
+                    error('bf_data:%s:resampleData: First argument needs to be sample rate when using one argument',obj.SourceID)
+                end
+            elseif nargin >= 4
+                if isnumeric(varargin{3})       % RESAMPLEDATA(OBJ, Y, FSNEW, FSOLD)
+                    nChan = size(varargin{1},2);
+                    saveInObj = false;
+                    if isnumeric(varargin{1}) && isnumeric(varargin{2}) && ...
+                            (length(varargin{2}) == 1 || length(varargin{2}) == nChan) && ...
+                            (length(varargin{3}) == 1 || length(varargin{3}) == nChan)
+                        y = varargin{1};        % Get audio data from input argument
+                        fsNew = varargin{2};    % Get new sample rate from input argument
+                        fsOld = varargin{3};    % Get old sample rate from input argument
+                    else
+                        error('bf_data:%s:resampleData: Some arguments were rejected in call RESAMPLEDATA(OBJ, Y, FSNEW, FSOLD)',obj.SourceID)
+                    end
+                else                            % RESAMPLEDATA(OBJ, FSNEW, FSOLD, CHANNAMES)
+                    nChan = length(obj.names2inds(chanNames));
+                    saveInObj = true;
+                    if isnumeric(varargin{1}) && isnumeric(varargin{2}) && ...
+                            (ischar(varargin{3}) || iscellstr(varargin{3})) && ...
+                            (length(varargin{1}) == 1 || length(varargin{1}) == nChan) && ...
+                            (length(varargin{2}) == 1 || length(varargin{2}) == nChan)
+                        y = obj.AudioData(names2inds(varargin{3})); % Get audio data corresponding to channel names from object
+                        fsNew = varargin{1};    % Get new sample rate from input argument
+                        fsOld = varargin{2};    % Get old sample rate from input argument
+                    else
+                        error('bf_data:%s:resampleData: Some arguments were rejected in call RESAMPLEDATA(OBJ, FSNEW, FSOLD, CHANNAMES)',obj.SourceID)
+                    end
+                end
+            else
+                error('bf_data:%s:resampleData: Function does not support using 2 arguments',obj.SourceID)
+            end
+            
+            % Convert audio data to double and save original type because
+            % resampling is done with double precision
+            oldType = class(y);
+            convertMethod = strcmp(oldType,{'double','int16','uint8'});
+            if ~convertMethod(1)
+                y = audiovideo.internal.audio.Converter.('toDouble')(y);
+    %             y = cast(y,'double'); is slower and less reliable
+            end
+            
+            % Do resampling using matlab resample function. Extra arguments are passed to resample function
+            if length(fsNew) == 1 && length(fsOld) == 1
+                y = resample(y,fsNew,fsOld, varargin{4:end}); % resample matrix
+            else
+                if numel(fsNew) == 1
+                    fsNew = repmat(fsNew,1,nChan);
+                end
+                if numel(fsOld) == 1
+                    fsOld = repmat(fsOld,1,nChan);
+                end
+                for ii = 1:nChan
+                    y(:,ii) = resample(y(:,ii),fsNew(ii),fsOld(ii), varargin{4:end}); % resample channels one by one
+                end
+            end
+            
+            % Convert data back to original data type
+            if convertMethod(2)
+                y = audiovideo.internal.audio.Converter.('toInt16')(y);
+            elseif convertMethod(3)
+                y = audiovideo.internal.audio.Converter.('toUint8')(y);
+            elseif ~convertMethod(1)
+                y = cast(y,oldType);
+            end
+            
+            % Save result
+            if saveInObj
+                obj.AudioData = y;
+                obj.setTotalSamples(size(y,1));
+                if numel(fsNew) == 1
+                    obj.Fs = fsNew;
+                else
+                    warning('bf_data:%s:resampleData: New sample rates can not be saved in object when using a vector argument for fsNew',obj.SourceID)
+                end
+            end
+        end
+        
+        % Delay Data in Time function
+        function y = delayData(obj, delaySamples, chanNames)
+            % DELAYDATA Set Channel Delay Time in samples for each channel.
+            %
+            %   DELAYDATA(OBJ) Set Delay of channels into value(s)
+            %   specified in obj.DelaySamples.
+            %   DELAYDATA(OBJ, DELAYSAMPLES) Delay all channels by the
+            %   number of samples specified in delaySamples.
+            %   DELAYDATA(OBJ, DELAYSAMPLES, CHANNAMES) Delay the channels
+            %   corresponding to the list of names in chanNames.
+            %   
+            %   If delaySamples is a vector of length NChan the delays are
+            %   set to every channel individually.
+            %
+            %   delaySamples has units samples
+            %
+            %   See also BF_DATA/SETDELAYS
+            
+            %   See also BF_DATA/RESAMPLEDATA, RESAMPLE, TIMESERIES
+            narginchk(2,3)
+            if nargin >= 2
+                if ~isnumeric(delaySamples) || (~numel(delaySamples) == obj.NChan && ~numel(delaySamples) == 1)
+                    error('bf_data:%s:delayData: delaySamples should have length 1 or length nChan',obj.SourceID)
+                end
+            end
+            if nargin < 3
+                chanNames = obj.ChanNames;
+            end
+            y = obj.getAudioData(chanNames);
+            chanInds = obj.names2inds(chanNames);
+            if numel(delaySamples) == 1
+                delaySamples = repmat(delaySamples,1,length(chanInds));
+            end
+            extraSampleLength = max(delaySamples);
+%             y = [zeros(min(extraSampleLength-delaySamples),length(chanInds)); ...
+%                      obj.getAudioData(chanNames); ...
+%                      zeros(extraSampleLength-delaySamples,length(chanInds))];
+                                                                                    %             delaySamples = round(delaySamples.*obj.Fs);
+                                                                                    %             extraSampleLength = - min(delaySamples) + max(delaySamples);
+                                                                                    %             delaySamples = delaySamples - min(delaySamples); % to correct for negative delay times
+
+                                                                                    %             if length(delaySamples) == 1
+                                                                                    %                 delaySamples = repmat(delaySamples,1,nChan);
+                                                                                    %             elseif length(delaySamples) ~= nChan
+                                                                                    %                 error('bf_data:%s:delayData: delaySamples should have length 1 or length nChan',obj.SourceID)
+                                                                                    %             end
+            
+            
+            if length(delaySamples) == 1 %|| all(chanInds == 1:obj.NChan)
+                y = [zeros(delaySamples,length(chanInds)); ...
+                     y; ...
+                     zeros(extraSampleLength-delaySamples,length(chanInds))];
+            else
+                y = [y; zeros(extraSampleLength,length(chanInds))]; % First add extra zeros to end, then move samples to correct index
+                for ii = 1:length(chanInds)
+                    y(:,ii) = [zeros(delaySamples(ii),1); ...
+                               y(1:end-extraSampleLength,ii); ...
+                               zeros(extraSampleLength-delaySamples(ii),1)];
+                end
+            end
+%             obj.AudioData = [obj.AudioData; zeros(extraSampleLength,obj.NChan)];
+            obj.setTotalSamples(obj.TotalSamples + extraSampleLength);
+%             disp(size(obj.AudioData));disp(size(y));
+            obj.AudioData(:,chanInds) = y;   % Save the data to the channels
+            
+            % Set current samples
+%             obj.CurrentSample = obj.CurrentSample + extraSampleLength;
+            obj.CurrentSample(chanInds) = obj.CurrentSample(chanInds) + delaySamples;
+        end
+        
+        %REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+        % Helper Functions
+        %REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+    
+        
+        % Names to indices function
+        function chanInds = names2inds(obj, chanNames, addNew)
+            % NAMES2INDS find indices in audiodata of list of channel names.
+            %
+            %   chanInds = NAMES2INDS(OBJ, CHANNAMES) returns indices in
+            %   AudioData for string or cellstring of channel names
+            %   chanInds = NAMES2INDS(OBJ, CHANNAMES, ADDNEW) Add
+            %   unrecognized channel names to AudioData
+            %
+            %   chanNames - string or cellstring of channel names
+            %   addNew    - if true unrecognized channels will be added
+            %
+            % Example:
+            %   chanInds = names2inds(chanNames);
+            %   y = obj.AudioData(chanInds);
+            % 
+            narginchk(2,3)
+            if nargin < 3
+                addNew = false;
+            elseif addNew
+                addNew = true;
+            else
+                addNew = false;
+            end
+            if ischar(chanNames)
+                chanNames = {chanNames};
+            end
+            chanInds = zeros(size(chanNames));
+            if iscellstr(chanNames)
+                for ii = 1:length(chanInds)
+                    res = strcmp(chanNames{ii},obj.ChanNames);
+                    if sum(res) == 1
+                        chanInds(ii) = find(res~=0, 1, 'first');
+                    elseif addNew && sum(res) == 0
+                        obj.setNChan(obj.NChan+1);
+                        obj.ChanNames{end} = chanNames{ii};
+                        chanInds(ii) = obj.NChan;
+                    else
+                        error('bf_data:%s:names2inds: Channel Name not recognized: %s',obj.SourceID,chanNames{ii})
+                    end
+                end
+            else
+                error('bf_data:%s:names2inds: chanNames argument should be a string or a cellstring',obj.SourceID)
+            end
+            if length(unique(chanInds)) ~= length(chanInds)
+                error('bf_data:%s:names2inds: chanNames contains non-unique channels',obj.SourceID)
+            end
+        end
+        
+        % Audio Data Type function
+        function value = audioDataType(obj)
+            % 'double', 'single', 'int8', 'uint8', 'int16', 'uint16', 'int32', 'uint32', 'int64', 'uint64'
+            switch obj.BitsPerSample
+                case 8
+                    value = 'uint8';
+                case 16
+                    value = 'int16';
+                otherwise
+                    value = 'double';
+            end                    
+        end
+        
+    end
+end
+##### SOURCE END #####
+--></body></html>

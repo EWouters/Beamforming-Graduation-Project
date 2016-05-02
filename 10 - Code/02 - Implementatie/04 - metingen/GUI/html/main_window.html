@@ -1,0 +1,338 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>main_window</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-07"><meta name="DC.source" content="main_window.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#3">Properties</a></li><li><a href="#4">Methods</a></li><li><a href="#7">Place Main Window handle in workspace</a></li><li><a href="#9">Close Request function</a></li><li><a href="#10">Demo Window Graphics Code</a></li><li><a href="#12">Create Plots Panel</a></li><li><a href="#13">Create System Representation Panel</a></li></ul></div><pre class="codeinput"><span class="keyword">classdef</span> main_window &lt; handle
+</pre><pre class="codeinput"><span class="comment">% MAIN_WINDOW  Beamforming main window.</span>
+<span class="comment">%   obj = MAIN_WINDOW(A) Start Beamforming main window.</span>
+<span class="comment">%</span>
+<span class="comment">%   This class is a main gui window generator.</span>
+<span class="comment">%</span>
+<span class="comment">%   Beamformer scripts:</span>
+<span class="comment">%   DSB_BF.m                Delay-Sum-Beamformer.</span>
+<span class="comment">%   MVDR_BF.m               Minimum variance distortionless response Beamformer.</span>
+<span class="comment">%   MVDR_Directivity_BF.m   MVDR Beamformer with microphone Directivity.</span>
+<span class="comment">%   Delft_BF.m              Delft Beamformer algorithm.                        TODO</span>
+<span class="comment">%</span>
+<span class="comment">%   Quality estimation scripts:</span>
+<span class="comment">%   pesq.m</span>
+<span class="comment">%</span>
+<span class="comment">%   Communication Classes:</span>
+<span class="comment">%   bfcom.m                 Communication class for beamformers.</span>
+<span class="comment">%   mitm.m                  Communication class for the Smartphone App.</span>
+<span class="comment">%</span>
+<span class="comment">%   User Interface Classes:</span>
+<span class="comment">%   main_window.m           Start Beamforming main window.</span>
+<span class="comment">%</span>
+<span class="comment">%</span>
+<span class="comment">%   Written for the BSc graduation project Acoustic Enhancement via</span>
+<span class="comment">%   Beamforming Using Smartphones.</span>
+<span class="comment">%</span>
+<span class="comment">%   Team:           S. Bosma                R. Brinkman</span>
+<span class="comment">%                   T. de Rooij             R. Smeding</span>
+<span class="comment">%                   N. van Wijngaarden      E. Wouters</span>
+<span class="comment">%</span>
+<span class="comment">%   Supervisor:     Jorge Mart&iacute;nez Casta&ntilde;eda</span>
+<span class="comment">%   TODO: add other supervisors</span>
+<span class="comment">%</span>
+<span class="comment">%   Contact: E.H.Wouters@student.tudelft.nl</span>
+<span class="comment">%</span>
+<span class="comment">%   See also BF_DATA, MITM, SMARTPHONE_SETTINGS_UI,</span>
+<span class="comment">%   STD_PANEL, STD_SELECTOR_UI, GRID2POS, ...</span>
+</pre><h2>Properties<a name="3"></a></h2><pre class="codeinput">    properties (Constant)
+        <span class="comment">% Constants</span>
+        Name = <span class="string">'Beamformer Demo Window'</span>
+    <span class="keyword">end</span>
+    properties
+        <span class="comment">% Properties</span>
+        UI
+        DataBuffer
+        Mitm                <span class="comment">% Handle of class to manage the server for smartphones</span>
+        Process1
+    <span class="keyword">end</span>
+</pre><h2>Methods<a name="4"></a></h2><pre class="codeinput">    methods
+</pre><pre class="codeinput">        <span class="comment">% Main GUI Window Constuctor</span>
+        <span class="keyword">function</span> obj = main_window(varargin)
+</pre><pre class="codeinput">            <span class="keyword">try</span> close <span class="string">all</span>; <span class="keyword">catch</span>; <span class="keyword">end</span> <span class="comment">% Try to close all other windows</span>
+
+            <span class="comment">% Create mitm object</span>
+            obj.Mitm = mitm(1337,48000,4800,0,obj);
+
+            <span class="comment">% Data Buffer</span>
+            obj.DataBuffer = bf_data(obj);
+            obj.DataBuffer.SourceID = <span class="string">'DataBuffer'</span>;
+<span class="comment">%             obj.Process1 = std_processor(obj,'F0:27:65:36:5D:E5');</span>
+
+            <span class="comment">% Graphics Code</span>
+            obj.UI = obj.graphicsCode();
+</pre><h2>Place Main Window handle in workspace<a name="7"></a></h2><pre class="codeinput">            assignin(<span class="string">'base'</span>,<span class="string">'DemoWindow'</span>,obj);
+<span class="comment">%             assignin('base','obj',obj);</span>
+</pre><pre class="codeinput">        <span class="keyword">end</span>
+</pre><pre class="codeoutput">
+ans = 
+
+  main_window with properties:
+
+          Name: 'Beamformer Demo Window'
+            UI: [1x1 struct]
+    DataBuffer: [1x1 bf_data]
+          Mitm: [1x1 mitm]
+      Process1: []
+
+</pre><h2>Close Request function<a name="9"></a></h2><pre class="codeinput">        <span class="keyword">function</span> closeReq_Callback(obj,~,~)
+            obj.Mitm.stop;
+            obj.UI.MainFig.HandleVisibility  = <span class="string">'off'</span>;
+            close <span class="string">all</span>;
+            obj.UI.MainFig.HandleVisibility  = <span class="string">'on'</span>;
+            <span class="comment">% Possible to save gui state here</span>
+            delete(obj.UI.MainFig)
+        <span class="keyword">end</span>
+
+        <span class="keyword">function</span> update(obj)
+<span class="comment">%             obj.Process1.update(); % TODO</span>
+        <span class="keyword">end</span>
+</pre><h2>Demo Window Graphics Code<a name="10"></a></h2><pre class="codeinput">        <span class="keyword">function</span> UI = graphicsCode(obj)
+</pre><pre class="codeinput">            <span class="comment">% GRAPHICSCODE Graphics Code</span>
+            <span class="comment">% Create figure</span>
+            UI.MainFig = figure(<span class="string">'name'</span>,obj.Name,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>,<span class="string">'resize'</span>, <span class="string">'on'</span>,<span class="keyword">...</span>
+                <span class="string">'units'</span>,<span class="string">'normalized'</span>,<span class="string">'outerposition'</span>,[0.00 0.05 1 1-0.05],<span class="keyword">...</span>
+                <span class="string">'CloseRequestFcn'</span>,@obj.closeReq_Callback);
+            drawnow;
+</pre><img vspace="5" hspace="5" src="main_window_01.png" alt=""> <h2>Create Plots Panel<a name="12"></a></h2><pre class="codeinput">            UI.Plots = std_panel(UI.MainFig, grid2pos([2,1,2,2,3,2]),<span class="string">'Plots'</span>,<span class="keyword">...</span>
+                {<span class="string">'Audio Window'</span>,<span class="string">'Audio Signals'</span>,<span class="string">'Beampatterns'</span>});
+            <span class="comment">% add Plots</span>
+            UI.PlotWindow = audio_window_ui(UI.Plots.Tabs{1},obj);
+            UI.PlotAudio = plot_audio_ui(UI.Plots.Tabs{2},obj);
+<span class="comment">%             UI.LiveWindow = live_window_ui(UI.Plots.Tabs{1},obj);</span>
+            <span class="comment">% Create Settings Panel</span>
+            UI.Settings = std_panel(UI.MainFig, grid2pos([1,1,1,1,3,2]),<span class="string">'Input Channels'</span>,{<span class="string">'Sources'</span>,<span class="string">'Locations'</span>,<span class="string">'Beamformers'</span>,<span class="string">'Intelligibility'</span>,<span class="string">'Plot Settings'</span>});
+            <span class="comment">% Add sources panels</span>
+            UI.Sources = std_panel(UI.Settings.Tabs{1}, grid2pos([]),<span class="string">'Sources'</span>,{<span class="string">'Smartphones'</span>,<span class="string">'Computer Mic'</span>,<span class="string">'Load File'</span>,<span class="string">'Save Data'</span>});
+            UI.Smartphones = smartphone_settings_ui(UI.Sources.Tabs{1},obj);
+            UI.Microphones = comp_mic_ui(UI.Sources.Tabs{2},obj);
+            UI.LoadFile = load_file_settings_ui(UI.Sources.Tabs{3},obj);
+            UI.SaveFile = save_file_settings_ui(UI.Sources.Tabs{4},obj);
+            <span class="comment">% Add Locations panel</span>
+            UI.ChannelLocations = channel_locations_ui(UI.Settings.Tabs{2},obj);
+            <span class="comment">% Add beamformers panel</span>
+            UI.Beamformers = std_panel(UI.Settings.Tabs{3}, grid2pos([]),<span class="string">'Beamformers'</span>, <span class="keyword">...</span>
+                {<span class="string">'Channels'</span>,<span class="string">'DSB'</span>,<span class="string">'MVDR'</span>,<span class="string">'MVDR Directivity'</span>,<span class="string">'MVDR RIR'</span>});
+            UI.BFChannels = std_selector_ui(UI.Beamformers.Tabs{1},obj,<span class="string">'Beamformer Channels'</span>);
+            UI.DSB = std_panel(UI.Beamformers.Tabs{2}, grid2pos([]),<span class="string">'DSB'</span>); <span class="comment">% TODO</span>
+            UI.MVDR = std_panel(UI.Beamformers.Tabs{3}, grid2pos([]),<span class="string">'MVDR'</span>); <span class="comment">% TODO</span>
+            UI.MVDRDir = std_panel(UI.Beamformers.Tabs{4}, grid2pos([]),<span class="string">'MVDR Directivity'</span>); <span class="comment">% TODO</span>
+            UI.MVDRRIR = std_panel(UI.Beamformers.Tabs{5}, grid2pos([]),<span class="string">'MVDR RIR'</span>); <span class="comment">% TODO</span>
+
+            UI.PlotSettings = std_selector_ui(UI.Settings.Tabs{5},obj,<span class="string">'Plot Settings'</span>);
+</pre><img vspace="5" hspace="5" src="main_window_02.png" alt=""> <h2>Create System Representation Panel<a name="13"></a></h2><p>Plot of current source positions</p><pre class="codeinput">            UI.Rep = std_panel(UI.MainFig, grid2pos([1,2,1,1,3,2]));
+            UI.Rep.Name = <span class="string">'System Representation'</span>;
+            UI.Rep.Panel.Title = <span class="string">'System Representation'</span>;
+            UI.SysRep = sys_rep_ui(UI.Rep.Panel,obj);
+
+            drawnow;
+</pre><img vspace="5" hspace="5" src="main_window_03.png" alt=""> <pre class="codeinput">        <span class="keyword">end</span>
+</pre><pre class="codeinput">    <span class="keyword">end</span>
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+classdef main_window < handle
+% MAIN_WINDOW  Beamforming main window.
+%   obj = MAIN_WINDOW(A) Start Beamforming main window.
+%
+%   This class is a main gui window generator.
+%
+%   Beamformer scripts:
+%   DSB_BF.m                Delay-Sum-Beamformer.
+%   MVDR_BF.m               Minimum variance distortionless response Beamformer.
+%   MVDR_Directivity_BF.m   MVDR Beamformer with microphone Directivity.
+%   Delft_BF.m              Delft Beamformer algorithm.                        TODO
+%
+%   Quality estimation scripts:
+%   pesq.m
+%
+%   Communication Classes:
+%   bfcom.m                 Communication class for beamformers.
+%   mitm.m                  Communication class for the Smartphone App.
+%
+%   User Interface Classes:
+%   main_window.m           Start Beamforming main window.
+%   
+%   
+%   Written for the BSc graduation project Acoustic Enhancement via
+%   Beamforming Using Smartphones.  
+%
+%   Team:           S. Bosma                R. Brinkman
+%                   T. de Rooij             R. Smeding
+%                   N. van Wijngaarden      E. Wouters
+%
+%   Supervisor:     Jorge Martínez Castañeda
+%   TODO: add other supervisors
+%
+%   Contact: E.H.Wouters@student.tudelft.nl
+%
+%   See also BF_DATA, MITM, SMARTPHONE_SETTINGS_UI,
+%   STD_PANEL, STD_SELECTOR_UI, GRID2POS, ...
+    
+    %% Properties
+    properties (Constant)
+        % Constants
+        Name = 'Beamformer Demo Window'
+    end
+    properties
+        % Properties
+        UI
+        DataBuffer
+        Mitm                % Handle of class to manage the server for smartphones
+        Process1
+    end
+    %% Methods
+    methods
+        % Main GUI Window Constuctor
+        function obj = main_window(varargin)
+            try close all; catch; end % Try to close all other windows
+            
+            % Create mitm object
+            obj.Mitm = mitm(1337,48000,4800,0,obj);
+            
+            % Data Buffer
+            obj.DataBuffer = bf_data(obj);
+            obj.DataBuffer.SourceID = 'DataBuffer';
+%             obj.Process1 = std_processor(obj,'F0:27:65:36:5D:E5');
+            
+            % Graphics Code
+            obj.UI = obj.graphicsCode();
+
+            %% Place Main Window handle in workspace
+            assignin('base','DemoWindow',obj);
+%             assignin('base','obj',obj);
+        end
+        
+        %% Close Request function
+        function closeReq_Callback(obj,~,~)
+            obj.Mitm.stop;
+            obj.UI.MainFig.HandleVisibility  = 'off';
+            close all;
+            obj.UI.MainFig.HandleVisibility  = 'on';
+            % Possible to save gui state here
+            delete(obj.UI.MainFig)
+        end
+        
+        function update(obj)
+%             obj.Process1.update(); % TODO
+        end
+        
+        %% Demo Window Graphics Code
+        
+        function UI = graphicsCode(obj)
+            % GRAPHICSCODE Graphics Code
+            % Create figure
+            UI.MainFig = figure('name',obj.Name,'NumberTitle','off','resize', 'on',...
+                'units','normalized','outerposition',[0.00 0.05 1 1-0.05],...
+                'CloseRequestFcn',@obj.closeReq_Callback);
+            drawnow;
+            %% Create Plots Panel
+            UI.Plots = std_panel(UI.MainFig, grid2pos([2,1,2,2,3,2]),'Plots',...
+                {'Audio Window','Audio Signals','Beampatterns'});
+            % add Plots
+            UI.PlotWindow = audio_window_ui(UI.Plots.Tabs{1},obj);
+            UI.PlotAudio = plot_audio_ui(UI.Plots.Tabs{2},obj);
+%             UI.LiveWindow = live_window_ui(UI.Plots.Tabs{1},obj);
+            % Create Settings Panel
+            UI.Settings = std_panel(UI.MainFig, grid2pos([1,1,1,1,3,2]),'Input Channels',{'Sources','Locations','Beamformers','Intelligibility','Plot Settings'});
+            % Add sources panels
+            UI.Sources = std_panel(UI.Settings.Tabs{1}, grid2pos([]),'Sources',{'Smartphones','Computer Mic','Load File','Save Data'});
+            UI.Smartphones = smartphone_settings_ui(UI.Sources.Tabs{1},obj);
+            UI.Microphones = comp_mic_ui(UI.Sources.Tabs{2},obj);
+            UI.LoadFile = load_file_settings_ui(UI.Sources.Tabs{3},obj);
+            UI.SaveFile = save_file_settings_ui(UI.Sources.Tabs{4},obj);
+            % Add Locations panel
+            UI.ChannelLocations = channel_locations_ui(UI.Settings.Tabs{2},obj);
+            % Add beamformers panel
+            UI.Beamformers = std_panel(UI.Settings.Tabs{3}, grid2pos([]),'Beamformers', ...
+                {'Channels','DSB','MVDR','MVDR Directivity','MVDR RIR'});
+            UI.BFChannels = std_selector_ui(UI.Beamformers.Tabs{1},obj,'Beamformer Channels');
+            UI.DSB = std_panel(UI.Beamformers.Tabs{2}, grid2pos([]),'DSB'); % TODO
+            UI.MVDR = std_panel(UI.Beamformers.Tabs{3}, grid2pos([]),'MVDR'); % TODO
+            UI.MVDRDir = std_panel(UI.Beamformers.Tabs{4}, grid2pos([]),'MVDR Directivity'); % TODO
+            UI.MVDRRIR = std_panel(UI.Beamformers.Tabs{5}, grid2pos([]),'MVDR RIR'); % TODO
+            
+            UI.PlotSettings = std_selector_ui(UI.Settings.Tabs{5},obj,'Plot Settings');
+            
+            %% Create System Representation Panel
+            % Plot of current source positions
+            UI.Rep = std_panel(UI.MainFig, grid2pos([1,2,1,1,3,2]));
+            UI.Rep.Name = 'System Representation';
+            UI.Rep.Panel.Title = 'System Representation';
+            UI.SysRep = sys_rep_ui(UI.Rep.Panel,obj);
+            
+            drawnow;
+        end
+        
+    end
+end
+##### SOURCE END #####
+--></body></html>

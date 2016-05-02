@@ -1,0 +1,352 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>std_ui</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-08"><meta name="DC.source" content="std_ui.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#3">Properties</a></li><li><a href="#4">Methods</a></li><li><a href="#5">Standard Constuctor</a></li><li><a href="#6">Button Update Callback</a></li><li><a href="#7">Button Play Callback</a></li><li><a href="#8">Standard Graphics Code</a></li></ul></div><pre class="codeinput"><span class="keyword">classdef</span> std_ui &lt; handle
+</pre><pre class="codeinput">    <span class="comment">% STD_UI Holds the gui elements for the standard ui class panel</span>
+    <span class="comment">%</span>
+    <span class="comment">%   STD_UI() Creates ui in new figure.</span>
+    <span class="comment">%   STD_UI(PARENT) Creates ui in parent panel.</span>
+    <span class="comment">%   STD_UI(PARENT, MAINOBJ) Creates ui with handle to main object.</span>
+    <span class="comment">%</span>
+    <span class="comment">% Example 1:</span>
+    <span class="comment">%   obj = std_ui</span>
+    <span class="comment">%</span>
+    <span class="comment">% Example 2:</span>
+    <span class="comment">%   Parent = figure</span>
+    <span class="comment">%   obj = std_ui(Parent)</span>
+    <span class="comment">%</span>
+    <span class="comment">% Example 3:</span>
+    <span class="comment">%   Parent = std_panel;</span>
+    <span class="comment">%   obj = std_ui(Parent)</span>
+    <span class="comment">%</span>
+    <span class="comment">% STD_UI Methods:</span>
+    <span class="comment">%   std_ui            - Constructor</span>
+    <span class="comment">%   pbUpdate_Callback - Update channel names</span>
+    <span class="comment">%   pbPlay_Callback   - Play std button</span>
+    <span class="comment">%   graphicsCode      - Graphics Generation Code</span>
+    <span class="comment">%</span>
+    <span class="comment">% STD_UI Properties:</span>
+    <span class="comment">%   Parent     - Handle of panel to place ui in</span>
+    <span class="comment">%   MainObj    - Handle of main object</span>
+    <span class="comment">%   Name       - Name of UI</span>
+    <span class="comment">%   UI         - Cell UIs for the options</span>
+    <span class="comment">%   Update     - Update callback handle</span>
+    <span class="comment">%   Tag        - Tag to find object</span>
+    <span class="comment">%</span>
+    <span class="comment">%   Written for the BSc graduation project Acoustic Enhancement via</span>
+    <span class="comment">%   Beamforming Using Smartphones.</span>
+    <span class="comment">%</span>
+    <span class="comment">%   Team:       S. Bosma                R. Brinkman</span>
+    <span class="comment">%               T. de Rooij             R. Smeding</span>
+    <span class="comment">%               N. van Wijngaarden      E. Wouters</span>
+    <span class="comment">%</span>
+    <span class="comment">%   Supervisor: Jorge Mart&iacute;nez Casta&ntilde;eda</span>
+    <span class="comment">%</span>
+    <span class="comment">%   Contact: E.H.Wouters@student.tudelft.nl</span>
+    <span class="comment">%</span>
+    <span class="comment">%   See also BF_DATA, MAIN_WINDOW</span>
+</pre><h2>Properties<a name="3"></a></h2><pre class="codeinput">    properties
+        Parent                 <span class="comment">% Handle of parent</span>
+        MainObj                <span class="comment">% Handle of main object</span>
+        Name = <span class="string">'Standard UI'</span>;  <span class="comment">% Name of UI</span>
+        UI                     <span class="comment">% Cell UIs for the options</span>
+        Update                 <span class="comment">% Update callback handle</span>
+        Tag = <span class="string">'std_ui'</span>;        <span class="comment">% Tag to find object</span>
+    <span class="keyword">end</span>
+</pre><h2>Methods<a name="4"></a></h2><pre class="codeinput">    methods
+</pre><h2>Standard Constuctor<a name="5"></a></h2><pre class="codeinput">        <span class="keyword">function</span> obj = std_ui(parent, mainObj)
+            <span class="comment">% Parse Input</span>
+            <span class="comment">% figure Handle</span>
+            <span class="keyword">if</span> nargin == 0
+                obj.Parent = figure(<span class="string">'Name'</span>,obj.Name,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>,<span class="string">'resize'</span>,<span class="string">'on'</span>);
+            <span class="keyword">elseif</span> nargin &gt;= 1
+                <span class="keyword">if</span> ishandle(parent)
+                    obj.Parent = parent;
+                <span class="keyword">else</span>
+                    warning([<span class="string">'First argument needs to be a handle,'</span><span class="keyword">...</span>
+                        <span class="string">'new figure created.'</span>]);
+                    obj.Parent = figure(<span class="string">'Name'</span>,obj.Name,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>,<span class="string">'resize'</span>,<span class="string">'on'</span>);
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> nargin &gt;= 2
+                obj.MainObj = mainObj;
+            <span class="keyword">else</span>
+                <span class="comment">% Defaults for references to main object can be set here so</span>
+                <span class="comment">% the ui can be tested stanalone</span>
+                obj.MainObj = [];
+            <span class="keyword">end</span>
+
+            <span class="comment">% Graphics Code</span>
+            obj.UI = obj.graphicsCode();
+
+            <span class="comment">% Link handle of update callback</span>
+            obj.Update = @obj.pbUpdate_Callback;
+
+            <span class="comment">% Debug</span>
+<span class="comment">%             assignin('base','obj',obj)</span>
+        <span class="keyword">end</span>
+</pre><h2>Button Update Callback<a name="6"></a></h2><pre class="codeinput">        <span class="keyword">function</span> pbUpdate_Callback(obj,~,~)
+            <span class="comment">% PBUPDATE_CALLBACK</span>
+            disp(<span class="string">'Update called for std_ui'</span>)
+        <span class="keyword">end</span>
+</pre><h2>Button Play Callback<a name="7"></a></h2><pre class="codeinput">        <span class="keyword">function</span> pbPlay_Callback(obj,~,~)
+            <span class="comment">% PBPLAY_CALLBACK</span>
+        <span class="keyword">end</span>
+</pre><h2>Standard Graphics Code<a name="8"></a></h2><pre class="codeinput">        <span class="keyword">function</span> UI = graphicsCode(obj)
+            <span class="comment">% GRAPHICSCODE Graphics Code</span>
+            <span class="comment">% Standard UI panel</span>
+            <span class="comment">%</span>
+            <span class="comment">% Example 1:</span>
+            <span class="comment">%     x=3;y=10; % Grid size</span>
+            <span class="comment">%     UI.PanPlots = uipanel(obj.Parent, 'Position',grid2pos([1,1,1,y-1,1,y]));</span>
+            <span class="comment">%     UI.Axes{1} = axes('Parent',UI.PanPlots);</span>
+            <span class="comment">%     UI.Lines(1) = line('XData', [], 'YData', [], 'Parent',UI.Axes{1});</span>
+            <span class="comment">%     UI.cbGroupPlots = uicontrol(obj.Parent,'Style','checkbox',...</span>
+            <span class="comment">%         'String','Group Plots','Value',obj.GroupPlots,'Callback',@obj.pbUpdate_Callback,...</span>
+            <span class="comment">%         'Units','normalized','Position',grid2pos([1,y,1,1,x,y]));</span>
+            <span class="comment">%     UI.pbPlay = uicontrol(obj.Parent,'Style','pushbutton',...</span>
+            <span class="comment">%         'String','Play','Callback',@obj.pbPlay_Callback,...</span>
+            <span class="comment">%         'Units','normalized','Position',grid2pos([2,y,1,1,x,y]));</span>
+            <span class="comment">%     UI.pbUpdate = uicontrol(obj.Parent,'Style','pushbutton',...</span>
+            <span class="comment">%         'String','Update','Callback',@obj.pbUpdate_Callback,...</span>
+            <span class="comment">%         'Units','normalized','Position',grid2pos([3,y,1,1,x,y]));</span>
+            <span class="comment">%</span>
+            <span class="comment">% Replace this code with</span>
+
+            x=3;y=10; <span class="comment">% Grid size</span>
+            UI.PanPlots = uipanel(obj.Parent, <span class="string">'Position'</span>,grid2pos([1,1,1,y-1,1,y]));
+            UI.Axes{1} = axes(<span class="string">'Parent'</span>,UI.PanPlots);
+            UI.Lines(1) = line(<span class="string">'XData'</span>, [], <span class="string">'YData'</span>, [], <span class="string">'Parent'</span>,UI.Axes{1});
+            UI.cbGroupPlots = uicontrol(obj.Parent,<span class="string">'Style'</span>,<span class="string">'checkbox'</span>,<span class="keyword">...</span>
+                <span class="string">'String'</span>,<span class="string">'Group Plots'</span>,<span class="string">'Value'</span>,1,<span class="string">'Callback'</span>,@obj.pbUpdate_Callback,<span class="keyword">...</span>
+                <span class="string">'Units'</span>,<span class="string">'normalized'</span>,<span class="string">'Position'</span>,grid2pos([1,y,1,1,x,y]));
+            UI.pbPlay = uicontrol(obj.Parent,<span class="string">'Style'</span>,<span class="string">'pushbutton'</span>,<span class="keyword">...</span>
+                <span class="string">'String'</span>,<span class="string">'Play'</span>,<span class="string">'Callback'</span>,@obj.pbPlay_Callback,<span class="keyword">...</span>
+                <span class="string">'Units'</span>,<span class="string">'normalized'</span>,<span class="string">'Position'</span>,grid2pos([2,y,1,1,x,y]));
+            UI.pbUpdate = uicontrol(obj.Parent,<span class="string">'Style'</span>,<span class="string">'pushbutton'</span>,<span class="keyword">...</span>
+                <span class="string">'String'</span>,<span class="string">'Update'</span>,<span class="string">'Callback'</span>,@obj.pbUpdate_Callback,<span class="keyword">...</span>
+                <span class="string">'Units'</span>,<span class="string">'normalized'</span>,<span class="string">'Position'</span>,grid2pos([3,y,1,1,x,y]));
+        <span class="keyword">end</span>
+</pre><pre class="codeoutput">
+ans = 
+
+  std_ui with properties:
+
+     Parent: [1x1 Figure]
+    MainObj: []
+       Name: 'Standard UI'
+         UI: [1x1 struct]
+     Update: @(varargin)obj.pbUpdate_Callback(varargin{:})
+        Tag: 'std_ui'
+
+</pre><img vspace="5" hspace="5" src="std_ui_01.png" alt=""> <pre class="codeinput">    <span class="keyword">end</span>
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+classdef std_ui < handle
+    % STD_UI Holds the gui elements for the standard ui class panel
+    %
+    %   STD_UI() Creates ui in new figure.
+    %   STD_UI(PARENT) Creates ui in parent panel.
+    %   STD_UI(PARENT, MAINOBJ) Creates ui with handle to main object.
+    %
+    % Example 1:
+    %   obj = std_ui
+    %
+    % Example 2:
+    %   Parent = figure
+    %   obj = std_ui(Parent)
+    %
+    % Example 3:
+    %   Parent = std_panel;
+    %   obj = std_ui(Parent)
+    %
+    % STD_UI Methods:
+    %   std_ui            - Constructor
+    %   pbUpdate_Callback - Update channel names
+    %   pbPlay_Callback   - Play std button
+    %   graphicsCode      - Graphics Generation Code
+    %
+    % STD_UI Properties:
+    %   Parent     - Handle of panel to place ui in
+    %   MainObj    - Handle of main object
+    %   Name       - Name of UI
+    %   UI         - Cell UIs for the options
+    %   Update     - Update callback handle
+    %   Tag        - Tag to find object
+    %
+    %   Written for the BSc graduation project Acoustic Enhancement via
+    %   Beamforming Using Smartphones.
+    %
+    %   Team:       S. Bosma                R. Brinkman
+    %               T. de Rooij             R. Smeding
+    %               N. van Wijngaarden      E. Wouters
+    %
+    %   Supervisor: Jorge Martínez Castañeda
+    %
+    %   Contact: E.H.Wouters@student.tudelft.nl
+    %
+    %   See also BF_DATA, MAIN_WINDOW
+    
+    %% Properties
+    properties
+        Parent                 % Handle of parent
+        MainObj                % Handle of main object
+        Name = 'Standard UI';  % Name of UI
+        UI                     % Cell UIs for the options
+        Update                 % Update callback handle
+        Tag = 'std_ui';        % Tag to find object
+    end
+    %% Methods
+    methods
+        %% Standard Constuctor
+        function obj = std_ui(parent, mainObj)
+            % Parse Input
+            % figure Handle
+            if nargin == 0
+                obj.Parent = figure('Name',obj.Name,'NumberTitle','off','resize','on');
+            elseif nargin >= 1
+                if ishandle(parent)
+                    obj.Parent = parent;
+                else
+                    warning(['First argument needs to be a handle,'...
+                        'new figure created.']);
+                    obj.Parent = figure('Name',obj.Name,'NumberTitle','off','resize','on');
+                end
+            end
+            if nargin >= 2
+                obj.MainObj = mainObj;
+            else
+                % Defaults for references to main object can be set here so
+                % the ui can be tested stanalone
+                obj.MainObj = [];
+            end
+            
+            % Graphics Code
+            obj.UI = obj.graphicsCode();
+            
+            % Link handle of update callback
+            obj.Update = @obj.pbUpdate_Callback;
+            
+            % Debug
+%             assignin('base','obj',obj)
+        end
+        
+        %% Button Update Callback
+        function pbUpdate_Callback(obj,~,~)
+            % PBUPDATE_CALLBACK
+            disp('Update called for std_ui')
+        end
+        %% Button Play Callback
+        function pbPlay_Callback(obj,~,~)
+            % PBPLAY_CALLBACK
+        end
+        
+        %% Standard Graphics Code
+        
+        function UI = graphicsCode(obj)
+            % GRAPHICSCODE Graphics Code
+            % Standard UI panel
+            %
+            % Example 1:
+            %     x=3;y=10; % Grid size
+            %     UI.PanPlots = uipanel(obj.Parent, 'Position',grid2pos([1,1,1,y-1,1,y]));
+            %     UI.Axes{1} = axes('Parent',UI.PanPlots);
+            %     UI.Lines(1) = line('XData', [], 'YData', [], 'Parent',UI.Axes{1});
+            %     UI.cbGroupPlots = uicontrol(obj.Parent,'Style','checkbox',...
+            %         'String','Group Plots','Value',obj.GroupPlots,'Callback',@obj.pbUpdate_Callback,...
+            %         'Units','normalized','Position',grid2pos([1,y,1,1,x,y]));
+            %     UI.pbPlay = uicontrol(obj.Parent,'Style','pushbutton',...
+            %         'String','Play','Callback',@obj.pbPlay_Callback,...
+            %         'Units','normalized','Position',grid2pos([2,y,1,1,x,y]));
+            %     UI.pbUpdate = uicontrol(obj.Parent,'Style','pushbutton',...
+            %         'String','Update','Callback',@obj.pbUpdate_Callback,...
+            %         'Units','normalized','Position',grid2pos([3,y,1,1,x,y]));
+            %
+            % Replace this code with 
+            
+            x=3;y=10; % Grid size
+            UI.PanPlots = uipanel(obj.Parent, 'Position',grid2pos([1,1,1,y-1,1,y]));
+            UI.Axes{1} = axes('Parent',UI.PanPlots);
+            UI.Lines(1) = line('XData', [], 'YData', [], 'Parent',UI.Axes{1});
+            UI.cbGroupPlots = uicontrol(obj.Parent,'Style','checkbox',...
+                'String','Group Plots','Value',1,'Callback',@obj.pbUpdate_Callback,...
+                'Units','normalized','Position',grid2pos([1,y,1,1,x,y]));
+            UI.pbPlay = uicontrol(obj.Parent,'Style','pushbutton',...
+                'String','Play','Callback',@obj.pbPlay_Callback,...
+                'Units','normalized','Position',grid2pos([2,y,1,1,x,y]));
+            UI.pbUpdate = uicontrol(obj.Parent,'Style','pushbutton',...
+                'String','Update','Callback',@obj.pbUpdate_Callback,...
+                'Units','normalized','Position',grid2pos([3,y,1,1,x,y]));
+        end
+        
+    end
+end
+
+##### SOURCE END #####
+--></body></html>

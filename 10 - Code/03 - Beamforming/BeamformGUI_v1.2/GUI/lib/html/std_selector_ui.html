@@ -1,0 +1,483 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>std_selector_ui</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-07"><meta name="DC.source" content="std_selector_ui.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#3">Properties</a></li><li><a href="#4">UI Constuctor</a></li><li><a href="#5">Parse Input</a></li><li><a href="#7">PushButton Update Channel Names Callback</a></li><li><a href="#8">PushButton Add Callback</a></li><li><a href="#9">PushButton Remove Callback</a></li><li><a href="#10">Load File Graphics Code</a></li></ul></div><pre class="codeinput"><span class="keyword">classdef</span> std_selector_ui &lt; handle
+</pre><pre class="codeinput">    <span class="comment">% STD_SELECTOR_UI Holds the gui elements for the source settings selection panel</span>
+    <span class="comment">%</span>
+    <span class="comment">%   STD_SELECTOR_UI() create ui in new figure</span>
+    <span class="comment">%   STD_SELECTOR_UI(PARENT) create ui in parent panel</span>
+    <span class="comment">%   STD_SELECTOR_UI(PARENT, MAINOBJ) create ui with handle to main object</span>
+    <span class="comment">%</span>
+    <span class="comment">% Example 1:</span>
+    <span class="comment">%   obj = std_selector_ui</span>
+    <span class="comment">%</span>
+    <span class="comment">% Example 2:</span>
+    <span class="comment">%   Parent = figure</span>
+    <span class="comment">%   obj = std_selector_ui(Parent)</span>
+    <span class="comment">%</span>
+    <span class="comment">% STD_SELECTOR_UI Methods:</span>
+    <span class="comment">%   pbUpdate_Callback - PushButton Update channel names Callback</span>
+    <span class="comment">%   pbAdd_Callback    - PushButton Add Callback</span>
+    <span class="comment">%   pbRemove_Callback - PushButton Remove Callback</span>
+    <span class="comment">%</span>
+    <span class="comment">% STD_SELECTOR_UI Properties:</span>
+    <span class="comment">%   Parent    - Handle of panel to place ui in</span>
+    <span class="comment">%   MainObj   - Handle of main object</span>
+    <span class="comment">%   Name      - Name of UI</span>
+    <span class="comment">%   ChanNames - Channel names</span>
+    <span class="comment">%   UI        - Cell UIs for the options</span>
+    <span class="comment">%   Tag       - Tag to find object</span>
+    <span class="comment">%</span>
+    <span class="comment">%   Written for the BSc graduation project Acoustic Enhancement via</span>
+    <span class="comment">%   Beamforming Using Smartphones.</span>
+    <span class="comment">%</span>
+    <span class="comment">%   Team:       S. Bosma                R. Brinkman</span>
+    <span class="comment">%               T. de Rooij             R. Smeding</span>
+    <span class="comment">%               N. van Wijngaarden      E. Wouters</span>
+    <span class="comment">%</span>
+    <span class="comment">%   Supervisor: Jorge Mart&iacute;nez Casta&ntilde;eda</span>
+    <span class="comment">%</span>
+    <span class="comment">%   Contact: E.H.Wouters@student.tudelft.nl</span>
+    <span class="comment">%</span>
+    <span class="comment">%   See also BF_DATA, MAIN_WINDOW</span>
+</pre><h2>Properties<a name="3"></a></h2><pre class="codeinput">    properties
+        Parent                          <span class="comment">% Handle of panel to place ui in</span>
+        MainObj                         <span class="comment">% Handle of main object</span>
+        Name = <span class="string">'Standard Selector'</span>;     <span class="comment">% Name of UI</span>
+        ChanNames = {};                 <span class="comment">% Channel names</span>
+        UI                              <span class="comment">% Cell UIs for the options</span>
+        Tag = <span class="string">'std_selector_ui'</span>;        <span class="comment">% Tag to find object</span>
+    <span class="keyword">end</span>
+    <span class="comment">% Methods</span>
+    methods
+</pre><h2>UI Constuctor<a name="4"></a></h2><pre class="codeinput">        <span class="keyword">function</span> obj = std_selector_ui(parent, mainObj, name)
+</pre><h2>Parse Input<a name="5"></a></h2><p>figure Handle</p><pre class="codeinput">            <span class="keyword">if</span> nargin == 0
+                obj.Parent = figure(<span class="string">'Name'</span>,obj.Name,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>,<span class="string">'resize'</span>,<span class="string">'on'</span>);
+            <span class="keyword">elseif</span> nargin &gt;= 1
+                <span class="keyword">if</span> ishandle(parent)
+                    obj.Parent = parent;
+                <span class="keyword">else</span>
+                    warning([<span class="string">'First argument needs to be a handle,'</span><span class="keyword">...</span>
+                        <span class="string">'new figure created.'</span>]);
+                    obj.Parent = figure(<span class="string">'Name'</span>,obj.Name,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>,<span class="string">'resize'</span>,<span class="string">'on'</span>);
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> nargin &gt;= 2
+                obj.MainObj = mainObj;
+            <span class="keyword">else</span>
+                obj.MainObj.DataBuffer = bf_data;
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> nargin &gt;= 3
+                obj.Name = name;
+            <span class="keyword">end</span>
+
+            <span class="comment">% Graphics Code</span>
+            obj.UI = obj.graphicsCode();
+
+            <span class="comment">% Debug</span>
+<span class="comment">%             assignin('base','obj',obj)</span>
+</pre><pre class="codeoutput">  BF_DATA Beamformer Audio Buffer. Has many functions to label the
+    channels and add data from different sources. The time indices of the 
+    data in the buffer can be kept in sync using different methods.
+ 
+    BF_DATA(OBJ) create empty file object
+    BF_DATA(OBJ, MAINOBJ) create file object and add handle to main object
+    BF_DATA(OBJ, MAINOBJ, SOURCEID) create empty file object and set SourceID
+    BF_DATA(OBJ, MAINOBJ, SOURCEID, FILENAME) add file named fileName to object
+    BF_DATA(OBJ, MAINOBJ, SOURCEID, FILENAME, LOCATIONS) add file with locations
+    BF_DATA(OBJ, MAINOBJ, SOURCEID, FILENAME, LOCATIONS, CHANNAMES) add file with
+    locations and channel names
+ 
+  Example 1:
+    obj = bf_data
+    obj.setChanNames({'S1','S2','S3','S4'})
+    obj.setTotalSamples(100)
+    obj.addSamples([1;2;3;4;[5:100]'],'S3')
+    obj.getAudioData({'S3','S1'})
+ 
+  Example 2:
+    obj = bf_data
+    obj.setChanNames({'S1','S2','S3','S4'})
+    obj.addSamples([1;2;3;4;[5:100]'],'S1',1,25)
+ 
+  Example 3:
+    obj = bf_data
+    obj.setChanNames({'S1','S2','S3','S4'})
+    obj.setDelays(5,{'S2'})
+    obj.addSamples([1;2;3;4;[5:100]'],'S3',1)
+ 
+  BF_DATA Methods:
+    load            - Load data from audio or matlab file.
+    save            - Save data to audio or matlab file.
+    play            - Play the data using an audio device.
+    setNChan        - Set number of channels.
+    setTotalSamples - Set total number of samples.
+    setLocations    - Set Channel Locations.
+    setChanNames    - Set Channel Names.
+    setDelays       - Set Delay Times.
+    addSamples      - Add samples to the data.
+    getAudioData    - Get samples out of buffer (time axes of channels agree).
+    resampleData    - Resample data using matlab resample function
+    delayData       - Delay data so when data is loaded the time axes agree.
+    names2inds      - Get index of channel(s) in audiodata matrix
+ 
+  BF_DATA Properties:
+    FileName      - Name of the audio file to save including extention
+    FilePath      - Path of the audio file to save
+    SourceID      - Identifier for source device or file in use.
+    Fs            - Sampling Frequency in Hz
+    BitsPerSample - Number of Bits per audio Sample
+    NChan         - Number of audio channels in File
+    Comment       - Comment of audio file
+    Locations     - Channel locations [x y z az el up]
+    ChanNames     - Channel names
+    DelaySamples  - Delays in samples for each channel
+    CurrentSample - Current sample for each channel. Used when adding
+    samples to the channel.
+    TotalSamples  - Total length of the audio data in samples
+    IsInitialized - Has the source been correctly initialized
+    AudioData     - Audio Data matrix size = [TotalSamples NChan]
+    Tag           - Tag to find object
+ 
+    Written for the BSc graduation project Acoustic Enhancement via
+    Beamforming Using Smartphones.
+ 
+    Team:       S. Bosma                R. Brinkman
+                T. de Rooij             R. Smeding
+                N. van Wijngaarden      E. Wouters
+ 
+    Supervisor: Jorge Mart&iacute;nez Casta&ntilde;eda
+ 
+    Contact: E.H.Wouters@student.tudelft.nl
+ 
+    See also BF_DATA/LOAD, BF_DATA/SAVE, BF_DATA/PLAY, BF_DATA/ADDSAMPLES,
+    BF_DATA/SETNCHAN, BF_DATA/SETTOTALSAMPLES, BF_DATA/SETLOCATIONS, 
+    BF_DATA/SETCHANNAMES, BF_DATA/SETDELAYS, BF_DATA/ADDSAMPLES, 
+    BF_DATA/GETAUDIODATA, BF_DATA/RESAMPLEDATA, BF_DATA/DELAYDATA,
+    BF_DATA/NAMES2INDS, MITM, SITM, AUDIOREAD, AUDIOWRITE, SAVE, LOAD
+
+    Published output in the Help browser
+       showdemo bf_data
+
+</pre><pre class="codeinput">        <span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="std_selector_ui_01.png" alt=""> <h2>PushButton Update Channel Names Callback<a name="7"></a></h2><pre class="codeinput">        <span class="keyword">function</span> pbUpdate_Callback(obj,~,~)
+            obj.UI.ListAvailable.String = obj.MainObj.DataBuffer.ChanNames;
+            obj.UI.ListConnected.String = obj.ChanNames;
+            <span class="keyword">if</span> ~isempty(obj.UI.ListAvailable.String)
+                obj.UI.PbAdd.Enable = <span class="string">'on'</span>;
+            <span class="keyword">else</span>
+                obj.UI.PbAdd.Enable = <span class="string">'off'</span>;
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> ~isempty(obj.UI.ListConnected.String)
+                obj.UI.PbRemove.Enable = <span class="string">'on'</span>;
+            <span class="keyword">else</span>
+                obj.UI.PbRemove.Enable = <span class="string">'off'</span>;
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+</pre><pre class="codeoutput">
+ans = 
+
+  std_selector_ui with properties:
+
+       Parent: [1x1 Figure]
+      MainObj: [1x1 struct]
+         Name: 'Standard Selector'
+    ChanNames: {}
+           UI: [1x1 struct]
+          Tag: 'std_selector_ui'
+
+</pre><h2>PushButton Add Callback<a name="8"></a></h2><pre class="codeinput">        <span class="keyword">function</span> pbAdd_Callback(obj,~,~)
+            <span class="keyword">if</span> ~isempty(obj.UI.ListAvailable.String) &amp;&amp; ~isempty(obj.MainObj.DataBuffer.ChanNames)
+                <span class="comment">% Start Mitm Streaming</span>
+                <span class="keyword">if</span> any(strcmp(obj.UI.ListAvailable.String{obj.UI.ListAvailable.Value},obj.UI.ListConnected.String))
+                    <span class="keyword">return</span>;
+                <span class="keyword">end</span>
+                obj.ChanNames{end+1} = obj.UI.ListAvailable.String{obj.UI.ListAvailable.Value};
+                fprintf(<span class="string">'Added %s to %s\n'</span>,obj.UI.ListAvailable.String{obj.UI.ListAvailable.Value},obj.Name);
+                <span class="comment">% Increment selection</span>
+                <span class="keyword">if</span> obj.UI.ListAvailable.Value &lt; length(obj.UI.ListAvailable.String)
+                    obj.UI.ListAvailable.Value = obj.UI.ListAvailable.Value + 1;
+                <span class="keyword">else</span>
+                    obj.UI.ListAvailable.Value = 1;
+                <span class="keyword">end</span>
+            <span class="keyword">else</span>
+                warning(<span class="string">'Cannot add channel, no channels found.'</span>)
+            <span class="keyword">end</span>
+            obj.pbUpdate_Callback();
+        <span class="keyword">end</span>
+</pre><h2>PushButton Remove Callback<a name="9"></a></h2><pre class="codeinput">        <span class="keyword">function</span> pbRemove_Callback(obj,~,~)
+            <span class="keyword">if</span> ~isempty(obj.UI.ListConnected.String) &amp;&amp; ~isempty(obj.ChanNames)
+                <span class="comment">% Start Mitm Streaming</span>
+                fprintf(<span class="string">'Removed %s from %s\n'</span>,obj.UI.ListConnected.String{obj.UI.ListConnected.Value},obj.Name);
+                obj.ChanNames(obj.UI.ListConnected.Value) = [];
+                <span class="comment">% Decrement selection</span>
+                <span class="keyword">if</span> obj.UI.ListConnected.Value &gt; 1
+                    obj.UI.ListConnected.Value = obj.UI.ListConnected.Value - 1;
+                <span class="keyword">end</span>
+            <span class="keyword">else</span>
+                warning(<span class="string">'Cannot remove channel, no channels connected.'</span>)
+            <span class="keyword">end</span>
+            obj.pbUpdate_Callback();
+        <span class="keyword">end</span>
+</pre><h2>Load File Graphics Code<a name="10"></a></h2><pre class="codeinput">        <span class="keyword">function</span> UI = graphicsCode(obj)
+            <span class="comment">% GRAPHICSCODE Graphics Code</span>
+            <span class="comment">% Standard Selector UI panel</span>
+            n=6;m=3;
+            UI.TextAvailable = uicontrol(obj.Parent,<span class="string">'Style'</span>,<span class="string">'text'</span>,<span class="keyword">...</span>
+                <span class="string">'String'</span>,<span class="string">'Available Channels:'</span>,<span class="string">'Units'</span>,<span class="string">'Normalized'</span>,<span class="keyword">...</span>
+                <span class="string">'Position'</span>,grid2pos([1,1, 1,1, m,n]));
+            UI.TextConnected = uicontrol(obj.Parent,<span class="string">'Style'</span>,<span class="string">'text'</span>,<span class="keyword">...</span>
+                <span class="string">'String'</span>,<span class="string">'Connected Channels:'</span>,<span class="string">'Units'</span>,<span class="string">'Normalized'</span>,<span class="keyword">...</span>
+                <span class="string">'Position'</span>,grid2pos([3,1, 1,1, m,n]));
+            UI.ListAvailable = uicontrol(obj.Parent,<span class="string">'Style'</span>,<span class="string">'listbox'</span>,<span class="keyword">...</span>
+                <span class="string">'String'</span>,{<span class="string">'not loaded'</span>},<span class="string">'Units'</span>,<span class="string">'Normalized'</span>,<span class="keyword">...</span>
+                <span class="string">'Position'</span>,grid2pos([1,2, 1,n-1, m,n]));
+            UI.ListConnected = uicontrol(obj.Parent,<span class="string">'Style'</span>,<span class="string">'listbox'</span>,<span class="keyword">...</span>
+                <span class="string">'String'</span>,{},<span class="string">'Units'</span>,<span class="string">'Normalized'</span>,<span class="keyword">...</span>
+                <span class="string">'Position'</span>,grid2pos([3,2, 1,n-1, m,n]));
+            UI.PbUpdate = uicontrol(obj.Parent,<span class="string">'Style'</span>,<span class="string">'pushbutton'</span>,<span class="keyword">...</span>
+                <span class="string">'String'</span>,<span class="string">'Update'</span>,<span class="string">'Units'</span>,<span class="string">'Normalized'</span>,<span class="keyword">...</span>
+                <span class="string">'Position'</span>,grid2pos([2,2, 1,1, m,n]),<span class="string">'Callback'</span>,@obj.pbUpdate_Callback);
+            UI.PbAdd = uicontrol(obj.Parent,<span class="string">'Style'</span>,<span class="string">'pushbutton'</span>,<span class="keyword">...</span>
+                <span class="string">'String'</span>,<span class="string">'Add -&gt;'</span>,<span class="string">'Units'</span>,<span class="string">'Normalized'</span>,<span class="keyword">...</span>
+                <span class="string">'Position'</span>,grid2pos([2,3, 1,1, m,n]),<span class="string">'Callback'</span>,@obj.pbAdd_Callback);
+            UI.PbRemove = uicontrol(obj.Parent,<span class="string">'Style'</span>,<span class="string">'pushbutton'</span>,<span class="keyword">...</span>
+                <span class="string">'String'</span>,<span class="string">'&lt;-- Remove'</span>,<span class="string">'Units'</span>,<span class="string">'Normalized'</span>,<span class="keyword">...</span>
+                <span class="string">'Position'</span>,grid2pos([2,4, 1,1, m,n]),<span class="string">'Callback'</span>,@obj.pbRemove_Callback);
+            obj.pbUpdate_Callback();
+        <span class="keyword">end</span>
+</pre><pre class="codeinput">    <span class="keyword">end</span>
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+classdef std_selector_ui < handle
+    % STD_SELECTOR_UI Holds the gui elements for the source settings selection panel
+    %
+    %   STD_SELECTOR_UI() create ui in new figure
+    %   STD_SELECTOR_UI(PARENT) create ui in parent panel
+    %   STD_SELECTOR_UI(PARENT, MAINOBJ) create ui with handle to main object
+    %
+    % Example 1:
+    %   obj = std_selector_ui
+    %
+    % Example 2:
+    %   Parent = figure
+    %   obj = std_selector_ui(Parent)
+    %
+    % STD_SELECTOR_UI Methods:
+    %   pbUpdate_Callback - PushButton Update channel names Callback
+    %   pbAdd_Callback    - PushButton Add Callback
+    %   pbRemove_Callback - PushButton Remove Callback
+    %
+    % STD_SELECTOR_UI Properties:
+    %   Parent    - Handle of panel to place ui in
+    %   MainObj   - Handle of main object
+    %   Name      - Name of UI
+    %   ChanNames - Channel names
+    %   UI        - Cell UIs for the options
+    %   Tag       - Tag to find object
+    %
+    %   Written for the BSc graduation project Acoustic Enhancement via
+    %   Beamforming Using Smartphones.
+    %
+    %   Team:       S. Bosma                R. Brinkman
+    %               T. de Rooij             R. Smeding
+    %               N. van Wijngaarden      E. Wouters
+    %
+    %   Supervisor: Jorge Martínez Castañeda
+    %
+    %   Contact: E.H.Wouters@student.tudelft.nl
+    %
+    %   See also BF_DATA, MAIN_WINDOW
+    
+    %% Properties
+    properties
+        Parent                          % Handle of panel to place ui in
+        MainObj                         % Handle of main object
+        Name = 'Standard Selector';     % Name of UI
+        ChanNames = {};                 % Channel names
+        UI                              % Cell UIs for the options
+        Tag = 'std_selector_ui';        % Tag to find object
+    end
+    % Methods
+    methods
+        %% UI Constuctor
+        function obj = std_selector_ui(parent, mainObj, name)
+            %% Parse Input
+            % figure Handle
+            if nargin == 0
+                obj.Parent = figure('Name',obj.Name,'NumberTitle','off','resize','on');
+            elseif nargin >= 1
+                if ishandle(parent)
+                    obj.Parent = parent;
+                else
+                    warning(['First argument needs to be a handle,'...
+                        'new figure created.']);
+                    obj.Parent = figure('Name',obj.Name,'NumberTitle','off','resize','on');
+                end
+            end
+            if nargin >= 2
+                obj.MainObj = mainObj;
+            else
+                obj.MainObj.DataBuffer = bf_data;
+            end
+            if nargin >= 3
+                obj.Name = name;
+            end
+            
+            % Graphics Code
+            obj.UI = obj.graphicsCode();
+            
+            % Debug
+%             assignin('base','obj',obj)
+        end
+        %% PushButton Update Channel Names Callback
+        function pbUpdate_Callback(obj,~,~)
+            obj.UI.ListAvailable.String = obj.MainObj.DataBuffer.ChanNames;
+            obj.UI.ListConnected.String = obj.ChanNames;
+            if ~isempty(obj.UI.ListAvailable.String)
+                obj.UI.PbAdd.Enable = 'on';
+            else
+                obj.UI.PbAdd.Enable = 'off';
+            end
+            if ~isempty(obj.UI.ListConnected.String)
+                obj.UI.PbRemove.Enable = 'on';
+            else
+                obj.UI.PbRemove.Enable = 'off';
+            end
+        end
+        %% PushButton Add Callback
+        function pbAdd_Callback(obj,~,~)
+            if ~isempty(obj.UI.ListAvailable.String) && ~isempty(obj.MainObj.DataBuffer.ChanNames)
+                % Start Mitm Streaming
+                if any(strcmp(obj.UI.ListAvailable.String{obj.UI.ListAvailable.Value},obj.UI.ListConnected.String))
+                    return;
+                end
+                obj.ChanNames{end+1} = obj.UI.ListAvailable.String{obj.UI.ListAvailable.Value};
+                fprintf('Added %s to %s\n',obj.UI.ListAvailable.String{obj.UI.ListAvailable.Value},obj.Name);
+                % Increment selection
+                if obj.UI.ListAvailable.Value < length(obj.UI.ListAvailable.String)
+                    obj.UI.ListAvailable.Value = obj.UI.ListAvailable.Value + 1;
+                else
+                    obj.UI.ListAvailable.Value = 1;
+                end
+            else
+                warning('Cannot add channel, no channels found.')
+            end
+            obj.pbUpdate_Callback();
+        end
+        %% PushButton Remove Callback
+        function pbRemove_Callback(obj,~,~)
+            if ~isempty(obj.UI.ListConnected.String) && ~isempty(obj.ChanNames)
+                % Start Mitm Streaming
+                fprintf('Removed %s from %s\n',obj.UI.ListConnected.String{obj.UI.ListConnected.Value},obj.Name);
+                obj.ChanNames(obj.UI.ListConnected.Value) = [];
+                % Decrement selection
+                if obj.UI.ListConnected.Value > 1
+                    obj.UI.ListConnected.Value = obj.UI.ListConnected.Value - 1;
+                end
+            else
+                warning('Cannot remove channel, no channels connected.')
+            end
+            obj.pbUpdate_Callback();
+        end
+        
+        %% Load File Graphics Code
+        
+        function UI = graphicsCode(obj)
+            % GRAPHICSCODE Graphics Code
+            % Standard Selector UI panel
+            n=6;m=3;
+            UI.TextAvailable = uicontrol(obj.Parent,'Style','text',...
+                'String','Available Channels:','Units','Normalized',...
+                'Position',grid2pos([1,1, 1,1, m,n]));
+            UI.TextConnected = uicontrol(obj.Parent,'Style','text',...
+                'String','Connected Channels:','Units','Normalized',...
+                'Position',grid2pos([3,1, 1,1, m,n]));
+            UI.ListAvailable = uicontrol(obj.Parent,'Style','listbox',...
+                'String',{'not loaded'},'Units','Normalized',...
+                'Position',grid2pos([1,2, 1,n-1, m,n]));
+            UI.ListConnected = uicontrol(obj.Parent,'Style','listbox',...
+                'String',{},'Units','Normalized',...
+                'Position',grid2pos([3,2, 1,n-1, m,n]));
+            UI.PbUpdate = uicontrol(obj.Parent,'Style','pushbutton',...
+                'String','Update','Units','Normalized',...
+                'Position',grid2pos([2,2, 1,1, m,n]),'Callback',@obj.pbUpdate_Callback);
+            UI.PbAdd = uicontrol(obj.Parent,'Style','pushbutton',...
+                'String','Add ->','Units','Normalized',...
+                'Position',grid2pos([2,3, 1,1, m,n]),'Callback',@obj.pbAdd_Callback);
+            UI.PbRemove = uicontrol(obj.Parent,'Style','pushbutton',...
+                'String','<REPLACE_WITH_DASH_DASH Remove','Units','Normalized',...
+                'Position',grid2pos([2,4, 1,1, m,n]),'Callback',@obj.pbRemove_Callback);
+            obj.pbUpdate_Callback();
+        end
+        
+    end
+end
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,15 @@
+\documentclass[a4paper, notitlepage]{report}
+\input{title}
+\input{preamble}
+\begin{document}
+\chapter{Synchronization}
+\label{ch:synchronization}
+In traditional multichannel analog-to-digital converters (ADCs) multiple sources are sampled using the same reference clock signal. As a result, temporal and frequency synchronization between the channels is guaranteed. 
+However, when audio signals are received over a (wireless) network of independent ADCs, the samples are not synchronized in either time or frequency. For the beamforming algorithms supplied with data by this system, it is imperative that the signals are synchronized \cite{cherkassky2014}. As a result, one or more synchronization algorithms are needed. This chapter describes these problems in a more systematic manner, explores the literature for solutions and describes the algorithms used to accomplish synchronization, concluding with both simulated and experimental performance results for these algorithms.
+
+\subimport{synchronization/}{problem}		% Problem description
+\subimport{synchronization/}{state-of-the-art}	% Overview of unused methods
+\subimport{synchronization/}{sro-measurement}	% SRO characterization
+\subimport{synchronization/}{algorithm}		% Overview of algorithm
+\subimport{synchronization/}{simulation}	% Simulation and results
+\end{document}

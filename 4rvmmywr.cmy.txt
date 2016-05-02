@@ -1,0 +1,34 @@
+﻿Merge remote-tracking branch 'origin/master'
+
+Conflicts:
+	02 - Thesis/03_Implementatie/appendix.tex
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 1 and 3 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	modified:   02 - Thesis/01_Directivity/Hoofdstukken/01-Preface.tex
+#	modified:   02 - Thesis/01_Directivity/Hoofdstukken/02-Summary.tex
+#	modified:   02 - Thesis/01_Directivity/Hoofdstukken/05-Measurement-set-up.tex
+#	modified:   02 - Thesis/01_Directivity/Hoofdstukken/06-Equalization.tex
+#	modified:   02 - Thesis/01_Directivity/Hoofdstukken/09-Discussion.tex
+#	modified:   02 - Thesis/01_Directivity/Hoofdstukken/12-Experimental-outcome.tex
+#	modified:   02 - Thesis/01_Directivity/afbeeldingen/plots/NX506j2_TSP_090_lin_eq.png
+#	modified:   02 - Thesis/01_Directivity/afbeeldingen/plots/NX506j2_TSP_090_log_eq.png
+#	modified:   02 - Thesis/01_Directivity/report_directivity.tex
+#	modified:   02 - Thesis/03_Implementatie/acknowledgments.tex
+#	modified:   02 - Thesis/03_Implementatie/appendix.tex
+#
+

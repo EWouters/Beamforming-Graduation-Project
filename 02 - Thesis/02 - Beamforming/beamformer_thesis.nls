@@ -1,0 +1,85 @@
+\begin{thenomenclature} 
+
+ \nomgroup{A}
+
+  \item [{$\hat{\textbf{w}}$}]\begingroup Vector of estimated complex weights\nomeqref {4.4}
+		\nompageref{18}
+  \item [{$\hat{S}(\omega)$}]\begingroup Estimated source signal\nomeqref {2.7}
+		\nompageref{9}
+  \item [{$\hat{x}(n)$}]\begingroup Distorted speech signal in the time domain\nomeqref {4.9}
+		\nompageref{19}
+  \item [{$\lambda$}]\begingroup Wavelength [m]\nomeqref {2.0}
+		\nompageref{7}
+  \item [{$\omega$}]\begingroup Frequency [rad/s]\nomeqref {0}
+		\nompageref{1}
+  \item [{$\overline{x}(n)$}]\begingroup Average estimated clean speech signal in the time domain\nomeqref {4.1}
+		\nompageref{17}
+  \item [{$\Phi$}]\begingroup Covariance matrix of the microhone signals\nomeqref {4.4}
+		\nompageref{18}
+  \item [{$\phi$}]\begingroup Elevation [$\degree$]\nomeqref {2.3}
+		\nompageref{8}
+  \item [{$\tau$}]\begingroup Delay of a signal [s]\nomeqref {2.0}
+		\nompageref{8}
+  \item [{$\textbf{d}(\omega,\theta,\phi)$}]\begingroup Look vector of the array\nomeqref {2.4}
+		\nompageref{8}
+  \item [{$\textbf{p}$}]\begingroup Position vector in space [m]\nomeqref {2.0}
+		\nompageref{8}
+  \item [{$\textbf{w}(\omega)$}]\begingroup Vector of complex weighing factors\nomeqref {2.7}
+		\nompageref{9}
+  \item [{$\text{SNR}_\text{seg}$}]\begingroup Segmental signal-to-noise ratio [dB]\nomeqref {4.10}
+		\nompageref{19}
+  \item [{$\theta$}]\begingroup Azimuth [$\degree$]\nomeqref {2.3}
+		\nompageref{8}
+  \item [{$a$}]\begingroup Attenuation coefficient [$\text{m}^{-1}$]\nomeqref {2.0}
+		\nompageref{8}
+  \item [{$A(\omega,\theta,\phi)$}]\begingroup Attenuation coefficient in the frequency domain, as a function of the look direction\nomeqref {2.6}
+		\nompageref{8}
+  \item [{$c$}]\begingroup Speed of sound [m/s]\nomeqref {2.1}
+		\nompageref{8}
+  \item [{$d(t,\theta,\phi)$}]\begingroup Array response vector [s]\nomeqref {2.3}
+		\nompageref{8}
+  \item [{$G(\omega,\theta,\phi)$}]\begingroup Directivity pattern of a microphone in the frequency domain\nomeqref {2.6}
+		\nompageref{8}
+  \item [{$g(t,\theta,\phi)$}]\begingroup Directivity pattern of a microphone in the time domain\nomeqref {2.3}
+		\nompageref{8}
+  \item [{$G_\text{A}$}]\begingroup Array-gain\nomeqref {3.1}
+		\nompageref{13}
+  \item [{$H(\omega)$}]\begingroup Acoustic transfer function in the frequency domain\nomeqref {2.1}
+		\nompageref{8}
+  \item [{$h(t)$}]\begingroup Acoustic transfer function in the time domain\nomeqref {2.0}
+		\nompageref{8}
+  \item [{$L$}]\begingroup Largest array dimension [m]\nomeqref {2.0}
+		\nompageref{7}
+  \item [{$L_{f}$}]\begingroup Frame length of the segmental signal-to-noise ratio [s]\nomeqref {4.10}
+		\nompageref{19}
+  \item [{$M$}]\begingroup Number of microphones\nomeqref {2.0}
+		\nompageref{8}
+  \item [{$N$}]\begingroup Number of samples\nomeqref {4.9}
+		\nompageref{19}
+  \item [{$r$}]\begingroup Distance between source and mic [m]\nomeqref {2.1}
+		\nompageref{8}
+  \item [{$S(\omega)$}]\begingroup Source signal in the frequency domain\nomeqref {2.6}
+		\nompageref{8}
+  \item [{$s(t)$}]\begingroup Acoustic source signal in the time domain\nomeqref {2.0}
+		\nompageref{8}
+  \item [{$SNR$}]\begingroup Signal-to-noise ratio [dB]\nomeqref {3.1}
+		\nompageref{13}
+  \item [{$t$}]\begingroup Time [s]\nomeqref {2.0}\nompageref{8}
+  \item [{$V(\omega)$}]\begingroup Undesired signal components in the frequency domain\nomeqref {2.6}
+		\nompageref{8}
+  \item [{$v(t)$}]\begingroup Undesired signal components in the time domain\nomeqref {2.0}
+		\nompageref{8}
+  \item [{$x(n)$}]\begingroup Clean speech signal in the time domain\nomeqref {4.9}
+		\nompageref{19}
+  \item [{$Y(\omega)$}]\begingroup Received audio signal by a microphone in the frequency domain\nomeqref {2.6}
+		\nompageref{8}
+  \item [{$y(t)$}]\begingroup Received audio signal by a microphone in the time domain\nomeqref {2.4}
+		\nompageref{8}
+  \item [{MOS}]\begingroup Mean opinion scores\nomeqref {3.1}
+		\nompageref{13}
+  \item [{PESQ}]\begingroup Perceptual evaluation of speech\nomeqref {3.1}
+		\nompageref{13}
+  \item [{STOI}]\begingroup Short-Time Objective Intelligibility measure\nomeqref {3.1}
+		\nompageref{13}
+
+\end{thenomenclature}

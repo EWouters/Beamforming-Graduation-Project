@@ -1,0 +1,68 @@
+\chapter{Schedule of requirements}
+\label{app:requirements}
+\setheader{requirements}
+This product consists of two parts: a function which gives the impulse response in different directions for a smartphone microphone and a measurement set-up description to add new data to this function.
+This function will be part of a system which final objective is to enable crystal clear conference calls using an array of smartphones.
+For this products, measurements to determine the impulse response for different directions are conducted on a commercially available smartphone.
+These measurements need to be reproducible for any concerned smartphone, so manufacturers can add their own phones to the system, as input for the function.
+The measurements and analyses carried out, are an extension of previous research 
+\cite{Gaubitch2014}. 
+
+The final product, the conference calling system, is intended for the professional market: large companies which make use of conference calling systems.
+Next to that, smartphone manufacturers must be able to measure the impulse responses from their smartphones to apply this data to the function.
+
+\section{Requirements concerning the intended use}
+\begin{enumerate}
+\item The function gives the impulse response for a given frequency and datapoint location.
+\item The location of a datapoint is indicated by the angle between the projection of the vector pointing to this point on the $x,y$-plane and the $x$-axis ($\theta$) and the angle between the projection of this vector on the $x,z$-plane and the $z$-axis ($\phi$).
+%\item The function must be usable by a user with little experience with \matlab. 
+\item There must be an anechoic chamber available in order to do the measurements. 
+\item The measurements concerning the directivity must be replicable within three days. 
+\item The measurement results must be accurate enough to be used in a beamforming algorithm.  
+\end{enumerate}
+
+\section{Requirements from an ecological point of view}
+There are no ecological requirements since the product solely consists of software. 
+
+\section{Requirements concerning the system}
+
+\subsection{Usage characteristics}
+\begin{enumerate}
+\item The function returns the impulse response for a given datapoint location.
+\item The location of a datapoint is indicated by the angle between the projection of the vector pointing to this point on the $x,y$-plane and the $x$-axis ($\theta$) and the angle between the projection of this vector on the $x,z$-plane and the $z$-axis ($\phi$).
+\item The function must be quick enough to be used in a beamforming algorithm. 
+\item The function must have a clear overview provided with sufficient comments. 
+\item The user must be able to retrieve results for not directly measured datapoints.
+\item There must be a function which generates a spherical plot showing the entire three dimensional directivity gain pattern (in decibels) of the concerned smartphone microphone. 
+\item The measurements could be done within three days. 
+\end{enumerate}
+
+\subsection{Production and commissioning characteristics}
+\begin{enumerate}
+\item The function must be usable by a user with {\matlab} Student R2014a.
+\item The measurements must be replicable by a customer with an anechoic chamber available. 
+\end{enumerate}
+
+\subsection{Recycling features}
+Recycling is not an issue since the product solely consists of software. 
+
+\section{Requirements regarding the production}
+\begin{enumerate}
+\item {\matlab} must be available to run the measurement and directivity software. 
+\item The function-code will be developed using {\matlab} Student R2014a. 
+\item The measurement conducting system will be developed using {\matlab} Student R2014a. 
+\item There must be an anechoic chamber available. 
+\item There must be a turntable available (for example: Br\"uel \& Kj\ae r, system type 9640).
+\item There must be a loudspeaker available.
+\item There must be an arc with a 1-meter radius available.
+\item There must be an audio interface available.
+\end{enumerate}
+% hierboven de benodigdheden nog aanpassen waarschijnlijk. 
+
+\section{Requirements concerning the recycling system}
+Recycling is not an issue since the product solely consists of software. 
+
+\section{Requirements from a strategic, marketing and sales point of view}
+\begin{enumerate}
+\item The product must be directly available after purchase. 
+\end{enumerate}

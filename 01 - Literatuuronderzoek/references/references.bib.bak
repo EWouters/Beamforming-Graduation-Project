@@ -1,0 +1,557 @@
+@ARTICLE{Marzo2014,
+author={Marzo, J. and Pridhnani, B.},
+title={Sufficient Conditions for Sampling and Interpolation on the Sphere},
+journal={Constructive Approximation},
+year={2014},
+doi={10.1007/s00365-014-9252-4},
+note={cited By 0; Article in Press},
+url={http://www.scopus.com/inward/record.url?eid=2-s2.0-84904275083&partnerID=40&md5=31d3a72c2e8eb6b3016c502af2f230b6},
+document_type={Article in Press},
+source={Scopus},
+}
+
+@ARTICLE{Yang2013,
+author={Yang, Z. and Zhou, Z. and Liu, Y.},
+title={From RSSI to CSI: Indoor localization via channel response},
+journal={ACM Computing Surveys},
+year={2013},
+volume={46},
+number={2},
+doi={10.1145/2543581.2543592},
+art_number={25},
+note={cited By 5},
+url={http://www.scopus.com/inward/record.url?eid=2-s2.0-84892653858&partnerID=40&md5=fe8abd076cd16dbf347eddda818323da},
+document_type={Article},
+source={Scopus},
+}
+
+@ARTICLE{Zhang2012575,
+author={Zhang, W. and Zhang, M. and Kennedy, R.A. and Abhayapala, T.D.},
+title={On high-resolution head-related transfer function measurements: An efficient sampling scheme},
+journal={IEEE Transactions on Audio, Speech and Language Processing},
+year={2012},
+volume={20},
+number={2},
+pages={575-584},
+doi={10.1109/TASL.2011.2162404},
+art_number={5957268},
+note={cited By 11},
+url={http://www.scopus.com/inward/record.url?eid=2-s2.0-83655190861&partnerID=40&md5=2c7d8d852c5b18a65aa7ea28203f9849},
+document_type={Article},
+source={Scopus},
+}
+
+@CONFERENCE{Ajdler2005III273,
+author={Ajdler, T. and Sbaiz, L. and Vetterli, M.},
+title={Plenacoustic function on the circle with application to hrtf interpolation},
+journal={ICASSP, IEEE International Conference on Acoustics, Speech and Signal Processing - Proceedings},
+year={2005},
+volume={III},
+pages={III273-III276},
+doi={10.1109/ICASSP.2005.1415699},
+art_number={1415699},
+note={cited By 14},
+url={http://www.scopus.com/inward/record.url?eid=2-s2.0-33646777109&partnerID=40&md5=875bf082cb04f6a60afc77d79c5fe10d},
+document_type={Conference Paper},
+source={Scopus},
+}
+
+@ARTICLE{Stan2002249,
+author={Stan, G.-B. and Embrechts, J.-J. and Archambeau, D.},
+title={Comparison of different impulse response measurement techniques},
+journal={AES: Journal of the Audio Engineering Society},
+year={2002},
+volume={50},
+number={4},
+pages={249-262},
+note={cited By 87},
+url={http://www.scopus.com/inward/record.url?eid=2-s2.0-0036529847&partnerID=40&md5=1d6443e9b24943872991b98430499c72},
+document_type={Article},
+source={Scopus},
+}
+
+@ARTICLE{Suzuki19951119,
+author={Suzuki, Y. and Asano, F. and Kim, H.-Y. and Sone, T.},
+title={An optimum computer-generated pulse signal suitable for the measurement of very long impulse responses},
+journal={Journal of the Acoustical Society of America},
+year={1995},
+volume={97},
+number={2},
+pages={1119-1123},
+doi={10.1121/1.412224},
+note={cited By 166},
+url={http://www.scopus.com/inward/record.url?eid=2-s2.0-0028812427&partnerID=40&md5=2394db28ee86ca60125a1c68e3f8d78f},
+document_type={Article},
+source={Scopus},
+}
+
+@ARTICLE{Rife1992779,
+author={Rife, Douglas D.},
+title={Modulation transfer function measurement with maximum-length sequences},
+journal={AES: Journal of the Audio Engineering Society},
+year={1992},
+volume={40},
+number={10},
+pages={779-790},
+note={cited By 20},
+url={http://www.scopus.com/inward/record.url?eid=2-s2.0-0026931429&partnerID=40&md5=b3c8b44dcbab7b498fe391823c8365b4},
+document_type={Article},
+source={Scopus},
+}
+
+@ARTICLE{Aoshima19811484,
+author={Aoshima, Nobuharu},
+title={COMPUTER-GENERATED PULSE SIGNAL APPLIED FOR SOUND MEASUREMENT.},
+journal={Journal of the Acoustical Society of America},
+year={1981},
+volume={69},
+number={5},
+pages={1484-1488},
+note={cited By 92},
+url={http://www.scopus.com/inward/record.url?eid=2-s2.0-0019565863&partnerID=40&md5=2017741db1bf8ef5d77c403bd29ea608},
+source={Scopus},
+}
+
+@ARTICLE{Schroeder1979497,
+author={Schroeder, M.R.},
+title={INTEGRATED-IMPULSE METHOD MEASURING SOUND DECAY WITHOUT USING IMPULSES.},
+journal={Journal of the Acoustical Society of America},
+year={1979},
+volume={66},
+number={2},
+pages={497-500},
+note={cited By 138},
+url={http://www.scopus.com/inward/record.url?eid=2-s2.0-0018506003&partnerID=40&md5=e63b10d4e4d17eec99b9a5ae497ef985},
+source={Scopus},
+}
+
+@ARTICLE{Maya2010,
+author={C. Maia and L. Nogueira and L. M. Pinho},
+title={Evaluating android os for embedded real-time systems},
+journal={Proceedings of the 6th International Workshop on Operating Systems Platforms for Embedded Real-Time Applications},
+}
+
+@electronic{Brahler2010,
+  author        = "Stefan Brahler",
+  title         = "Analysis of the Android Architecture",
+  howpublished  = "{sa\_2010\_braehler-stefan\_android-architecture.pdf}",
+  url           = "https://os.itec.kit.edu/downloads/sa_2010_braehler-stefan_android-architecture.pdf",
+  month         = oct,
+  year          = "2010"
+}
+
+@ARTICLE{VanVeen19884,
+author={Van Veen, Barry D. and Buckley, Kevin M.},
+title={Beamforming: A versatile approach to spatial filtering.},
+journal={IEEE ASSP magazine},
+year={1988},
+volume={5},
+number={2},
+pages={4-24},
+doi={10.1109/53.665},
+note={cited By 1159},
+url={http://www.scopus.com/inward/record.url?eid=2-s2.0-0023985457&partnerID=40&md5=154db4374053c3bee73af24c4dd3d90c},
+document_type={Article},
+source={Scopus},
+}
+
+@inproceedings{cherkassky2014blind,
+title={Blind synchronization in wireless sensor networks with application to speech enhancement},
+author={Cherkassky, Dani and Gannot, Sharon},
+booktitle={Acoustic Signal Enhancement (IWAENC), 2014 14th International Workshop on},
+pages={183--187},
+year={2014},
+organization={IEEE}
+}
+
+@INPROCEEDINGS{Gaubitch2014, 
+author={Gaubitch, N.D. and Martinez, J. and Kleijn, W.B. and Heusdens, R.}, 
+booktitle={Acoustic Signal Enhancement (IWAENC), 2014 14th International Workshop on}, 
+title={On near-field beamforming with smartphone-based ad-hoc microphone arrays}, 
+year={2014}, 
+month={Sept}, 
+pages={94-98}, 
+keywords={array signal processing;audio signal processing;microphone arrays;smart phones;MVDR beamformer;ad-hoc microphone arrays;audio capturing applications;beamforming output;clock synchronization;directivity responses;future speech capturing applications;gain equalization;measured microphone responses;microphone directivity;microphone localization;minimum-variance distortionless response beamformer;mobile devices;smartphones;spatial audio processing;Acoustics;Array signal processing;Microphone arrays;Microwave integrated circuits;Smart phones;Speech;ad-hoc microphone arrays;microphone directivity;near-field beamforming}, 
+doi={10.1109/IWAENC.2014.6953345},
+}
+
+@INPROCEEDINGS{golan2012, 
+author={Markovich-Golan, Shmulik and Gannot, Sharon and Cohen, Israel}, 
+booktitle={Acoustic Signal Enhancement; Proceedings of IWAENC 2012; International Workshop on}, 
+title={Blind Sampling Rate Offset Estimation and Compensation in Wireless Acoustic Sensor Networks with Application to Beamforming}, 
+year={2012}, 
+month={Sept}, 
+pages={1-4}, 
+keywords={Array signal processing;Coherence;Estimation;Interpolation;Microphones;Noise;Synchronization},
+}
+
+@BOOK{liu2013,
+author={Feipeng Liu},
+title={Android Native Development Kit Cookbook},
+year={2013},
+ISBN={978-1-84969-150-5},
+publisher={Packt Publishing}
+}
+
+@electronic{android-ndk,
+  author        = "Google",
+  title         = "Android NDK, Android Developers",
+  url           = "https://developer.android.com/tools/sdk/ndk/index.html",
+  urldate = {2015-04-21}
+}
+
+@electronic{android-getting-started,
+  author        = "Google",
+  title         = "Getting Started, Android Developers",
+  url           = "https://developer.android.com/training/index.html",
+  urldate = {2015-04-21}
+}
+
+@electronic{android-art,
+author = "Google",
+title = "ART and Dalvik, Android Developers",
+url = "https://source.android.com/devices/tech/dalvik/index.html",
+urldate = {2015-04-22}
+}
+
+@incollection{springer2010,
+year={2010},
+isbn={978-3-642-11129-7},
+booktitle={Speech Processing in Modern Communication},
+volume={3},
+series={Springer Topics in Signal Processing},
+editor={Cohen, Israel and Benesty, Jacob and Gannot, Sharon},
+doi={10.1007/978-3-642-11130-3_9},
+title={The MVDR Beamformer for Speech Enhancement},
+url={http://dx.doi.org/10.1007/978-3-642-11130-3_9},
+publisher={Springer Berlin Heidelberg},
+author={Habets, EmanuëlA.P. and Benesty, Jacob and Gannot, Sharon and Cohen, Israel},
+pages={225-254},
+language={English}
+}
+
+@ARTICLE{martinez2015,
+author={Jorge Martinez, Nikolay Gaubitch and W. Bastiaan Kleijn},
+title={A ROBUST REGION-BASED NEAR-FIELD BEAMFORMER},
+journal={},
+year={2015},
+volume={},
+number={},
+pages={},
+doi={},
+note={},
+url={},
+document_type={Article},
+source={Jorge Martinez},
+}
+
+@ARTICLE{goslinski2015,
+	author={Goslinski, J. and Nowicki, M. and Skrzypczynski, P.},
+	journal={Sensors Journal, IEEE},
+	title={Performance Comparison of EKF-based Algorithms for Orientation Estimation on Android Platform},
+	year={2015},
+	month={},
+	volume={PP},
+	number={99},
+	pages={1-1},
+	keywords={Accelerometers;Estimation;Magnetometers;Mobile handsets;Quaternions;Sensors;Vectors},
+	doi={10.1109/JSEN.2015.2397397},
+	ISSN={1530-437X},
+}
+
+@INPROCEEDINGS{wehr2004,
+author={Wehr, S. and Kozintsev, I. and Lienhart, R. and Kellermann, W.},
+booktitle={Multimedia Software Engineering, 2004. Proceedings. IEEE Sixth International Symposium on},
+title={Synchronization of acoustic sensors for distributed ad-hoc audio networks and its use for blind source separation},
+year={2004},
+month={Dec},
+pages={18-25},
+keywords={ad hoc networks;array signal processing;audio signal processing;blind source separation;human computer interaction;microphone arrays;mobile computing;synchronisation;wireless sensor networks;acoustic ad-hoc network;acoustic human-machine interfaces;audio capture devices;blind source separation;built-in microphones;distributed acoustic sensors;distributed computing devices;distributed wireless setting;microphone array processing;signal processing algorithms;wireless network;Acoustic devices;Acoustic sensors;Array signal processing;Blind source separation;Computer networks;Hardware;Man machine systems;Microphones;Sampling methods;Signal processing algorithms},
+doi={10.1109/MMSE.2004.79},}
+
+@INPROCEEDINGS{ballew2011,
+author={Ballew, A. and Kuzmanovic, A. and Chung Chieh Lee},
+booktitle={Information Fusion (FUSION), 2011 Proceedings of the 14th International Conference on},
+title={Fusion of live audio recordings for blind noise reduction},
+year={2011},
+month={July},
+pages={1-7},
+keywords={audio recording;blind source separation;cameras;mobile handsets;music;audio quality;blind noise reduction;digital cameras;live audio recordings;live music performances;multiple diverse receivers;personal recordings online;reference signal;signal-to-noise ratio;single blind source;statistical characteristics;time-domain fusion;video hosting websites;video-capable mobile phones;Context;Correlation;Noise reduction;Receivers;Signal to noise ratio;Synchronization;Audio;acoustic noise;blind signal;estimation},}
+
+@STANDARD{itu-g114,
+	institution={International Telecommunication Union},
+	title={International telephone connections and circuits - General Recommendations on the transmission quality for an entire international telephone connection},
+	year={2003},
+}
+
+@STANDARD{itu-g107,
+	institution={International Telecommunication Union},
+	title={International telephone connections and circuits -- Transmission planning and the E-model},
+	year={2011},
+}
+
+@STANDARD{itu-p800,
+	institution={International Telecommunication Union},
+	title={Methods for subjective determination of transmission quality},
+	year={1996},
+}
+
+@ARTICLE{habets2010,
+author={Habets, E. and Benesty, J. and Cohen, I. and Gannot, S. and Dmochowski, J.},
+journal={Audio, Speech, and Language Processing, IEEE Transactions on},
+title={New Insights Into the MVDR Beamformer in Room Acoustics},
+year={2010},
+month={Jan},
+volume={18},
+number={1},
+pages={158-170},
+keywords={acoustic signal processing;array signal processing;microphone arrays;noise abatement;reverberation;speech enhancement;Capon beamformer;MVDR beamformer;acoustic impulse response;coherent noise;minimum variance distortionless response;noise reduction;noncoherent noise;speech dereverberation;speech enhancement;Beamforming;Pearson correlation coefficient;microphone arrays;minimum variance distortionless response (MVDR) filter;noise reduction;speech dereverberation;speech enhancement},
+doi={10.1109/TASL.2009.2024731},
+ISSN={1558-7916},}
+
+@ARTICLE{zhang2008,
+author={Cha Zhang and Florencio, D. and Ba, D.E. and Zhengyou Zhang},
+journal={Multimedia, IEEE Transactions on},
+title={Maximum Likelihood Sound Source Localization and Beamforming for Directional Microphone Arrays in Distributed Meetings},
+year={2008},
+month={April},
+volume={10},
+number={3},
+pages={538-548},
+keywords={maximum likelihood detection;microphone arrays;reverberation;beamforming algorithms;directional microphone arrays;distributed meetings;maximum likelihood sound source localization;reverberant rooms;steered response power based algorithms;Beamforming;directional mics;microphone array;sound source localization},
+doi={10.1109/TMM.2008.917406},
+ISSN={1520-9210},}
+
+@INPROCEEDINGS{hennecke2011, 
+author={Hennecke, M.H. and Fink, G.A.}, 
+booktitle={Hands-free Speech Communication and Microphone Arrays (HSCMA), 2011 Joint Workshop on}, 
+title={Towards acoustic self-localization of ad hoc smartphone arrays}, 
+year={2011}, 
+month={May}, 
+pages={127-132}, 
+keywords={acoustic signal processing;loudspeakers;maximum likelihood estimation;microphone arrays;mobile handsets;nonlinear programming;signal sampling;teleconferencing;time-of-arrival estimation;acoustic self-localization;acoustic signal processing algorithms;ad hoc microphone array;ad hoc smartphone arrays;asynchronous sampling;constant microphone-loudspeaker distance;maximum likelihood approach;noisy conference room;nonlinear optimization problem;short calibration pulses;teleconferencing system;time of arrival measurements;ubiquitous computing;Acoustics;Calibration;Loudspeakers;Microphone arrays;Noise;Optimization;maximum likelihood estimation;self-localization;smartphone array}, 
+doi={10.1109/HSCMA.2011.5942378},}
+
+@INPROCEEDINGS{taal2010, 
+author={Taal, C.H. and Hendriks, R.C. and Heusdens, R. and Jensen, J.}, 
+booktitle={Acoustics Speech and Signal Processing (ICASSP), 2010 IEEE International Conference on}, 
+title={A short-time objective intelligibility measure for time-frequency weighted noisy speech}, 
+year={2010}, 
+month={March}, 
+pages={4214-4217}, 
+abstract={Existing objective speech-intelligibility measures are suitable for several types of degradation, however, it turns out that they are less appropriate for methods where noisy speech is processed by a time-frequency (TF) weighting, e.g., noise reduction and speech separation. In this paper, we present an objective intelligibility measure, which shows high correlation (rho=0.95) with the intelligibility of both noisy, and TF-weighted noisy speech. The proposed method shows significantly better performance than three other, more sophisticated, objective measures. Furthermore, it is based on an intermediate intelligibility measure for short-time (approximately 400 ms) TF-regions, and uses a simple DFT-based TF-decomposition. In addition, a free Matlab implementation is provided.}, 
+keywords={speech enhancement;speech intelligibility;noise reduction;objective intelligibility measurement;objective speech-intelligibility measurement;speech separation;time-frequency weighted noisy speech;time-frequency weighting;Artificial intelligence;Degradation;Noise measurement;Noise reduction;Signal processing;Speech enhancement;Speech processing;Testing;Time frequency analysis;Weight measurement;intelligibility prediction;noisy speech;speech enhancement}, 
+doi={10.1109/ICASSP.2010.5495701}, 
+ISSN={1520-6149},}
+
+@INPROCEEDINGS{rix2001, 
+author={Rix, A.W. and Beerends, J.G. and Hollier, M.P. and Hekstra, A.P.}, 
+booktitle={Acoustics, Speech, and Signal Processing, 2001. Proceedings. (ICASSP '01). 2001 IEEE International Conference on}, 
+title={Perceptual evaluation of speech quality (PESQ)-a new method for speech quality assessment of telephone networks and codecs}, 
+year={2001}, 
+month={}, 
+volume={2}, 
+pages={749-752 vol.2}, 
+abstract={Previous objective speech quality assessment models, such as bark spectral distortion (BSD), the perceptual speech quality measure (PSQM), and measuring normalizing blocks (MNB), have been found to be suitable for assessing only a limited range of distortions. A new model has therefore been developed for use across a wider range of network conditions, including analogue connections, codecs, packet loss and variable delay. Known as perceptual evaluation of speech quality (PESQ), it is the result of integration of the perceptual analysis measurement system (PAMS) and PSQM99, an enhanced version of PSQM. PESQ is expected to become a new ITU-T recommendation P.862, replacing P.861 which specified PSQM and MNB}, 
+keywords={delays;packet switching;speech codecs;speech intelligibility;telecommunication equipment testing;telephone networks;ITU-T recommendation P.862;PAMS;PSQM99;analogue connections;measuring normalizing blocks;objective speech quality assessment models;packet loss;perceptual analysis measurement system;perceptual evaluation of speech quality;perceptual speech quality measure;speech codecs;telephone networks;variable delay;Degradation;Delay effects;Distortion measurement;Nonlinear distortion;Nonlinear filters;Quality assessment;Signal processing;Speech analysis;Speech codecs;Telephony}, 
+doi={10.1109/ICASSP.2001.941023}, 
+ISSN={1520-6149},}
+
+@INPROCEEDINGS{schm2013, 
+author={Schmalenstroeer, J. and Haeb-Umbach, R.}, 
+booktitle={Signal Processing Conference (EUSIPCO), 2013 Proceedings of the 21st European}, 
+title={Sampling rate synchronisation in acoustic sensor networks with a pre-trained clock skew error model}, 
+year={2013}, 
+month={Sept}, 
+pages={1-5}, 
+keywords={Kalman filters;acoustic signal processing;synchronisation;wireless sensor networks;Kalman filter;acoustic sensor networks;clock frequency offset estimate;clock skew error model;frequency offset estimation error;sampling rate synchronisation;time stamp exchange protocol;Clocks;Frequency estimation;Kalman filters;Oscillators;Synchronization;Wireless communication;Wireless sensor networks;acoustic sensor network;synchronization},}
+
+@INPROCEEDINGS{ehrenberg2010, 
+author={Ehrenberg, L. and Gannot, S. and Leshem, A. and Zehavi, E.}, 
+booktitle={Electrical and Electronics Engineers in Israel (IEEEI), 2010 IEEE 26th Convention of}, 
+title={Sensitivity analysis of MVDR and MPDR beamformers}, 
+year={2010}, 
+month={Nov}, 
+pages={000416-000420}, 
+keywords={antenna arrays;array signal processing;fading channels;Cox finding;MPDR beamformer;MVDR beamformer;antenna array;distortionless beamformer;fading channel;minimum power distortionless response beamformer;minimum variance distortionless response beamformer;sensitivity analysis;sight propagation;steering error;Arrays;Correlation;Interference;Robustness;Signal to noise ratio}, 
+doi={10.1109/EEEI.2010.5662190},}
+
+@ARTICLE{jin2010, 
+author={Yunye Jin and Wee-Seng Soh and Wai-Choong Wong}, 
+journal={Wireless Communications, IEEE Transactions on}, 
+title={Indoor localization with channel impulse response based fingerprint and nonparametric regression}, 
+year={2010}, 
+month={March}, 
+volume={9}, 
+number={3}, 
+pages={1120-1127}, 
+abstract={In this paper, we propose a fingerprint-based localization scheme that exploits the location dependency of the channel impulse response (CIR). We approximate the CIR by applying inverse Fourier transform to the receiver's channel estimation. The amplitudes of the approximated CIR (ACIR) vector are further transformed into the logarithmic scale to ensure that elements in the ACIR vector contribute fairly to the location estimation, which is accomplished through nonparametric kernel regression. As shown in our simulations, when both the number of access points and density of training locations are the same, our proposed scheme displays significant advantages in localization accuracy, compared to other fingerprint-based methods found in the literature. Moreover, absolute localization accuracy of the proposed scheme is shown to be resilient to the real time environmental changes caused by human bodies with random positions and orientations.}, 
+keywords={Fourier transforms;channel estimation;indoor radio;regression analysis;transient response;wireless channels;access points;approximated CIR vector;channel impulse response;fingerprint-based localization scheme;indoor localization;inverse Fourier transform;location estimation;nonparametric kernel regression;receiver channel estimation;Amplitude estimation;Bandwidth;Channel estimation;Delay estimation;Displays;Fingerprint recognition;Fourier transforms;Global Positioning System;Humans;Kernel;Indoor localization, fingerprinting, channel impulse response, nonparametric kernel regression.}, 
+doi={10.1109/TWC.2010.03.090197}, 
+ISSN={1536-1276}}
+
+@electronic{android-sensors,
+  author        = "Google",
+  title         = "Sensors overview, Android Developers",
+  url           = "http://developer.android.com/guide/topics/sensors/sensors_overview.html",
+  urldate = {2015-04-21}}
+	
+@INPROCEEDINGS{pertila2013,
+author={Pertila, P. and Tinakari, A.},
+booktitle={Digital Signal Processing (DSP), 2013 18th International Conference on},
+title={Time-of-arrival estimation for blind beamforming},
+year={2013},
+month={July},
+pages={1-6},
+keywords={ad hoc networks;array signal processing;audio signal processing;mobile radio;time-of-arrival estimation;video signal processing;TDOA values;ad-hoc arrays;audio capture;blind beamforming;microphone signals;mobile devices;self-calibration methods;social events;spatial signal processing;time difference of arrival;time-of-arrival estimation;video capture;Array signal processing;Kalman filters;Microphone arrays;Sensors;Smart phones;Vectors;Beam steering;Kalman filter;Speech enhancement;Time of arrival estimation},
+doi={10.1109/ICDSP.2013.6622689},
+ISSN={1546-1874},}
+
+@book{naylor2010speech,
+  title={Speech Dereverberation},
+  author={Naylor, P.A. and Gaubitch, N.D.},
+  isbn={9781849960564},
+  lccn={2010930018},
+  series={Signals and Communication Technology},
+  url={http://books.google.nl/books?id=SYuTUqiB-q4C},
+  year={2010},
+  publisher={Springer}
+}
+  
+@article{elko1996,
+ author = {Elko, Gary W.},
+ title = {Microphone Array Systems for Hands-free Telecommunication},
+ journal = {Speech Commun.},
+ issue_date = {Dec. 1996},
+ volume = {20},
+ number = {3-4},
+ month = {dec},
+ year = {1996},
+ issn = {0167-6393},
+ pages = {229--240},
+ numpages = {12},
+ url = {http://dx.doi.org/10.1016/S0167-6393(96)00057-X},
+ doi = {10.1016/S0167-6393(96)00057-X},
+ acmid = {255993},
+ publisher = {Elsevier Science Publishers B. V.},
+ address = {Amsterdam, The Netherlands, The Netherlands},
+ keywords = {adaptive beamforming, beamforming, directional microphones, microphone arrays, steerable microphones.},}
+ 
+ @article{yu2012,
+year={2012},
+journal={EURASIP Journal on Advances in Signal Processing},
+eid={249},
+volume={2012},
+number={1},
+doi={10.1186/1687-6180-2012-249},
+title={Geometry descriptors of irregular microphone arrays related to beamforming performance},
+url={http://dx.doi.org/10.1186/1687-6180-2012-249},
+publisher={Springer International Publishing AG},
+keywords={Irregular microphone arrays; array geometry; beamforming},
+author={Yu, Jingjing and Donohue, KevinD},
+language={English}
+}
+
+@misc{hee2003,
+  title={Impulse response measurements using MLS},
+  author={Hee, Jens},
+  year={2003},
+  publisher={august}
+}
+
+@electronic{nexus5,
+  author        = "Google",
+  title         = "Nexus 5 - Google",
+  url           = "http://www.google.nl/intl/nl_nl/nexus/5/",
+  urldate 		= {2015-04-24}}
+}
+
+@article{zeng2014,
+  title={Distributed delay and sum beamformer for speech enhancement via randomized gossip},
+  author={Zeng, Yuan and Hendriks, Richard C},
+  journal={Audio, Speech, and Language Processing, IEEE/ACM Transactions on},
+  volume={22},
+  number={1},
+  pages={260--273},
+  year={2014},
+  publisher={IEEE}
+}
+
+@ARTICLE{himawan2011, 
+author={Himawan, I. and McCowan, I. and Sridharan, S.}, 
+journal={Audio, Speech, and Language Processing, IEEE Transactions on}, 
+title={Clustered Blind Beamforming From Ad-Hoc Microphone Arrays}, 
+year={2011}, 
+month={May}, 
+volume={19}, 
+number={4}, 
+pages={661-676}, 
+abstract={Microphone arrays have been used in various applications to capture conversations, such as in meetings and teleconferences. In many cases, the microphone and likely source locations are known a priori, and calculating beamforming filters is therefore straightforward. In ad-hoc situations, however, when the microphones have not been systematically positioned, this information is not available and beamforming must be achieved blindly. In achieving this, a commonly neglected issue is whether it is optimal to use all of the available microphones, or only an advantageous subset of these. This paper commences by reviewing different approaches to blind beamforming, characterizing them by the way they estimate the signal propagation vector and the spatial coherence of noise in the absence of prior knowledge of microphone and speaker locations. Following this, a novel clustered approach to blind beamforming is motivated and developed. Without using any prior geometrical information, microphones are first grouped into localized clusters, which are then ranked according to their relative distance from a speaker. Beamforming is then performed using either the closest microphone cluster, or a weighted combination of clusters. The clustered algorithms are compared to the full set of microphones in experiments on a database recorded on different ad-hoc array geometries. These experiments evaluate the methods in terms of signal enhancement as well as performance on a large vocabulary speech recognition task.}, 
+keywords={array signal processing;blind source separation;microphone arrays;speech recognition;statistical analysis;ad-hoc array;beamforming filters;blind beamforming;clustered algorithms;microphone arrays;signal propagation vector;spatial coherence;speaker locations;speech recognition;Array signal processing;speech enhancement;speech recognition}, 
+doi={10.1109/TASL.2010.2055560}, 
+ISSN={1558-7916},}
+
+
+@ARTICLE{pawig2010,
+	author={Pawig, M. and Enzner, G. and Vary, P.},
+	journal={Signal Processing, IEEE Transactions on},
+	title={Adaptive Sampling Rate Correction for Acoustic Echo Control in Voice-Over-IP},
+	year={2010},
+	month={Jan},
+	volume={58},
+	number={1},
+	pages={189-199},
+	keywords={Internet telephony;adaptive filters;echo suppression;least mean squares methods;speech processing;teleconferencing;acoustic echo control;adaptive filters;adaptive sampling rate correction;echo cancellation functionality;least mean square adaptive algorithm;loudspeaker output D/A converter;microphone input A/D converter;speech communication;teleconferencing;voice-over-IP;Acoustic signal processing;adaptive filters;echo suppression;interpolation;least mean squares methods;resampling;teleconferencing},
+	doi={10.1109/TSP.2009.2028187},
+	ISSN={1053-587X},
+}
+
+@article{Schmalenstroeer2015,
+title = "A combined hardware–software approach for acoustic sensor network synchronization ",
+journal = "Signal Processing ",
+volume = "107",
+number = "0",
+pages = "171 - 184",
+year = "2015",
+note = "Special Issue on ad hoc microphone arrays and wireless acoustic sensor networks Special Issue on Fractional Signal Processing and Applications ",
+issn = "0165-1684",
+doi = "http://dx.doi.org/10.1016/j.sigpro.2014.06.030",
+url = "http://www.sciencedirect.com/science/article/pii/S0165168414002990",
+author = "Joerg Schmalenstroeer and Patrick Jebramcik and Reinhold Haeb-Umbach",
+keywords = "Gossip algorithm",
+keywords = "Clock skew",
+keywords = "Sensor network "
+}
+
+@book{brandstein2001,
+  title={Microphone Arrays: Signal Processing Techniques and Applications},
+  author={Brandstein, M. and Ward, D.},
+  isbn={9783540419532},
+  lccn={2001031428},
+  series={Digital Signal Processing - Springer-Verlag},
+  url={http://books.google.nl/books?id=nND6ObXSNoEC},
+  year={2001},
+  publisher={Springer}
+}
+
+@article{Barker1999717,
+title = "System identification with multi-level periodic perturbation signals ",
+journal = "Control Engineering Practice ",
+volume = "7",
+number = "6",
+pages = "717 - 726",
+year = "1999",
+note = "",
+issn = "0967-0661",
+doi = "http://dx.doi.org/10.1016/S0967-0661(99)00033-7",
+url = "http://www.sciencedirect.com/science/article/pii/S0967066199000337",
+author = "H.A. Barker and K.R. Godfrey",
+keywords = "System identification",
+keywords = "Perturbation signals",
+keywords = "Multi-level signals",
+keywords = "Pseudo-random signals",
+keywords = "Multi-frequency signals",
+keywords = "Nonlinear systems",
+keywords = "Nonlinear distortion ",
+abstract = "Multi-level periodic perturbation signals for system identification in the frequency domain are defined. The design and properties of these signals, and the output signal processing methods used with them to reduce or eliminate the effects of noise and nonlinearity, are developed. Both pseudo-random and multi-frequency perturbation signals are considered, and an application in which these signals were used to identify the dynamics of steel strip in an industrial process is described. It is concluded that the use of these signals leads to considerable benefits, and that they are to be preferred for identification schemes of this kind. "
+}

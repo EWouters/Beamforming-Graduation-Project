@@ -1,0 +1,446 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>load_file_settings_ui</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-07"><meta name="DC.source" content="load_file_settings_ui.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#3">Properties</a></li><li><a href="#4">Methods</a></li><li><a href="#6">FilePath Add function</a></li><li><a href="#7">Load File Graphics Code</a></li></ul></div><pre class="codeinput"><span class="keyword">classdef</span> load_file_settings_ui &lt; handle
+</pre><pre class="codeinput">    <span class="comment">% LOAD_FILE_SETTINGS_UI Holds the gui elements for the load file settings panel</span>
+    <span class="comment">%</span>
+    <span class="comment">%   LOAD_FILE_SETTINGS_UI() create ui in new figure</span>
+    <span class="comment">%   LOAD_FILE_SETTINGS_UI(PARENT) create ui in parent panel</span>
+    <span class="comment">%   LOAD_FILE_SETTINGS_UI(PARENT, MAINOBJ) create ui with handle to main object</span>
+    <span class="comment">%</span>
+    <span class="comment">% Example 1:</span>
+    <span class="comment">%   obj = load_file_settings_ui</span>
+    <span class="comment">%</span>
+    <span class="comment">% Example 2:</span>
+    <span class="comment">%   Parent = figure</span>
+    <span class="comment">%   obj = load_file_settings_ui(Parent)</span>
+    <span class="comment">%</span>
+    <span class="comment">% LOAD_FILE_SETTINGS_UI Methods:</span>
+    <span class="comment">%   load_file_settings_ui - Constructor</span>
+    <span class="comment">%   pbFilePath_Callback   - Add selectec file to dat buffer</span>
+    <span class="comment">%   graphicsCode          - Graphics Generation Code</span>
+    <span class="comment">%</span>
+    <span class="comment">% LOAD_FILE_SETTINGS_UI Properties:</span>
+    <span class="comment">%   Parent    - Handle of panel to place ui in</span>
+    <span class="comment">%   MainObj   - Handle of main object</span>
+    <span class="comment">%   Name      - Name of UI</span>
+    <span class="comment">%   FilePath  - File Path</span>
+    <span class="comment">%   FileName  - File name</span>
+    <span class="comment">%   Info      - Audio info struct</span>
+    <span class="comment">%   UI        - Cell UIs for the options</span>
+    <span class="comment">%   Tag       - Tag to find object</span>
+    <span class="comment">%</span>
+    <span class="comment">%   Written for the BSc graduation project Acoustic Enhancement via</span>
+    <span class="comment">%   Beamforming Using Smartphones.</span>
+    <span class="comment">%</span>
+    <span class="comment">%   Team:       S. Bosma                R. Brinkman</span>
+    <span class="comment">%               T. de Rooij             R. Smeding</span>
+    <span class="comment">%               N. van Wijngaarden      E. Wouters</span>
+    <span class="comment">%</span>
+    <span class="comment">%   Supervisor: Jorge Mart&iacute;nez Casta&ntilde;eda</span>
+    <span class="comment">%</span>
+    <span class="comment">%   Contact: E.H.Wouters@student.tudelft.nl</span>
+    <span class="comment">%</span>
+    <span class="comment">%   See also BF_DATA, MAIN_WINDOW</span>
+</pre><h2>Properties<a name="3"></a></h2><pre class="codeinput">    properties
+        Parent              <span class="comment">% Handle of panel to place ui in</span>
+        MainObj             <span class="comment">% Handle of main object</span>
+        Name = <span class="string">'Load File'</span>; <span class="comment">% Name of UI</span>
+        FilePath = [pwd filesep <span class="string">'files'</span>]; <span class="comment">% File Path</span>
+        FileName = <span class="string">'Source1.wav'</span>; <span class="comment">% File name</span>
+        Info                <span class="comment">% Audio info struct</span>
+        UI                  <span class="comment">% Cell UIs for the options</span>
+        Tag = <span class="string">'load_file'</span>;  <span class="comment">% Tag to find object</span>
+    <span class="keyword">end</span>
+</pre><h2>Methods<a name="4"></a></h2><pre class="codeinput">    methods
+</pre><pre class="codeinput">        <span class="keyword">function</span> obj = load_file_settings_ui(parent, mainObj)
+            <span class="comment">% Parse Input</span>
+            <span class="comment">% figure Handle</span>
+            <span class="keyword">if</span> nargin == 0
+                obj.Parent = figure(<span class="string">'Name'</span>,obj.Name,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>,<span class="string">'resize'</span>,<span class="string">'on'</span>);
+            <span class="keyword">elseif</span> nargin &gt;= 1
+                <span class="keyword">if</span> ishandle(parent)
+                    obj.Parent = parent;
+                <span class="keyword">else</span>
+                    warning([<span class="string">'First argument needs to be a handle,'</span><span class="keyword">...</span>
+                        <span class="string">'new figure created.'</span>]);
+                    obj.Parent = figure(<span class="string">'Name'</span>,obj.Name,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>,<span class="string">'resize'</span>,<span class="string">'on'</span>);
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> nargin &gt;= 2
+                obj.MainObj = mainObj;
+            <span class="keyword">else</span>
+                obj.MainObj.DataBuffer = bf_data;
+            <span class="keyword">end</span>
+
+            <span class="comment">% Graphics Code</span>
+            obj.UI = obj.graphicsCode();
+
+            <span class="comment">% Debug</span>
+<span class="comment">%             assignin('base','obj',obj)</span>
+        <span class="keyword">end</span>
+</pre><pre class="codeoutput">  BF_DATA Beamformer Audio Buffer. Has many functions to label the
+    channels and add data from different sources. The time indices of the 
+    data in the buffer can be kept in sync using different methods.
+ 
+    BF_DATA(OBJ) create empty file object
+    BF_DATA(OBJ, MAINOBJ) create file object and add handle to main object
+    BF_DATA(OBJ, MAINOBJ, SOURCEID) create empty file object and set SourceID
+    BF_DATA(OBJ, MAINOBJ, SOURCEID, FILENAME) add file named fileName to object
+    BF_DATA(OBJ, MAINOBJ, SOURCEID, FILENAME, LOCATIONS) add file with locations
+    BF_DATA(OBJ, MAINOBJ, SOURCEID, FILENAME, LOCATIONS, CHANNAMES) add file with
+    locations and channel names
+ 
+  Example 1:
+    obj = bf_data
+    obj.setChanNames({'S1','S2','S3','S4'})
+    obj.setTotalSamples(100)
+    obj.addSamples([1;2;3;4;[5:100]'],'S3')
+    obj.getAudioData({'S3','S1'})
+ 
+  Example 2:
+    obj = bf_data
+    obj.setChanNames({'S1','S2','S3','S4'})
+    obj.addSamples([1;2;3;4;[5:100]'],'S1',1,25)
+ 
+  Example 3:
+    obj = bf_data
+    obj.setChanNames({'S1','S2','S3','S4'})
+    obj.setDelays(5,{'S2'})
+    obj.addSamples([1;2;3;4;[5:100]'],'S3',1)
+ 
+  BF_DATA Methods:
+    load            - Load data from audio or matlab file.
+    save            - Save data to audio or matlab file.
+    play            - Play the data using an audio device.
+    setNChan        - Set number of channels.
+    setTotalSamples - Set total number of samples.
+    setLocations    - Set Channel Locations.
+    setChanNames    - Set Channel Names.
+    setDelays       - Set Delay Times.
+    addSamples      - Add samples to the data.
+    getAudioData    - Get samples out of buffer (time axes of channels agree).
+    resampleData    - Resample data using matlab resample function
+    delayData       - Delay data so when data is loaded the time axes agree.
+    names2inds      - Get index of channel(s) in audiodata matrix
+ 
+  BF_DATA Properties:
+    FileName      - Name of the audio file to save including extention
+    FilePath      - Path of the audio file to save
+    SourceID      - Identifier for source device or file in use.
+    Fs            - Sampling Frequency in Hz
+    BitsPerSample - Number of Bits per audio Sample
+    NChan         - Number of audio channels in File
+    Comment       - Comment of audio file
+    Locations     - Channel locations [x y z az el up]
+    ChanNames     - Channel names
+    DelaySamples  - Delays in samples for each channel
+    CurrentSample - Current sample for each channel. Used when adding
+    samples to the channel.
+    TotalSamples  - Total length of the audio data in samples
+    IsInitialized - Has the source been correctly initialized
+    AudioData     - Audio Data matrix size = [TotalSamples NChan]
+    Tag           - Tag to find object
+ 
+    Written for the BSc graduation project Acoustic Enhancement via
+    Beamforming Using Smartphones.
+ 
+    Team:       S. Bosma                R. Brinkman
+                T. de Rooij             R. Smeding
+                N. van Wijngaarden      E. Wouters
+ 
+    Supervisor: Jorge Mart&iacute;nez Casta&ntilde;eda
+ 
+    Contact: E.H.Wouters@student.tudelft.nl
+ 
+    See also BF_DATA/LOAD, BF_DATA/SAVE, BF_DATA/PLAY, BF_DATA/ADDSAMPLES,
+    BF_DATA/SETNCHAN, BF_DATA/SETTOTALSAMPLES, BF_DATA/SETLOCATIONS, 
+    BF_DATA/SETCHANNAMES, BF_DATA/SETDELAYS, BF_DATA/ADDSAMPLES, 
+    BF_DATA/GETAUDIODATA, BF_DATA/RESAMPLEDATA, BF_DATA/DELAYDATA,
+    BF_DATA/NAMES2INDS, MITM, SITM, AUDIOREAD, AUDIOWRITE, SAVE, LOAD
+
+    Published output in the Help browser
+       showdemo bf_data
+
+</pre><h2>FilePath Add function<a name="6"></a></h2><pre class="codeinput">        <span class="keyword">function</span> pbFilePath_Callback(obj,~,~)
+            file1 = bf_data;
+            file1.FileName = [];
+            file1.load;
+            obj.UI.edFileName.String = file1.FileName;
+            <span class="keyword">if</span> file1.IsInitialized
+                <span class="keyword">if</span> isempty(strfind(file1.FileName,<span class="string">'.mat'</span>))
+                    obj.Info = audioinfo(fullfile(file1.FilePath,file1.FileName));
+                    obj.UI.lbHeader.String = sprintf([<span class="string">'Audio file loaded'</span><span class="keyword">...</span>
+                        <span class="string">'\nTitle:\t'</span>, obj.Info.Title,<span class="keyword">...</span>
+                        <span class="string">'\nNumChannels:\t'</span>, mat2str(obj.Info.NumChannels),<span class="keyword">...</span>
+                        <span class="string">'\nSampleRate:\t'</span>, mat2str(obj.Info.SampleRate),<span class="keyword">...</span>
+                        <span class="string">'\nTotalSamples:\t'</span>, mat2str(obj.Info.TotalSamples),<span class="keyword">...</span>
+                        <span class="string">'\nDuration:\t'</span>, mat2str(obj.Info.Duration),<span class="keyword">...</span>
+                        <span class="string">'\nCompression:\t'</span>, obj.Info.CompressionMethod,<span class="keyword">...</span>
+                        <span class="string">'\nComment:\t'</span>, obj.Info.Comment,<span class="keyword">...</span>
+                        <span class="string">'\nArtist:\t'</span>, obj.Info.Artist,<span class="keyword">...</span>
+                        <span class="string">'\nBitsPerSample:\t'</span>, mat2str(obj.Info.BitsPerSample)]);
+                <span class="keyword">else</span>
+                    obj.UI.lbHeader.String = sprintf([<span class="string">'.mat file loaded'</span><span class="keyword">...</span>
+                        <span class="string">'\nTitle:\t'</span>, file1.SourceID,<span class="keyword">...</span>
+                        <span class="string">'\nNumChannels:\t'</span>, mat2str(file1.NChan),<span class="keyword">...</span>
+                        <span class="string">'\nSampleRate:\t'</span>, mat2str(file1.Fs),<span class="keyword">...</span>
+                        <span class="string">'\nTotalSamples:\t'</span>, mat2str(file1.TotalSamples),<span class="keyword">...</span>
+                        <span class="string">'\nDuration:\t'</span>, mat2str(file1.TotalSamples/file1.Fs),<span class="keyword">...</span>
+                        <span class="string">'\nCompression:\tbf_data'</span>,<span class="keyword">...</span>
+                        <span class="string">'\nComment:\t'</span>, file1.Comment,<span class="keyword">...</span>
+                        <span class="string">'\nArtist:\t'</span>, <span class="string">'-'</span>,<span class="keyword">...</span>
+                        <span class="string">'\nBitsPerSample:\t'</span>, mat2str(file1.BitsPerSample)]);
+                <span class="keyword">end</span>
+                obj.MainObj.DataBuffer.addSamples(file1.AudioData,file1.ChanNames,1);
+                obj.MainObj.DataBuffer.setLocations(file1.Locations,file1.ChanNames);
+            <span class="keyword">else</span>
+                obj.UI.lbHeader.String = <span class="string">'No file selected'</span>;
+            <span class="keyword">end</span>
+            clear <span class="string">file1</span>
+        <span class="keyword">end</span>
+</pre><h2>Load File Graphics Code<a name="7"></a></h2><pre class="codeinput">        <span class="keyword">function</span> UI = graphicsCode(obj)
+            <span class="comment">% GRAPHICSCODE Graphics Code</span>
+            <span class="comment">% Load File UI panel</span>
+            m=7;n=5;
+            UI.txFileName = uicontrol(obj.Parent,<span class="string">'Style'</span>,<span class="string">'text'</span>,<span class="keyword">...</span>
+                <span class="string">'String'</span>,<span class="string">'File Name'</span>,<span class="string">'Units'</span>,<span class="string">'Normalized'</span>,<span class="keyword">...</span>
+                <span class="string">'Position'</span>,grid2pos([1,1, 1,1, m,n]));
+            UI.edFileName = uicontrol(obj.Parent,<span class="string">'Style'</span>,<span class="string">'edit'</span>,<span class="keyword">...</span>
+                <span class="string">'String'</span>,<span class="string">'Select a file...'</span>,<span class="string">'Units'</span>,<span class="string">'Normalized'</span>,<span class="keyword">...</span>
+                <span class="string">'Position'</span>,grid2pos([2,1, 5,1, m,n]));
+            UI.pbAdd = uicontrol(obj.Parent,<span class="string">'Style'</span>,<span class="string">'pushbutton'</span>,<span class="keyword">...</span>
+                <span class="string">'String'</span>,<span class="string">'Add'</span>,<span class="string">'Callback'</span>,@obj.pbFilePath_Callback,<span class="keyword">...</span>
+                <span class="string">'Units'</span>,<span class="string">'normalized'</span>,<span class="string">'Position'</span>,grid2pos([7,1, 1,1, m,n]));
+            UI.lbHeader = uicontrol(obj.Parent,<span class="string">'Style'</span>,<span class="string">'listbox'</span>,<span class="keyword">...</span>
+                <span class="string">'Units'</span>,<span class="string">'Normalized'</span>,<span class="string">'Position'</span>,grid2pos([1,2, 1,4, 1,n]),<span class="keyword">...</span>
+                <span class="string">'String'</span>,{<span class="string">'File header:'</span>,<span class="string">'not loaded'</span>});
+        <span class="keyword">end</span>
+</pre><pre class="codeoutput">
+ans = 
+
+  load_file_settings_ui with properties:
+
+      Parent: [1x1 Figure]
+     MainObj: [1x1 struct]
+        Name: 'Load File'
+    FilePath: 'D:\android-beamforming\10 - Code\03 - Beamforming\BeamformG...'
+    FileName: 'Source1.wav'
+        Info: []
+          UI: [1x1 struct]
+         Tag: 'load_file'
+
+</pre><img vspace="5" hspace="5" src="load_file_settings_ui_01.png" alt=""> <pre class="codeinput">    <span class="keyword">end</span>
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+classdef load_file_settings_ui < handle
+    % LOAD_FILE_SETTINGS_UI Holds the gui elements for the load file settings panel
+    %
+    %   LOAD_FILE_SETTINGS_UI() create ui in new figure
+    %   LOAD_FILE_SETTINGS_UI(PARENT) create ui in parent panel
+    %   LOAD_FILE_SETTINGS_UI(PARENT, MAINOBJ) create ui with handle to main object
+    %
+    % Example 1:
+    %   obj = load_file_settings_ui
+    %
+    % Example 2:
+    %   Parent = figure
+    %   obj = load_file_settings_ui(Parent)
+    %
+    % LOAD_FILE_SETTINGS_UI Methods:
+    %   load_file_settings_ui - Constructor
+    %   pbFilePath_Callback   - Add selectec file to dat buffer
+    %   graphicsCode          - Graphics Generation Code
+    %
+    % LOAD_FILE_SETTINGS_UI Properties:
+    %   Parent    - Handle of panel to place ui in
+    %   MainObj   - Handle of main object
+    %   Name      - Name of UI
+    %   FilePath  - File Path
+    %   FileName  - File name
+    %   Info      - Audio info struct
+    %   UI        - Cell UIs for the options
+    %   Tag       - Tag to find object
+    %
+    %   Written for the BSc graduation project Acoustic Enhancement via
+    %   Beamforming Using Smartphones.
+    %
+    %   Team:       S. Bosma                R. Brinkman
+    %               T. de Rooij             R. Smeding
+    %               N. van Wijngaarden      E. Wouters
+    %
+    %   Supervisor: Jorge Martínez Castañeda
+    %
+    %   Contact: E.H.Wouters@student.tudelft.nl
+    %
+    %   See also BF_DATA, MAIN_WINDOW
+    
+    %% Properties
+    properties
+        Parent              % Handle of panel to place ui in
+        MainObj             % Handle of main object
+        Name = 'Load File'; % Name of UI
+        FilePath = [pwd filesep 'files']; % File Path
+        FileName = 'Source1.wav'; % File name
+        Info                % Audio info struct
+        UI                  % Cell UIs for the options
+        Tag = 'load_file';  % Tag to find object
+    end
+    %% Methods
+    methods
+        function obj = load_file_settings_ui(parent, mainObj)
+            % Parse Input
+            % figure Handle
+            if nargin == 0
+                obj.Parent = figure('Name',obj.Name,'NumberTitle','off','resize','on');
+            elseif nargin >= 1
+                if ishandle(parent)
+                    obj.Parent = parent;
+                else
+                    warning(['First argument needs to be a handle,'...
+                        'new figure created.']);
+                    obj.Parent = figure('Name',obj.Name,'NumberTitle','off','resize','on');
+                end
+            end
+            if nargin >= 2
+                obj.MainObj = mainObj;
+            else
+                obj.MainObj.DataBuffer = bf_data;
+            end
+            
+            % Graphics Code
+            obj.UI = obj.graphicsCode();
+            
+            % Debug
+%             assignin('base','obj',obj)
+        end
+        
+        %% FilePath Add function
+        function pbFilePath_Callback(obj,~,~)
+            file1 = bf_data;
+            file1.FileName = [];
+            file1.load;
+            obj.UI.edFileName.String = file1.FileName;
+            if file1.IsInitialized
+                if isempty(strfind(file1.FileName,'.mat'))
+                    obj.Info = audioinfo(fullfile(file1.FilePath,file1.FileName));
+                    obj.UI.lbHeader.String = sprintf(['Audio file loaded'...
+                        '\nTitle:\t', obj.Info.Title,...
+                        '\nNumChannels:\t', mat2str(obj.Info.NumChannels),...
+                        '\nSampleRate:\t', mat2str(obj.Info.SampleRate),...
+                        '\nTotalSamples:\t', mat2str(obj.Info.TotalSamples),...
+                        '\nDuration:\t', mat2str(obj.Info.Duration),...
+                        '\nCompression:\t', obj.Info.CompressionMethod,...
+                        '\nComment:\t', obj.Info.Comment,...
+                        '\nArtist:\t', obj.Info.Artist,...
+                        '\nBitsPerSample:\t', mat2str(obj.Info.BitsPerSample)]);
+                else
+                    obj.UI.lbHeader.String = sprintf(['.mat file loaded'...
+                        '\nTitle:\t', file1.SourceID,...
+                        '\nNumChannels:\t', mat2str(file1.NChan),...
+                        '\nSampleRate:\t', mat2str(file1.Fs),...
+                        '\nTotalSamples:\t', mat2str(file1.TotalSamples),...
+                        '\nDuration:\t', mat2str(file1.TotalSamples/file1.Fs),...
+                        '\nCompression:\tbf_data',...
+                        '\nComment:\t', file1.Comment,...
+                        '\nArtist:\t', '-',...
+                        '\nBitsPerSample:\t', mat2str(file1.BitsPerSample)]);
+                end
+                obj.MainObj.DataBuffer.addSamples(file1.AudioData,file1.ChanNames,1);
+                obj.MainObj.DataBuffer.setLocations(file1.Locations,file1.ChanNames);
+            else
+                obj.UI.lbHeader.String = 'No file selected';
+            end
+            clear file1
+        end
+        
+        %% Load File Graphics Code
+        
+        function UI = graphicsCode(obj)
+            % GRAPHICSCODE Graphics Code
+            % Load File UI panel
+            m=7;n=5;
+            UI.txFileName = uicontrol(obj.Parent,'Style','text',...
+                'String','File Name','Units','Normalized',...
+                'Position',grid2pos([1,1, 1,1, m,n]));
+            UI.edFileName = uicontrol(obj.Parent,'Style','edit',...
+                'String','Select a file...','Units','Normalized',...
+                'Position',grid2pos([2,1, 5,1, m,n]));
+            UI.pbAdd = uicontrol(obj.Parent,'Style','pushbutton',...
+                'String','Add','Callback',@obj.pbFilePath_Callback,...
+                'Units','normalized','Position',grid2pos([7,1, 1,1, m,n]));
+            UI.lbHeader = uicontrol(obj.Parent,'Style','listbox',...
+                'Units','Normalized','Position',grid2pos([1,2, 1,4, 1,n]),...
+                'String',{'File header:','not loaded'});
+        end
+        
+    end
+end
+##### SOURCE END #####
+--></body></html>

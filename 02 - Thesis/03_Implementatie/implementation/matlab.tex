@@ -1,0 +1,66 @@
+\documentclass[a4paper, notitlepage]{report}
+\input{../title}
+\input{../preamble}
+\begin{document}
+
+\section{MATLAB implementation}
+\label{sec:matlab}
+The possibility to call compiled Java \texttt{.class} files from within \matlab can be used to leverage Java's asynchronous networking capabilities from within a \matlab script. In this section, the implemented Java/\matlab host application will be detailed and design choices will be explained.
+
+\paragraph*{}
+The choice for \matlab was made based on the ease of prototyping, prior experience and interconnections with the subsystem built by van Wijngaarden and Wouters \cite{BAP:ErikNiels}. Furthermore, compiled Java \texttt{.class} files can be called from \matlab to extend default \matlab functionality.
+
+\paragraph*{}
+Although \matlab was found to provide a suitable environment for developing this application, it was found that interoperation between Java code and \matlab itself is not entirely trivial. The largest problem is that the ability to call back arbitrary \matlab functions from Java, while present, is not officially supported or documented\footnote{Yair Altman keeps a blog called Undocumented Matlab where he explains how \matlab callbacks can be implemented in Java, among other undocumented features: \url{http://www.undocumentedmatlab.com}}. Using this functionality is therefore somewhat risky, since MathWorks may remove this functionality without any indication to users.
+
+\paragraph*{}
+Despite previously mentioned concerns, it was decided to use Java for this project because \matlab does not natively provide non-blocking networking to multiple clients. In Java, the \texttt{java.nio} package developed by Oracle\footnote{Documentation for the NIO package can be found at \\ \url{https://docs.oracle.com/javase/7/docs/api/java/nio/package-summary.html}} allows multiple simultaneous transmission control protocol (TCP) connections over a single port, enabling multiple smartphones to connect to the Java program. The connections can then be multiplexed using \texttt{selector}. The reason TCP was chosen instead of the user datagram protocol (UDP) is the connection-oriented nature of TCP, which provides guaranteed in-order reception of packets. This simplifies consequent signal processing, which no longer has to account for possibly missing audio data.
+
+\paragraph*{}
+Using a single processing thread would cripple this server application since the application could then either send/receive data to connected clients \emph{or} process the received audio. In order to parallelize these concurrent activities, the Java classes utilized parallelization in the form of \texttt{java.lang.Thread} threads. One thread is used to perform non-blocking I/O and the other thread is the default \matlab thread used to process incoming audio samples.
+
+\subsection{I/O finite state machine}
+\label{sec:io_fsm}
+Since the I/O is non-blocking, several clients (in this case, smartphones) can read and write to the server simultaneously. Therefore, to facilitate communicating with multiple devices simultaneously, the server application represents each client as a finite state machine (FSM). From the server's point of view, each client is in one of the following states (see also Fig.~\ref{fig:fsm-server}):
+
+\begin{StateDescription}
+\item[configuring] The client has initiated a connection to the server and the client and server are currently negotiating settings\footnote{The negotiated settings are sample rate, block length (number of bytes sent at once) and mono/stereo recording.}.
+
+\item[idle] The client is connected and fully configured. It is awaiting a start streaming command to start streaming its audio recordings to the server. Additionally, the settings may be renegotiated to change the state back to \textsc{configuring}.
+
+\item[streaming] The client is currently streaming audio to the server. Sending a stop streaming signal will change the client state to \textsc{idle}.
+\end{StateDescription}
+\noindent
+Additionally, because a complete packet sent by a client may arrive as several frames on the server side, each client can be in one of two reading states:
+\begin{StateDescription}
+\item[receivingdata] This state indicates to the server that the client is somewhere along sending a packet to the server. The next read frame should be interpreted as a continuation of the previous frame(s).
+\item[idle] This state indicates the next received frame should be interpreted as the start of a new packet.
+\end{StateDescription}
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/implementation/server_fsm}
+\caption[Server and Android app FSM.]{Diagram representing the finite state machine implemented by both the server and the smartphone application.}
+\label{fig:fsm-server}
+\end{figure}
+
+\subsection{Communication protocol}
+\label{subsec:communication-protocol}
+On top of the TCP interface provided by the Java \texttt{SocketChannel}\footnote{Documentation for the SocketChannel can be found at \url{https://docs.oracle.com/javase/7/docs/api/java/nio/channels/SocketChannel.html}}, a custom communication protocol between the \matlab application and the clients was defined. Each packet starts with one byte identifying its type to the recipient. A list of each byte-identifier and packet type in the communication link along with their content is listed below.
+\begin{StateDescription}
+\item[1: setup] Sent from server to client. Contains 4 bytes specifying the sampling rate to use, 4 bytes containing the block length to use and 1 byte indicating whether to record in mono or stereo.
+
+\item[2: ack\_setup] Sent from client to server after receiving \textsc{setup}. Contains a string with the hardware (MAC) address of the client preceded by 4 bytes specifying, in bytes, the length of the string.
+
+\item[3: start\_streaming] Sent from the server to the client, indicating the client should start streaming its audio recordings to the server. Contains 1 byte specifying which audio source to use, as explained in section \ref{sec:android}.
+
+\item[4: stop\_streaming] Sent from the server to the client, indicating the client should cease streaming its audio recordings to the server. Packet has no content.
+
+\item[5: ack\_stop] Sent from the client to the server to acknowledge it has received the stop packet and will stop streaming audio. Packet has no content.
+
+\item[6: stream\_data] Sent from client to server, contains recorded audio samples. The length of this packet is $\text{block\_length}*16~ \text{bits}$ (each sample has 16 bit resolution). The block length is negotiated in the \textsc{setup} packet.
+
+\item[7: orientation\_update] Sent from client to server, contains 12 bytes (3 floating point numbers) with measured azimuth, pitch and roll. A final byte indicates whether the phone is moving\footnote{This byte is not used on the \matlab side.}. 
+\end{StateDescription}
+
+\end{document}

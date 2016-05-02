@@ -1,0 +1,51 @@
+\chapter{Discussion}
+\label{chap:discussion}
+%Vergelijking met related research en onze resultaten, specifiek overeenkomsten en verschillen
+
+Different experiments and simulations have been done to investigate the performance of the beamforming algorithms. The DSB is a simple beamforming algorithm compared to the MVDR beamforming algorithm and as discussed in section \ref{chap:related}, the DSB algorithm is optimal for spatially white noise. The delay-and-sum beamforming algorithm can be used as comparison for the other two beamforming algorithms. The MVDR algorithm was expected to perform well in the presence of coherent noise. Therefore it was expected that the MVDR algorithm would be the best performing beamformer in an office room scenario.
+
+\section{Performance of the Beamforming Algorithms}
+The simulated scenarios confirm the expectation that the MVDR beamforming algorithm has the best performance, but the conducted experiments lead to unexpected results. The DSB algorithm slightly enhanced the quality of the audio in the simulated scenarios and in the office room experiments but the MVDR only improved the sound quality in the simulated scenarios and in the anechoic scenario. A possible explanation for this could be the high white noise gain of the MVDR beamforming algorithm. In all the simulations and all the conducted measurements, the white noise gain for the MVDR beamformer was above $50dB$. A high white noise gain causes the beamforming algorithm to have a poor $SNR$ due to white noise contributions as explained in chapter \ref{chap:related}. The MVDR has a tendency to converge to the DSB when the white noise level is high \cite{gannot2010}.
+Another reason could be the sensitivity of the MVDR to position errors. As proven in the simulations, the MVDR is highly sensitive to position errors. Inaccurately measured locations during the office room experiments could reduce the performance of the MVDR beamformer. Also inacuracy in speed of sound could be a factor in the performance decrease. The speed of sound varies with temperature and humidity, and this variation was not considered in the measurements.
+
+%The segmental SNR was in all of the simulated scenarios lower than the global SNR...
+
+%It is expected that an improvement in SNR results in an improvement in MOS and in our results...
+
+
+
+
+
+
+\section{Possible improvements}
+Localization and distributed calculation of the beamforming algorithms are not in the scope of this thesis, but are still closely related topics. The source and microphone locations are essential for the performance of a beamforming algorithm. In this research, there is still a central computer needed to run the beamforming algorithm. Hence it would be an improvement if the calculations of the beamforming algorithm could be done distributed on the smartphones. These distributed calculations could make a central processing unit redundant.
+
+\subsection{Localization}
+
+Brandstein et al. \cite{brandstein2001} divide source localization in three different classes, steered beamformer based locators, high resolution spectral estimation locators and time difference of arrival (TDOA) locators. Steered beamformer based locators scan the region to find the region which produces the highest output energy. High-resolution spectral estimation locators use a spectral phase correlation matrix to find the best fit for source localization. TDOA locators use the delay of the sound between microphones to calculate the location of the source. 
+
+The locations of the microphones are, besides the location of the source, also of importance to the performance of the beamformer. A possible solution for this problem is the use of self-localization with high accuracy to find out the locations of the microphones \cite{hennecke2011}.
+
+\subsection{Distributed algorithm}
+
+A distributed algorithm for the DSB for wireless acoustic sensor networks, is proposed by Zeng et al. \cite{zeng2013, zeng2014}. A distributed MVDR beamformer for wireless acoustic sensor networks based on message passing is proposed in \cite{heusdens2012}.
+
+\subsection{Realtime Beamforming Toolbox}
+The \matlab toolbox developed for this project was very powerful in conducting the experiments and analyzing the data. The complete process has been automated. Future work on audio enhancement using smartphones could use this toolbox to record audio synchronously on smartphones.\\
+Also the opportunity to add more different beamforming algorithms can be explored. There is an example processing class in which they can be included quite easily.
+
+
+
+
+
+
+
+
+%\section{Remarks (from literature study)}
+%The localization of the source is critical for the operation of a beamforming algorithm. Cha Zhang et al. \cite{zhang2008} propose an eMVDR which has good localization in reverberant environments. Instead of improving the localization, one can also make the algorithm less sensitive to a change of the source location \cite{ehrenberg2010}. Localization is generally performed by using time differences of arrival from one source to the multiple microphones. For this calculation, the locations of the microphones are assumed to be known. However, there is also the possibility to use self-localization to find out the locations of the microphones \cite{hennecke2011}.
+%
+%Differences in sample rate and time references between devices can heavily impact the effectiveness of the beamformer \cite{schm2013}. Possible solutions to this have been outlined in subsection 
+%{\Huge ref!} %\ref{subsec:synch}}. 
+%In addition, room reverberations can be very hard to invert because the ATF changes with time and with the position of the source \cite{jin2010}.
+%
+%Different kinds of noise call for different beamforming algorithms. The DSB has the property that it suppresses white noise sources well \cite{brandstein2001}, whereas the MVDR beamformer can suppress coherent noise sources \cite{naylor2010speech} better.

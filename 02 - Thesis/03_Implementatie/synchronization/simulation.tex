@@ -1,0 +1,46 @@
+\documentclass[a4paper, notitlepage]{report}
+\input{../title}
+\input{../preamble}
+\begin{document}
+
+\section{Simulation}
+\label{sec:sync-simulation}
+To characterize the performance of just the synchronization subsystem, a simulation was constructed that measures the error of the estimate $\hat{\tau}$ in different scenarios. This simulation is performed for different values of synchronization delay, reverberation and signal-to-noise ratio.
+
+\subsection{Scope and implementation}
+First, the simulation generates the MLS signal that is used for all simulations. Based on this, a number of microphone signals are generated. Each signal is convolved by $K$ different FIR filters, each representing a room impulse response for a 5 by 6 by 2.5 metre cuboid-shaped room with a variable wall acoustic reflection coefficient\footnote{These FIR filters were computed by the rir.m file available from the \matlab Central File Exchange at \url{https://www.mathworks.com/matlabcentral/fileexchange/5116-room-impulse-response-generator/content/rir.m}}. Each of these signals is delayed by $L$ different delays, yielding a $K \times L$ set of convolved and delayed sample signals.
+
+Then, for each delay and reflection value, $M$ different signal-to-noise ratios are evaluated. For each SNR, $N$ realizations of Gaussian noise at that magnitude are generated so that, in total, $K \times L \times M \times N$ simulation runs were performed. This noise realization is added to the pre-generated sample signal and both the time- and frequency-domain correlation algorithms described above are run on this noisy signal. The difference between the actual inserted delay and the estimated delay is computed and stored in a result vector.
+
+The parameters used for this simulation are as follows: $K = 10$ different wall reflection coefficients from 0 to 1 (unitless), $L = 10$ different delays from $0~\mathrm{s}$ to $0.2~\mathrm{s}$, $M = 20$ different noise signal-to-noise ratios from $60~\mathrm{dB}$ to $-34~\mathrm{dB}$ and $N = 100$ noise realizations for each parameter combination.
+
+\subsection{Expected results}
+Due to the favorable properties of the beacon signal described in \ref{sec:mls}, it is expected that the time-domain algorithm will be robust in the face of introduced noise. As this algorithm relies on finding a global maximum in the impulse response, however, it is suspected that for high values of wall reflectance, combined with multipath interference, a maximum in the impulse response might arise that does not correspond to the direct acoustic path. This would lead to a large estimation error beyond a certain critical wall reflection coefficient. In addition, the time-domain algorithm is only accurate to integer samples, leading to an expected round-off error of less than one sample.
+
+The frequency-domain algorithm is expected to provide sub-sample accuracy due to its least-squares estimation of the delay in the frequency domain. However, performance is reliant on low phase contribution of the acoustic impulse response compared to the contribution of the delay that must be estimated (equation \ref{eq:rir-influence-fd}). It is unknown whether this assumption will hold throughout the simulation scenarios.
+
+It is not expected that the performance of either algorithm will depend on the amount of introduced delay.
+
+\subsection{Results}
+The reflection coefficient has no influence on the performance of the time-domain algorithm, but the frequency-domain algorithm is crippled at reflection values of $0.8$ or higher (Fig.~\ref{fig:sync-simulation-reflection}). The frequency-domain algorithm is much more susceptible to noise than the time-domain algorithm (fig \ref{fig:sync-simulation-noise}). Neither algorithm is affected by the amount of delay (fig \ref{app:sync-simulation-delay} in the appendix). A discussion of the results may be found in section \ref{sec:disc_to}.
+
+\begin{figure}[H]
+\begin{adjustwidth}{-1in}{-1in}
+\centering
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth]{figures/sync-simulation/error-vs-reflection}
+		\caption{Delay estimation error as a function of wall reflection.}
+		\label{fig:sync-simulation-reflection}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth]{figures/sync-simulation/error-vs-noise}
+		\caption{Delay estimation error as a function of noise power}
+		\label{fig:sync-simulation-noise}
+	\end{subfigure}
+\end{adjustwidth}
+\caption[TD and FD synchronization simulation results.]{Simulated results for TD and FD synchronization algorithm.}
+\label{fig:sync-simulation}
+\end{figure}
+
+
+\end{document}

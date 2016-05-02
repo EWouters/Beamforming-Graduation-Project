@@ -1,0 +1,78 @@
+\chapter{Conclusion and recommendations}
+\label{chap:conclusion}
+\setheader{Conclusion and recommendations}
+The research of this thesis continues the work of Gaubitch et al. \cite{Gaubitch2014}.
+First some background (Chapter \ref{chap:background}) was addressed. 
+The working of a beamforming algorithm, with the choice of an ad-hoc near-field broadband beamformer was explained.
+After that different sampling schemes on a sphere were presented with their advantages and disadvantages.
+And the last part of background consisted of a comparison of three different impulse response determination methods, with the conclusion that the maximum length sequence (MLS) and time-stretched pulse (TSP) techniques are more appropriate for determining the directivity of a smartphone microphone than the sine sweep technique and therefore those two were explained in more detail.
+
+This chapter was followed by the presentation of an equiangular sampling scheme (with latitudes and longitudes $9^\circ$ apart) for determining the smartphone directivity.
+Measurements using this scheme were conducted using the TSP and MLS impulse response determination techniques (an overview of the measurement set-up can be found in Appendix \ref{app:setupoverview}).
+Preliminary results, presented at the end of Chapter \ref{chap:measurements}, showed unexpected frequency behaviour.
+
+Different attempts and methods to equalize this unexpected frequency behaviour were described in Chapter \ref{chap:equalization}.
+The approach of determining an inverse filter was based on the assumption the inverse filter to have a \textit{linear} and time-invariant system approximation.
+Although the impulse response of the system was non-minimum phase, the Toeplitz method and recursive least squares method were tested, with poor results: which let to the rejection of the assumption that the inverse of the acoustic system has a linear approximation.
+Due to time constrains, equalizing the response of the acoustic system (a non-minimum phase system) was not possible, so a rather simple Log-equalizer was presented and applied to the data set.
+
+In Chapter \ref{chap:outcome} the equalized results are presented and discussed, followed by Chapter \ref{chap:implementation}, where in short the implementation in the beamforming algorithm is explained.
+In this last chapter, we will provide our conclusions based on the results and from this, we will present some recommendations for future work, for there is much room for improvement.
+
+\clearpage
+\section{Conclusion}
+The directivity for \nexus~ has been determined, but only for one smartphone of its type.
+For another smartphone of the same type only measurements were done on the upper half of a sphere, with other settings, so they are not comparable.
+Of course their patterns can be compared, but not for the full sphere.
+Therefore there is not much to state about the differences of directivity between smartphones of the same type: it seems they follow the same patterns, which has also been concluded by Gaubitch et al. \cite{Gaubitch2014}.
+
+The addition of the surface does change the directivity of the smartphone as expected, but for audio signal coming from above the surface, the frequencies below 1 kHz are better received than the same signals for the smartphone with no surface.
+This is an interesting result, for the reception of signals in the speech domain from above the surface is not attenuated but enhanced by the surface.
+Also noticeable was the effect of face up or face down on the surface, something which changed the perception of the audio signals by the smartphone more than expected.
+
+\subsection{Beamforming algorithm improvement}
+\label{ssec:beam_impr}
+For the title of this thesis is `On determining smartphone microphone directivity with application to beamforming', the improvement of the beamforming algorithm is an essential part of the research.
+This part of the research has been done by Van Wijngaarden en Wouters \cite{BAP:ErikNiels}, who did experiments using the data presented in this section with results. 
+A little overview of the application of data to the algorithm is given in the Chapter \ref{chap:implementation}.
+
+The first results looked not so promising: no improvement of the beamforming algorithms has been observed.
+For further results, the reader is encouraged to read their work.
+The beamforming algorithm uses both gain and phase information of the determined directivity.
+Gain loss due to the acoustic system has been compensated, but phase shifts due to the acoustic system are uncorrected by the equalizer.
+
+The lack of improvement of the beamforming algorithm could be caused by these uncorrected phase shifts.
+Also the difference between the directivity of the microphone on a surface with respect to mid-air measurements might be a cause.
+A final cause could be the low robustness of the beamforming algorithm, this might be limiting its performance \cite{BAP:ErikNiels}.
+
+Some performance improvement of the beamforming algorithm with equalized data against non-equalized data is expected, for it will be used for frequencies in the speech-domain: between 125 and 8000 Hz.
+As can be seen best in Figure \ref{fig:weightsonphone} these frequencies are influenced by the equalizer and so the equalized data could improve the beamforming algorithm.
+Due to time-constrains, only the equalized data has been tested in the beamforming algorithm.
+
+\clearpage
+\section{Recommendations for future work}
+% De nieuwste interpolatie technieken van de conferentie van 2015. 
+% wat we verder nog bedenken
+For future work there are a lot of recommendations.
+To start with, of course, the impulse response of the acoustic system.
+The making of the filter has delayed our research and the disability of our filter compensate for phase shift due to the acoustic system have made the the results less usefull.
+
+In addition, for the manufactures of smartphones, we recommend to use better microphones, for this not only would improve experience for calling and recording sounds, but a more flat frequency response is easier to process by the beamforming algorithm.
+Manufacturers also should give access via the software to other microphones on the smartphone.
+Most modern smartphones have multiple microphones, for instance one on the listeningside of the phone to suppress environmental noise when calling.
+If the directivity of this microphone also is known, its recording can be used in beamformer algorithms: more microphones improve the results of the algorithm.
+At last for the manufactures, the smartphone's orientation (and position) at this moment is not so accurate \cite{BAP:RoySjoerd}.
+
+If the orientation of the smartphone is more accurately known, the directivity can be used more accurate, which may be the cause to implement an interpolation method to cover all angles of the sphere and not only the ones in the grid at this moment.
+Also considering different sampling schemes is a topic to have more research about.
+Already given in Chapter \ref{chap:background}, Background, there are more ways to sample a sphere than equiangular and this could lower your number of sampling points very much.
+
+For future work in the line of this thesis, the difference between multiple phones of the same type could be expressed explicitly and not only by comparing different patterns.
+What is the standard deviation between different phones of the same type.
+In addition, phones from other manufacturers than LG could be looked at: is the directivity of an Apple or a Samsung much alike an LG smartphone?
+If this would be so, it would simplify the product in mind, for the beamforming algorithm would only need one directivity for all phones.
+
+In the same vein, the question rises how much the beamforming algorithms function is affected by placing the smartphones on a surface.
+For we know the directivity differs, how much would it the algorithm improve if there are different directivity given for different smartphone setting.
+
+It looks like there is much more research needed to finish the product in mind, but with the results achieved, the goal is much closer than before.

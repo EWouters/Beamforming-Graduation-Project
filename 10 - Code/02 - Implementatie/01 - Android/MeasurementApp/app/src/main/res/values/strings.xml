@@ -1,0 +1,46 @@
+<resources>
+	<!-- general -->
+	<string name="app_name">MeasurementApp</string>
+	<string name="action_settings">Settings</string>
+
+	<!-- service and associated messages -->
+	<string name="service_name">Recording service</string>
+	<string name="action_start_service">Start service</string>
+	<string name="action_stop_service">Stop service</string>
+	<!-- service status toasts -->
+	<string name="service_starting">Service is starting...</string>
+	<string name="service_restarting">Service is restarting...</string>
+	<string name="service_stopping">Service is stopping...</string>
+	<string name="service_not_running">Service is currently not running.</string>
+	<string name="service_unknown_host">Failed to start service: host not found.</string>
+	<string name="service_ioexception">Failed to start service: %1$s.</string>
+	<string name="service_setup_done">Set-up complete, sampling rate %1$d, block size %2$d</string>
+	<string name="service_start_streaming">Now streaming from source %1$d</string>
+	<string name="service_stop_streaming">Streaming halted</string>
+	<!-- the service notification -->
+	<string name="notification_title">Recording service is running</string>
+	<string name="notification_disconnected">Service is currently disconnected</string>
+	<string name="notification_setup">Service is currently setting up</string>
+	<string name="notification_idle">Service is currently idle</string>
+	<string name="notification_streaming">Service is currently streaming</string>
+
+	<!-- for setup activity -->
+	<string name="uid_label">Phone ID</string>
+	<string name="status_label">Service status</string>
+	<string name="host">Host</string>
+	<string name="port">Port</string>
+	<string name="invalid_port">Error: invalid port</string>
+
+	<!-- the list of audio sources -->
+	<string-array name="sources_array">
+		<item>Default</item>
+		<item>Microphone</item>
+		<item>Camcorder</item>
+		<item>Remote submix</item>
+		<item>Voice communication</item>
+		<item>Voice call</item>
+		<item>Voice downlink</item>
+		<item>Voice uplink</item>
+		<item>Voice recognition</item>
+	</string-array>
+</resources>

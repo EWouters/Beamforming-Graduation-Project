@@ -1,0 +1,84 @@
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="3"
+    android:orientation="horizontal"
+    tools:context=".PlayerRecord"
+    tools:ignore="MergeRootFrame" >
+
+    <ToggleButton
+        android:id="@+id/togglebutton_rec"
+        android:layout_gravity="left"
+        android:onClick="onToggleClicked"
+        android:textOff="@string/start_recording_button"
+        android:textOn="@string/stop_recording_button" />
+
+    <TextView
+        android:id="@+id/text_set_rec"
+        android:layout_column="2"
+        android:layout_gravity="left|top"
+        android:layout_row="0"
+        android:text="@string/settings_record"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/text_rec_fs"
+        android:layout_column="2"
+        android:layout_gravity="left|top"
+        android:layout_row="3"
+        android:text="@string/record_fs"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <Spinner
+        android:id="@+id/spinner_fs"
+        android:layout_width="141dp"
+        android:layout_column="2"
+        android:layout_gravity="fill_horizontal|top"
+        android:layout_row="5"
+        android:entries="@array/sampling_rates"
+        android:prompt="@string/default_sampling_rate" />
+
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_column="0"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_row="5"
+        android:text="@string/elapsed_time" />
+
+    <TextView
+        android:id="@+id/textinput"
+        android:layout_column="2"
+        android:layout_gravity="left|top"
+        android:layout_row="6"
+        android:text="@string/audio_input"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <Spinner
+        android:id="@+id/spinner_audio_input"
+        android:layout_width="176dp"
+        android:layout_column="2"
+        android:layout_gravity="fill_horizontal|top"
+        android:layout_row="7"
+        android:entries="@array/audio_inputs"
+        android:prompt="@string/default_audio_input" />
+
+    <TextView
+        android:id="@+id/text_channel_config"
+        android:layout_column="2"
+        android:layout_gravity="left|top"
+        android:layout_row="8"
+        android:text="@string/channel_config"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <Spinner
+        android:id="@+id/spinner_channel_config"
+        android:layout_width="180dp"
+        android:layout_column="2"
+        android:layout_gravity="fill_horizontal|top"
+        android:layout_row="9"
+        android:entries="@array/channel_configs"
+        android:prompt="@string/default_channel_config" />
+
+</GridLayout>

@@ -1,0 +1,57 @@
+
+Windows IP Configuration
+
+
+Ethernet adapter Bluetooth Network Connection:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+
+Wireless LAN adapter Local Area Connection* 2:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+
+Ethernet adapter Ethernet:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+
+Wireless LAN adapter WiFi:
+
+   Connection-specific DNS Suffix  . : tudelft.net
+   Link-local IPv6 Address . . . . . : fe80::79c0:d4ae:d919:c63a%3
+   IPv4 Address. . . . . . . . . . . : 145.94.180.147
+   Subnet Mask . . . . . . . . . . . : 255.255.252.0
+   Default Gateway . . . . . . . . . : 145.94.180.1
+
+Ethernet adapter VirtualBox Host-Only Network:
+
+   Connection-specific DNS Suffix  . : 
+   Link-local IPv6 Address . . . . . : fe80::a479:30a9:929e:12a9%20
+   IPv4 Address. . . . . . . . . . . : 192.168.56.1
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 
+
+Tunnel adapter 6TO4 Adapter:
+
+   Connection-specific DNS Suffix  . : tudelft.net
+   IPv6 Address. . . . . . . . . . . : 2002:915e:b493::915e:b493
+   Default Gateway . . . . . . . . . : 
+
+Tunnel adapter isatap.tudelft.net:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : tudelft.net
+
+Tunnel adapter Teredo Tunneling Pseudo-Interface:
+
+   Connection-specific DNS Suffix  . : 
+   IPv6 Address. . . . . . . . . . . : 2001:0:5ef5:79fb:8db:257b:6ea1:4b6c
+   Link-local IPv6 Address . . . . . : fe80::8db:257b:6ea1:4b6c%9
+   Default Gateway . . . . . . . . . : 
+
+Tunnel adapter isatap.{B64AECA3-A82E-457D-A32E-C3F74D07ABC6}:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 

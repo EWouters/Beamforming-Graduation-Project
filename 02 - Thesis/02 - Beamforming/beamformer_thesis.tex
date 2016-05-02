@@ -1,0 +1,90 @@
+\documentclass[print]{tudelft-report}
+
+\usepackage[framed,numbered,autolinebreaks,useliterate]{mcode} % To input .m files
+% Input matlab code: \lstinputlisting{matlab_files/propSim.M}
+\usepackage[justification=centering]{caption}	% Center captures under figures
+\usepackage{epstopdf}							% Add matlab figures as .eps files
+\usepackage{cleveref}							% Reference to multiple figures
+\usepackage{gensymb}
+
+\usepackage{subcaption}
+
+%\usepackage{mathabx}
+
+\usepackage[T1]{fontenc}
+\usepackage{enumitem}
+
+\usepackage{placeins}						% For the figures in the appendix
+
+%Nomenclature
+\usepackage{nomencl}
+\makenomenclature
+% Add nomenclatures as \nomenclature{$a$}{The number of angels per unit area}
+% makeindex beamformer_thesis.nlo -s nomencl.ist -o beamformer_thesis.nls
+
+% For rotated tables
+\usepackage{rotating}	
+\usepackage{adjustbox}
+\usepackage{graphicx}
+\usepackage{multirow}
+
+\newcommand{\matlab}{\textsc{Matlab} } %fancy Matlab commando
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\argmin}{\arg\!\min}
+
+\graphicspath{{images/}}
+
+\begin{document}
+
+%% Use Roman numerals for the page numbers of the title pages and table of
+%% contents.
+\frontmatter
+
+\title[\today]{Acoustic Enhancement via Beamforming using Smartphones}
+
+\author{N. van Wijngaarden 4063899\\E. H. Wouters 4095421}
+
+\affiliation{Delft University of Technology}
+
+%\coverimage{cover.jpg}
+\makecover
+
+%% Include an optional title page.
+%\input{title}
+
+\input{preface}
+
+\tableofcontents
+
+\printnomenclature[3cm]
+
+\listoffigures	% create a list of figures
+\listoftables	% create a list of tables
+
+%% Use Arabic numerals for the page numbers of the chapters.
+\mainmatter
+
+\nomenclature{$\omega$}{Frequency [rad/s]}
+
+
+
+\input{tex_files/Summary}
+\input{tex_files/Introduction}
+\input{tex_files/Problem}
+\input{tex_files/Related}
+\input{tex_files/Design}
+\input{tex_files/Results}
+\input{tex_files/Discussion}
+\input{tex_files/Conclusion}
+
+
+% Use letters for the chapter numbers of the appendices.
+\appendix
+
+%\input{tex_files/Requirements}
+\input{tex_files/Ethical-considerations}
+\input{tex_files/appendix_plots}
+
+\bibliography{bibliography}
+
+\end{document}

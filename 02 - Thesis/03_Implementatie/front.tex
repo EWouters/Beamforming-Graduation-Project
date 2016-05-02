@@ -1,0 +1,56 @@
+% Everything that ends up before the introduction
+
+% Title page
+\begin{titlepage}
+        \begin{center}
+		\begin{spacing}{2.5}
+			{\Huge\sffamily\textbf{\inserttitle}} \\[0.5cm]
+		\end{spacing}
+		{\huge\sffamily With Application to Beamforming} \\[1cm]
+		{\large
+			Roy~Smeding (4082192)\\
+			Sjoerd~Bosma (4088379)\\
+			Supervisor: dr. Jorge Mart\'inez Casta\~neda
+		}
+
+		\vspace{4em}
+
+		% Abstract
+		\begin{abstract}
+		A time-domain (TD) and a frequency-domain (FD) method for time offset (TO) compensation between received audio data are presented and implemented on Android smartphones and a processing computer. Simulations show the TD method is superior in almost all applications. Real-life experiments show the TD synchronization error is below $6$ samples. A Java and \matlab server application and an Android application are presented to acquire audio and orientation data with the intent of applying beamforming algorithms. Orientation data from Android smartphones is shown to be inconsistent among devices and is therefore inadequate for beamforming applications. Sampling rate offset (SRO) on Android smartphones is characterized by analyzing long duration audio recordings from the devices. Future work could include an SRO compensation algorithm, self-localization of the smartphones and distributed synchronization.
+		\end{abstract}
+		
+		{\bfseries \textit{Keywords --} Acoustic synchronization, sampling rate offset, smartphone orientation, ad-hoc beamforming}
+
+		\vfill
+		% logo
+		\begin{minipage}{0.45\linewidth}
+			\begin{flushleft}
+				\includegraphics[width=0.3\paperwidth]{figures/tud-logo.pdf}
+			\end{flushleft}
+		\end{minipage}
+		\begin{minipage}{0.45\linewidth}
+			\begin{flushright}
+				\vspace{13pt} \Large\today
+			\end{flushright}
+		\end{minipage}
+        \end{center}
+\end{titlepage}
+
+\thispagestyle{empty}
+
+% acknowledgments
+\subimport{}{acknowledgments}
+
+% Table of contents
+\setcounter{page}{1}
+\rhead{\fancyplain{\textsf{\thepage}}{\textsf{\thepage}}}
+\singlespace
+\renewcommand{\contentsname}{Table of contents}
+\renewcommand*\listfigurename{List of figures}
+\listoffigures
+\clearpage
+
+\tableofcontents
+\clearpage
+\onehalfspacing

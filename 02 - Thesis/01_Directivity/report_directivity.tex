@@ -1,0 +1,91 @@
+\documentclass[print,oneside]{tudelft-report}
+% tussen de []-haken van documentclass kun je zetten:
+%	[draft] = maakt draft versie: importeert geen plaatjes maar houd daar wel ruimte%	voor, dus compilen gaat veel sneller
+%	[print] = maakt print versie: minder gekleurde linkjes
+%	[oneside,print] = versie om te lezen op PC, zonder witte pagina's
+
+%% LET OP!
+%  aangepast report-class:
+%  draft geeft een draft
+%  print geeft de juiste versie (andere lettertypes en kleuren enzo)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% extra packages added
+\usepackage[small, bf, hang]{caption} %captions for floats (images etc.)
+\usepackage{multicol}
+\usepackage{relsize} 		% mathlarger
+\usepackage{verbatim}
+\usepackage{wrapfig}		% tekst rond figuren
+\usepackage[]{placeins}	% gebruik: \FloatBarrier om plaatjes binnen grenzen te forceren
+\usepackage{perpage}		% to reset footnotes per page
+\usepackage{hyperref}
+
+\usepackage{graphicx}		% voor subfigures
+\usepackage{caption}
+\usepackage{subcaption}
+
+%\usepackage{tikz}
+%\usepackage{pgfplots} 		%voortikz
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% NIEUWE COMMANDO'S
+\newcommand{\matlab}{MATLAB}%{\textsc{Matlab}}}
+\newcommand{\nexus}{{Google's Nexus 5{\texttrademark} mobile phone}}
+\hyphenation{Matlab}
+\MakePerPage{footnote}		% to reset footnotes per page
+
+% voor onzichtbare secties Figures
+\newcommand\invisiblesection[1]{%
+  \refstepcounter{section}%
+  \addcontentsline{toc}{section}{#1}%
+  \sectionmark{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%% Use Roman numerals for the page numbers of the title pages and table of
+%% contents.
+\frontmatter
+
+\title[]{On Determining Smartphone Microphone Directivity with Application to Beamforming}
+\author{R. Brinkman\\T. de Rooij}
+\affiliation{Delft University of Technology}
+\coverimage{cover/onzecover.jpg}
+\makecover
+
+\input{Hoofdstukken/02-Summary}
+\input{Hoofdstukken/01-Preface}
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Contents}
+
+\tableofcontents
+\setcounter{tocdepth}{2}
+
+\cleardoublepage
+\listoffigures
+
+\mainmatter
+
+\input{Hoofdstukken/03-Introduction}
+\input{Hoofdstukken/04-Background}
+\input{Hoofdstukken/05-Measurement-set-up}
+\input{Hoofdstukken/06-Equalization}
+\input{Hoofdstukken/12-Experimental-outcome}
+\input{Hoofdstukken/11-Implementation}
+\input{Hoofdstukken/10-Conclusion}
+
+\cleardoublepage\pagenumbering{arabic}\renewcommand{\thepage}{A\arabic{page}} %Appendix pagina-nummering
+\bibliography{Hoofdstukken/98-references_literature}
+
+%% Use letters for the chapter numbers of the appendices.
+\appendix
+%% Less depth in table of content for the Appendices
+\addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
+\input{Hoofdstukken/99-Appendices}
+\addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
+ 
+\end{document}

@@ -1,0 +1,70 @@
+\chapter{Schedule of requirements}
+\label{schedule}
+
+\section{Introduction}
+This design is part of a system which is able to record audio in a room with multiple audio sources. When a user selects one of the sources, by giving in the location, the system must maintain the sound level of that source while suppressing noise. This could, for example, be used to make clear conference calls. One of the main advantages of this system is that it will be specifically designed for the use of microphones from multiple smartphones in the same room. The target group consists of companies since this design needs multiple smartphones.
+
+\section{Requirements concerning the intended use}
+[2.1] The system must have the possibility to either select local audio files for simulation or post-processing, or connect to smartphones for real-time calculations. \newline
+[2.2] The noise has to be suppressed while maintaining the sound level of the source. \newline
+[2.3] The noise source can be located anywhere, except at the target direction. \newline
+[2.4] The system must be able to switch between different types of beamformers. \newline
+[2.5] The system must be able to compare the received audio from one of the smartphones before and after applying one of the beamformers. \newline
+[2.6] The system must calculate and compare the intelligibility metrics to determine the quality of the output for speech purposes. \newline
+[2.7] The system must calculate and compare power related metrics to determine the quality of the output. \newline
+[2.8] The system must be able record sound using the smartphones. \newline
+[2.9] The system must be able to play the beamformed audio over the speakers. \newline
+[2.10] The system must be able to connect to the smartphones and handle the received data. \newline
+[2.11] All of the requirements should be achieved in situations where the near-field assumptions hold.
+
+%After finishing recording, it has to be possible to save the output of each of the beamformers. 
+%The system must be able to save the output of each of the beamformers.
+
+% Consider following requirements
+% It should be possible to filter at least 1 punctuated noise source by decreasing its power by at least 10 dB.
+
+% It should be possible to aim a beam with a ’1’ response in an indicated target direction.
+
+% Filtering has to be possible on the spectrum used for human speech, i.e. 300-3400 Hz.
+
+
+
+\section{Requirements from an ecological point of view}
+There are not any ecological requirements since our product solely consists of software.
+%[3.1] \newline
+%[3.2]
+
+\section{Requirements concerning the system}
+
+
+\subsection{Usage characteristics} %Tijdens het gebruik
+[4.1.1] The beamforming algorithms can be applied to real-time audio signals or previously recorded files.\newline
+[4.1.2] For real-time beamforming, the communications between matlab and the smartphones will be monitored. \newline
+[4.1.3] For each smartphone individually the location, orientation and if the smartphone is placed face up or face down on the table can be entered.\newline
+[4.1.4] Recording can be started and stopped by pressing a start/stop button.\newline
+[4.1.5] The different beamformers can be turned on or of by ticking the corresponding box.\newline
+[4.1.6] Each of the different kinds of intelligibility and power related calculations can be selected or deselected. \newline
+[4.1.7] While recording, the location(s) of the source(s) and microphone(s) will be plotted on the screen in 3D, which can be selected. \newline
+[4.1.8] A comparison between the received signal at one of the microphones and the output of one of the beamformers (the user can select which one) can be made. \newline
+[4.1.9] After finishing recording, the output of each of the beamformers can be saved to a file. \newline
+[4.1.10] In the non real-time case, the user will be able to select a time frame which will be beamformed and over which the intelligibility and power related measures will be computed.
+
+% [4.1.5] Recording can be paused and resumed by pressing a pause/resume button.\newline
+\subsection{Production and commissioning characteristics}
+% Voordat deze in gebruik is genomen
+% Matlab kan van de code een executble maken
+[4.2.1] \matlab Compiler Runtime is needed to use the developed software, this will be included in our product. 
+
+\subsection{Recycling features}
+%The product will not be recycled since our product solely consists of software.
+Recycling is not an issue to consider since the product solely consists of software.
+\section{Requirements regarding the production}
+[5.1] The developed software will be implemented in \matlab 2014b.
+
+\section{Requirements concerning the recycling system}
+Recycling is not an issue to consider since the product solely consists of software.
+%[6.1] \newline
+%[6.2]
+
+\section{Requirements from a strategic, marketing and sales point of view}
+[7.1] The product becomes available directly after purchasing.

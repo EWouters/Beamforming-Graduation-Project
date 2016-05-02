@@ -1,0 +1,122 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper,top=1.25in,right=1in,bottom=1.25in,left=1in]{geometry}
+\usepackage[utf8]{inputenc} 
+\usepackage{amsmath} %some standard math functions
+\usepackage{amssymb} %more mathematical symbols
+\usepackage{amsbsy} %enables bold mathematics
+\usepackage{amsthm} %enable theorem statements
+\usepackage[small, bf, hang]{caption} %captions for floats (images etc.)
+\usepackage{subcaption} %subcaptions for floats (images etc.)
+\usepackage{enumitem}
+\usepackage{adjustbox}
+\usepackage{lastpage}
+%\usepackage{mathtools}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{subcaption}
+\usepackage{url}
+\usepackage{color}
+\usepackage{sectsty}
+\usepackage{microtype}
+\pagestyle{fancy}
+\setlength{\headwidth}{\textwidth}
+\lhead{} % leave left header empty
+\chead{\textsf{Acoustic Enhancement via Beamforming Using Smartphones}}
+\rhead{} % leave right header empty
+\lfoot{} % leave left footer empty
+\cfoot{} % leave center footer empty
+\rfoot{\textsf{Page~\thepage~of \pageref{LastPage}}}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0pt}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\renewcommand \thesection{\arabic{section}} %
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}} % Remove from subsections
+\renewcommand{\thesubsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}	
+% Nice enumerations
+\newlist{enum}{enumerate}{1}
+\setlist[enum]{label=\textbf{[\arabic*]}} % \arabic or \alpha
+\setlist{itemsep=-5pt}
+\definecolor{title-gray}{gray}{0.45} %grijstint voor headers
+\allsectionsfont{\sffamily\color{title-gray}} %sans-serif in headers
+\newcommand{\matlab}{\textsc{Matlab} } %fancy Matlab commando
+\onehalfspacing %ruime tekst marges
+%\usepackage[colorlinks=false]{hyperref} %klikbare links in PDF
+
+\begin{document}
+\title{{\sffamily Schedule of Requirements for Bachelor Graduation Project\\Acoustic Enhancement via Beamforming Using Smartphones}}
+\author{{\sffamily\small S. Bosma, R. Smeding}}
+\date{}
+\maketitle
+\section{Introduction}
+As part of the greater acoustic enhancement system, the communication between smartphones and the central computer is essential. The term \emph{system} used below refers to the complete system of Android phones, central computer and wireless router.
+
+\section{Requirements concerning the intended use}
+\textbf{Requirements concerning the Android application.}
+\begin{enumerate}
+\item The Android application must have an easy-to-use graphical interface.
+\item The Android application must connect over Wi-Fi to the dedicated wireless router handling communication between said application and the central computer.
+\item The Android application must stream, in real-time, the data acquired from its microphone after receiving the corresponding signal from the central computer.
+\item The Android application must stop streaming the recorded sound after receiving a stop signal.
+\item The Android application must adhere strictly to a defined communication protocol with the central computer.
+\end{enumerate}
+
+\textbf{Requirements concerning the \matlab application.}
+\begin{enumerate}
+\item The \matlab program must connect over Wi-Fi to the dedicated wireless router handling communication between said application and the central computer.
+\item The \matlab program must be capable of handling multiple phone connections simultaneously.
+\item The \matlab program must adhere strictly to a defined communication protocol with the phones.
+\item The \matlab program must provide the beamforming algorithms with discrete, synchronized `blocks' with predefined size of sampled audio data from all phones.
+\item The \matlab program must also provide to the beamforming algorithms a unique phone identifier along with said audio data.
+\end{enumerate}
+\section{Requirements from an ecological point of view}
+\begin{enumerate}
+\item A few minutes after disconnection, the Android application must be shut down automatically to prevent unnecessary battery drain.
+\item After a few minutes of discontinued use, the \matlab application should not prevent the computer from going into a state of low-power usage (e.g. hibernation).
+\end{enumerate}
+
+\section{Requirements concerning the system}
+\begin{enumerate}
+\item The system must be usable in a typical office environment such as meeting rooms.
+\item The system must not exhibit noticeable latency in it's operation.
+\end{enumerate}
+
+\subsection{Usage characteristics} 
+\begin{enumerate}
+\item The Android application must run on LG Nexus 5 mobile phones.
+\item The computer program must run on computers running Windows 7 with networking features.
+\end{enumerate}
+
+\subsection{Production and commissioning characteristics}
+\begin{enumerate}
+\item \matlab Compiler Runtime is needed to use the developed software, this software is available for free from Mathworks. 
+\end{enumerate} 
+\subsection{Recycling features}
+
+\section{Requirements regarding the production}
+\begin{enumerate}
+\item The Android application will be developed using the Android SDK available from Google for free. The used version will be release 24.2.
+\item The \matlab code will be developed using \matlab version R2014b. 
+\item Java applications included will be developed using JDK version 1.7.0.
+\end{enumerate}
+
+\section{Requirements concerning the recycling system}
+\begin{enumerate}
+\item Both the Android application and the resulting computer application must be easily removable from the phone, respectively the central computer.
+\end{enumerate}
+
+\section{Requirements from a strategic, marketing and sales point of view}
+\begin{enumerate}
+\item Misschien iets over distributie?
+\end{enumerate}
+%Please do not change!
+\newpage
+\bibliography{references/references}{}
+\label{sec:bibliography}
+\bibliographystyle{references/IEEEtran}
+\end{document}
+
+\end{document}

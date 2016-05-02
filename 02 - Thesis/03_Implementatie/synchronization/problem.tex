@@ -1,0 +1,61 @@
+\documentclass[a4paper, notitlepage]{report}
+\input{../title}
+\input{../preamble}
+\begin{document}
+
+\section{Problem formulation}
+\label{sec:sro-problem}
+Two distinct aspects of the received signal samples require synchronization. The first is a fixed time offset between received signals, caused by to network lag and latency in handling the commands sent from the central computer. The second is due to frequency deviations from the intended sampling rate between different analog-to-digital converters.
+
+\begin{figure}[hbt]
+\begin{adjustwidth}{-1in}{-1in}
+\centering
+	\begin{subfigure}{0.25\paperwidth}
+		\includegraphics[width=\textwidth]{figures/sro-example/to-and-sro}
+		\caption{Both TO and SRO are present in the measured microphone samples.}
+		\label{fig:sync-ex1}
+	\end{subfigure}
+	~
+	\begin{subfigure}{0.25\paperwidth}
+		\includegraphics[width=\textwidth]{figures/sro-example/only-sro}
+		\caption{TO eliminated, SRO is still present.}
+		\label{fig:sync-ex2}
+	\end{subfigure}
+	
+	
+	\begin{subfigure}{0.25\paperwidth}
+		\includegraphics[width=\textwidth]{figures/sro-example/synchronized}
+		\caption{TO and SRO have now been eliminated, fully synchronizing the signals.}
+		\label{fig:sync-ex3}
+	\end{subfigure}
+	~
+	\begin{subfigure}{0.25\paperwidth}
+		\includegraphics[width=\textwidth]{figures/sro-example/tdoa-compensated}
+		\caption{Samples corrected for TDOA from loudspeaker to microphone location.}
+		\label{fig:sync-ex4}
+	\end{subfigure}
+\end{adjustwidth}
+\caption[TO and SRO correction stages.]{Example of TO and SRO correction stages.}
+\label{fig:synchronization-example}
+\end{figure}
+
+
+\subsection{Time offset}
+Formally, the time offset (TO) between two receivers may be described by the following formula \cite{Lasassmeh2010}:
+\begin{equation}
+\Delta t = \Delta t_{\text{send}} + \Delta t_{\text{access}} +  \Delta t_{\text{prop}} + \Delta t_{\text{receive}}
+\end{equation}
+
+In this case, $\Delta t_{\text{send}}$ and $\Delta t_{\text{access}}$ are equal for all smartphones. $\Delta t_{\text{receive}}$ is prone to the random variation associated with audio recording, wireless networking, and processing and $\Delta t_{\text{prop}}$ is due to the propagation time of sound in air.
+To correct for TO, the propagation delay and reception delay must both be known; in the first step of synchronization, the sum $\Delta t_{\text{prop}}+\Delta t_{\text{receive}}$ is compensated as exemplified in Fig.~\ref{fig:sync-ex1}-\ref{fig:sync-ex2}. In a second step the propagation delay is added back to the sampled signal, effectively compensating each smartphone for its expected time-difference of arrival (TDOA). This process is illustrated in Fig.~\ref{fig:sync-ex3}-\ref{fig:sync-ex4}.
+
+\subsection{Sampling rate offset}
+\label{sec:problem-sro}
+The second synchronization requirement is due to clock skew in the individual ADCs used to record audio. Since the ADCs used in smartphones are not typically designed for high-precision sampling, a sampling rate offset (SRO) up to even $10~\mathrm{Hz}$ may be present \cite{pawig2010}. The detrimental influence of sampling rate offset on signal processing performance has been demonstrated by Cherkassky and Gannot \cite{cherkassky2014}.
+
+If left uncompensated, sampling rate offset results in a time offset that changes with time. In order to correct for this, the sample rate offset must be estimated, after which the microphone signals can be resampled to conform to a precise global sample rate \cite{golan2012}.
+
+\paragraph*{}
+The following section describes some possible solutions to these two synchronization problems.
+
+\end{document}

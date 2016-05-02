@@ -1,0 +1,18 @@
+\documentclass[a4paper, notitlepage]{report}
+\input{title}
+\input{preamble}
+\begin{document}
+
+\chapter{System implementation}
+\label{ch:system}
+This chapter describes the implementation details of the audio acquisition subsystem. The purpose of this subsystem is to acquire the microphone audio from the smartphones and bring it to a centralized location where it can be processed and combined.
+
+As was explained in chapter \ref{ch:introduction}, the subsystem in question consists of two parts.
+The first is a server application that accepts audio data from a number of smartphones, synchronizes it, then makes it available to the subsequent beamforming system.
+The second is an Android application that connects to this server application, after which it can be instructed to start streaming audio data captured from its microphone(s), as well as orientation data that can be used in the audio processing algorithms.
+
+\subimport{implementation/}{problem-state-of-art} %problem formulation & state of the art
+\subimport{implementation/}{android}		% Android app
+\subimport{implementation/}{matlab}		% MATLAB software
+\subimport{implementation/}{performance}	% Discussion of system performance
+\end{document}

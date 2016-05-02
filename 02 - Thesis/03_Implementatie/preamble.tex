@@ -1,0 +1,113 @@
+% All imports needed for file
+
+% General
+\usepackage[a4paper,top=1.25in,right=1in,bottom=1.25in,left=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage{cite}
+
+\usepackage{import}
+\usepackage{standalone}
+\usepackage{epstopdf}
+
+
+
+% Math
+\usepackage{amsmath}	% some standard math functions
+%\usepackage{amssymb}	% more mathematical symbols
+\usepackage{amsbsy}	% enable bold mathematics
+\usepackage{bm}
+%\usepackage{amsthm}	% enable theorem statements
+\usepackage{trfsigns} 	% symbols for transforms
+
+% Text formatting
+\usepackage{fancyhdr}	% allow more control over page headers/footers
+\usepackage{enumitem}	% allow control over enumerate, itemize, description
+\usepackage{setspace}	% allow control over spacing
+\usepackage{lastpage}	% provide label for last page in document
+\usepackage{sectsty}	% allow control over section styling
+\usepackage{url}
+
+% Floats
+\usepackage{xcolor}		% enable use of colors
+\usepackage{graphicx}		% enable graphics
+\usepackage{float}		% enable floats
+\usepackage[section]{placeins}	% prevent floats from moving past e.g. sections
+\usepackage[small, bf, hang, figurename=Fig.]{caption}	% enable captions for floats (images etc.)
+\captionsetup{width=.8\textwidth} % captions not too wide
+\usepackage{subcaption}		% enable subcaptions for floats (images etc.)
+\usepackage[nottoc]{tocbibind}		% put more stuff in TOC
+
+% Styling data
+\pagestyle{fancyplain}
+
+% Title page
+\makeatletter
+\let\inserttitle\@title
+\makeatother
+
+% Page header
+\setlength{\headwidth}{\textwidth}
+\lhead{} % leave left header empty
+\chead{}
+\rhead{} % leave right header empty
+\lfoot{} % leave left footer empty
+\cfoot{} % leave center footer empty
+\rfoot{}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Section, equation and figure numbering
+\usepackage{chngcntr} 
+\counterwithout{figure}{chapter}
+\renewcommand{\thechapter}{\Roman{chapter}}
+\renewcommand{\thesection}{\Roman{chapter}.\arabic{section}}
+\renewcommand{\thesubsection}{\Roman{chapter}.\arabic{section}.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\alph{subsubsection})}
+\renewcommand{\thefigure}{\arabic{figure}}
+\renewcommand{\thesubfigure}{\alph{subfigure}}
+\renewcommand{\theequation}{\thechapter--\arabic{equation}}
+\setcounter{tocdepth}{1}
+\captionsetup[figure]{labelsep=period}
+
+% Nice enumerations
+\newlist{enum}{enumerate}{1}
+\setlist[enum]{label=\textbf{[\arabic*]}} % \arabic or \alpha
+\setlist{itemsep=-5pt}
+
+% Nice \begin{StateDescription} for FSM descriptions
+\newlist{StateDescription}{description}{1}
+\setlist[StateDescription]{font=\normalfont\scshape, labelwidth=12em, leftmargin=12em,listparindent=0em,itemindent=0em}
+
+% Section formatting
+\definecolor{title-gray}{gray}{0.45}		% grijstint voor headers
+\renewcommand*\sfdefault{lmss}
+\allsectionsfont{\sffamily\color{title-gray}}	% sans-serif in headers
+
+% Page layout
+\onehalfspacing					% Wide margins for text
+\usepackage{chngpage}			% customize margins of certain pages
+\usepackage{adjustbox}
+
+% Text macros
+\usepackage{xspace}
+\newcommand{\matlab}{MATLAB\xspace}		% fancy MATLAB command
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}% Command for vector norm
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}% Command for abs
+\newcommand{\todo}[1]{\textbf{\textcolor{red}{#1}}}	% placeholder stuff
+\let\oldhat\hat
+\renewcommand{\vec}[1]{\bm{#1}} % bold vectors in math mode
+\newcommand{\vechat}[1]{\oldhat{\bm{#1}}} % hat in vector mode
+\newcommand{\mat}[1]{\bm{#1}} % bold matrix in math mode
+
+%links
+\usepackage{hyperref}
+\hypersetup{ %setup hyperlinks
+    colorlinks=true,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}

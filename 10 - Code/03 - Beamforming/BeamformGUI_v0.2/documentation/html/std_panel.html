@@ -1,0 +1,305 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>std_panel</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-05"><meta name="DC.source" content="std_panel.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Standard Panel Class</a></li><li><a href="#3">Constants</a></li><li><a href="#4">Properties</a></li><li><a href="#5">Methods</a></li><li><a href="#6">Constuctor</a></li><li><a href="#8">Parse input</a></li><li><a href="#9">Graphics code</a></li><li><a href="#11">Pop out function</a></li><li><a href="#12">Pop back function</a></li></ul></div><pre class="codeinput"><span class="comment">% Parent = figure;</span>
+<span class="comment">% Grid = [0,0, 1,1, 1,1];</span>
+<span class="comment">% numberOfTabs = 5;</span>
+<span class="comment">% obj = std_panel(Parent, Grid, numberOfTabs,'Title','Standard Panel');</span>
+
+<span class="keyword">classdef</span> std_panel &lt; handle
+</pre><h2>Standard Panel Class<a name="2"></a></h2><pre>This class is basically an addition to the panel class. It has
+functionallity to pop panels out to their own figure and pop them
+back to a main window. It can be filled with any graphical object
+Also multiple panels can be in one panel with tabs</pre><h2>Constants<a name="3"></a></h2><pre class="codeinput">    properties (Constant)
+        sHor = 1/100;                         <span class="comment">% Space between horizontal items</span>
+        sVer = 1/100;                         <span class="comment">% Space between vertical items</span>
+        butHeight = 1/10;                     <span class="comment">% Height of a button</span>
+        butWidth = 1/3.5;                     <span class="comment">% Width of a button</span>
+    <span class="keyword">end</span>
+</pre><h2>Properties<a name="4"></a></h2><pre class="codeinput">    properties
+        Panel               <span class="comment">% Handle of panel(s)</span>
+        Parent              <span class="comment">% Handle of parent</span>
+        PopParent           <span class="comment">% Handle of parent figure when popped</span>
+        Position = grid2pos([0,0]);	<span class="comment">% Position of panel</span>
+        numberOfTabs = 1;   <span class="comment">% Number of tabs</span>
+        Name = <span class="string">'Name'</span>;      <span class="comment">% Name of panel</span>
+        Names = {<span class="string">'Tab 1'</span>};  <span class="comment">% Name of tab(s)</span>
+        TabGroup1           <span class="comment">% Tab Group in default parent</span>
+        Tabs    	        <span class="comment">% Tabs</span>
+        TabGroup2           <span class="comment">% Tab Group in pop parent</span>
+        PbPop               <span class="comment">% Push Button to pop out (and back in case of single tab)</span>
+        PbPopBack           <span class="comment">% Push Button to pop back</span>
+        PopButPos
+    <span class="keyword">end</span>
+</pre><h2>Methods<a name="5"></a></h2><pre class="codeinput">    methods
+</pre><h2>Constuctor<a name="6"></a></h2><pre class="codeinput">        <span class="keyword">function</span> obj = std_panel(varargin)
+</pre><pre class="codeinput">            obj.PopButPos = [1-obj.sHor-obj.butWidth/2 1-1*(obj.sVer+obj.butHeight/2) obj.butWidth/2 obj.butHeight/2];
+</pre><h2>Parse input<a name="8"></a></h2><p>figure Handle</p><pre class="codeinput">            <span class="keyword">if</span> nargin == 0
+                obj.Parent = figure(<span class="string">'Name'</span>,obj.Name,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>,<span class="string">'resize'</span>, <span class="string">'on'</span>);
+            <span class="keyword">else</span>
+                <span class="keyword">if</span> ishandle(varargin{1})
+                    obj.Parent = varargin{1};
+                <span class="keyword">else</span>
+                    warning([<span class="string">'First argument needs to be a handle,'</span><span class="keyword">...</span>
+                        <span class="string">'new figure created.'</span>]);
+                    obj.Parent = figure(<span class="string">'Name'</span>,obj.Name,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>,<span class="string">'resize'</span>, <span class="string">'on'</span>);
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+            <span class="comment">% grid position</span>
+            <span class="keyword">if</span> nargin &gt;= 2
+                obj.Position = grid2pos(varargin{2});
+            <span class="keyword">end</span>
+            <span class="comment">% tabs</span>
+            <span class="keyword">if</span> nargin &gt;= 3
+                <span class="keyword">if</span> isnumeric(varargin{3}) &amp;&amp; numel(varargin{3}) == 1 <span class="keyword">...</span>
+                        &amp;&amp; varargin{3} &gt; 0
+                    obj.numberOfTabs = varargin{3};
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+</pre><h2>Graphics code<a name="9"></a></h2><pre class="codeinput">            obj.Panel = uipanel(<span class="string">'Parent'</span>,obj.Parent,<span class="string">'Position'</span>, obj.Position, varargin{4:end});
+            <span class="keyword">if</span> obj.numberOfTabs &gt; 1
+                obj.TabGroup1 = uitabgroup(<span class="string">'Parent'</span>,obj.Panel,<span class="string">'Position'</span>, obj.Position);
+                <span class="keyword">for</span> ii = 1:obj.numberOfTabs
+                    <span class="keyword">if</span> ii &gt; numel(obj.Names)
+                       obj.Names{ii} = sprintf(<span class="string">'Tab %i'</span>,ii);
+                    <span class="keyword">end</span>
+                    obj.Tabs(ii) = uitab(obj.TabGroup1, <span class="string">'Title'</span>, obj.Names{ii});
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+            obj.PbPop = uicontrol(obj.Panel,<span class="string">'Style'</span>,<span class="string">'pushbutton'</span>,<span class="string">'String'</span>,<span class="string">'Pop out'</span>,<span class="keyword">...</span>
+                <span class="string">'Units'</span>,<span class="string">'normalized'</span>,<span class="string">'Callback'</span>,@obj.pbPop_Callback,<span class="keyword">...</span>
+                <span class="string">'Position'</span>,obj.PopButPos);
+</pre><img vspace="5" hspace="5" src="std_panel_01.png" alt=""> <pre class="codeinput">        <span class="keyword">end</span>
+</pre><h2>Pop out function<a name="11"></a></h2><pre class="codeinput">        <span class="keyword">function</span> pbPop_Callback(obj,~,~)
+            <span class="keyword">if</span> obj.numberOfTabs == 1
+                <span class="comment">% Single Tab</span>
+                <span class="keyword">if</span> strcmp(obj.PbPop.String,<span class="string">'Pop out'</span>)
+                    obj.PbPop.String = <span class="string">'Pop back'</span>;
+                    obj.Parent = obj.Panel.Parent;
+                    obj.PopParent = figure(<span class="string">'CloseRequestFcn'</span>,<span class="keyword">...</span>
+                        <span class="string">'warning(''Please Pop back into main window'')'</span>,<span class="keyword">...</span>
+                        <span class="string">'Name'</span>,obj.Name,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>,<span class="string">'resize'</span>, <span class="string">'on'</span>);
+                    obj.Panel.Parent = obj.PopParent;
+                    obj.Panel.Position = grid2pos([0,0, 1,1 , 1,1]);
+                <span class="keyword">else</span>
+                    obj.PbPop.String = <span class="string">'Pop out'</span>;
+                    obj.Panel.Parent = obj.Parent;
+                    obj.Panel.Position = obj.Position;
+                    delete(obj.PopParent);
+                <span class="keyword">end</span>
+            <span class="keyword">else</span>
+                <span class="comment">% Multiple Tabs</span>
+                <span class="keyword">if</span> isempty(obj.PopParent)
+                    obj.PopParent = figure(<span class="string">'CloseRequestFcn'</span>,<span class="keyword">...</span>
+                        <span class="string">'warning(''Please Pop back into main window'')'</span>,<span class="keyword">...</span>
+                        <span class="string">'Name'</span>,obj.Name,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>,<span class="string">'resize'</span>, <span class="string">'on'</span>);
+                    obj.TabGroup2 = uitabgroup(<span class="string">'Parent'</span>,obj.PopParent,<span class="string">'Position'</span>, obj.Position);
+                <span class="keyword">end</span>
+                obj.TabGroup1.SelectedTab.Parent = obj.TabGroup2;
+                obj.PbPopBack = uicontrol(obj.PopParent,<span class="string">'Style'</span>,<span class="string">'pushbutton'</span>,<span class="string">'String'</span>,<span class="string">'Pop back'</span>,<span class="keyword">...</span>
+                    <span class="string">'Units'</span>,<span class="string">'normalized'</span>,<span class="string">'Callback'</span>,@obj.pbPopBack_Callback,<span class="keyword">...</span>
+                    <span class="string">'Position'</span>,obj.PopButPos);
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+</pre><h2>Pop back function<a name="12"></a></h2><pre class="codeinput">        <span class="keyword">function</span> pbPopBack_Callback(obj,~,~)
+            obj.TabGroup2.SelectedTab.Parent = obj.TabGroup1;
+            <span class="keyword">if</span> isempty(obj.TabGroup2.Children)
+                delete(obj.PopParent);
+                obj.PopParent = [];
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+</pre><pre class="codeinput">    <span class="keyword">end</span>
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+% Parent = figure;
+% Grid = [0,0, 1,1, 1,1];
+% numberOfTabs = 5;
+% obj = std_panel(Parent, Grid, numberOfTabs,'Title','Standard Panel');
+
+classdef std_panel < handle
+    %% Standard Panel Class
+    %  This class is basically an addition to the panel class. It has
+    %  functionallity to pop panels out to their own figure and pop them
+    %  back to a main window. It can be filled with any graphical object
+    %  Also multiple panels can be in one panel with tabs
+    
+    %% Constants
+    properties (Constant)
+        sHor = 1/100;                         % Space between horizontal items
+        sVer = 1/100;                         % Space between vertical items
+        butHeight = 1/10;                     % Height of a button
+        butWidth = 1/3.5;                     % Width of a button
+    end
+    %% Properties
+    properties
+        Panel               % Handle of panel(s)
+        Parent              % Handle of parent
+        PopParent           % Handle of parent figure when popped
+        Position = grid2pos([0,0]);	% Position of panel
+        numberOfTabs = 1;   % Number of tabs
+        Name = 'Name';      % Name of panel
+        Names = {'Tab 1'};  % Name of tab(s)
+        TabGroup1           % Tab Group in default parent
+        Tabs    	        % Tabs
+        TabGroup2           % Tab Group in pop parent
+        PbPop               % Push Button to pop out (and back in case of single tab)
+        PbPopBack           % Push Button to pop back
+        PopButPos
+    end
+    %% Methods
+    methods
+        %% Constuctor
+        function obj = std_panel(varargin)
+            obj.PopButPos = [1-obj.sHor-obj.butWidth/2 1-1*(obj.sVer+obj.butHeight/2) obj.butWidth/2 obj.butHeight/2];
+            %% Parse input
+            % figure Handle
+            if nargin == 0
+                obj.Parent = figure('Name',obj.Name,'NumberTitle','off','resize', 'on');
+            else
+                if ishandle(varargin{1})
+                    obj.Parent = varargin{1};
+                else
+                    warning(['First argument needs to be a handle,'...
+                        'new figure created.']);
+                    obj.Parent = figure('Name',obj.Name,'NumberTitle','off','resize', 'on');
+                end
+            end
+            % grid position
+            if nargin >= 2
+                obj.Position = grid2pos(varargin{2});
+            end
+            % tabs
+            if nargin >= 3
+                if isnumeric(varargin{3}) && numel(varargin{3}) == 1 ...
+                        && varargin{3} > 0
+                    obj.numberOfTabs = varargin{3};
+                end
+            end
+            
+            %% Graphics code
+            obj.Panel = uipanel('Parent',obj.Parent,'Position', obj.Position, varargin{4:end});
+            if obj.numberOfTabs > 1
+                obj.TabGroup1 = uitabgroup('Parent',obj.Panel,'Position', obj.Position);
+                for ii = 1:obj.numberOfTabs
+                    if ii > numel(obj.Names)
+                       obj.Names{ii} = sprintf('Tab %i',ii);
+                    end
+                    obj.Tabs(ii) = uitab(obj.TabGroup1, 'Title', obj.Names{ii});
+                end
+            end
+            obj.PbPop = uicontrol(obj.Panel,'Style','pushbutton','String','Pop out',...
+                'Units','normalized','Callback',@obj.pbPop_Callback,...
+                'Position',obj.PopButPos);
+        end
+        %% Pop out function
+        function pbPop_Callback(obj,~,~)
+            if obj.numberOfTabs == 1
+                % Single Tab
+                if strcmp(obj.PbPop.String,'Pop out')
+                    obj.PbPop.String = 'Pop back';
+                    obj.Parent = obj.Panel.Parent;
+                    obj.PopParent = figure('CloseRequestFcn',...
+                        'warning(''Please Pop back into main window'')',...
+                        'Name',obj.Name,'NumberTitle','off','resize', 'on');
+                    obj.Panel.Parent = obj.PopParent;
+                    obj.Panel.Position = grid2pos([0,0, 1,1 , 1,1]);
+                else
+                    obj.PbPop.String = 'Pop out';
+                    obj.Panel.Parent = obj.Parent;
+                    obj.Panel.Position = obj.Position;
+                    delete(obj.PopParent);
+                end
+            else
+                % Multiple Tabs
+                if isempty(obj.PopParent)
+                    obj.PopParent = figure('CloseRequestFcn',...
+                        'warning(''Please Pop back into main window'')',...
+                        'Name',obj.Name,'NumberTitle','off','resize', 'on');
+                    obj.TabGroup2 = uitabgroup('Parent',obj.PopParent,'Position', obj.Position);
+                end
+                obj.TabGroup1.SelectedTab.Parent = obj.TabGroup2;
+                obj.PbPopBack = uicontrol(obj.PopParent,'Style','pushbutton','String','Pop back',...
+                    'Units','normalized','Callback',@obj.pbPopBack_Callback,...
+                    'Position',obj.PopButPos);
+            end
+        end
+        
+        %% Pop back function
+        function pbPopBack_Callback(obj,~,~)
+            obj.TabGroup2.SelectedTab.Parent = obj.TabGroup1;
+            if isempty(obj.TabGroup2.Children)
+                delete(obj.PopParent);
+                obj.PopParent = [];
+            end
+        end
+    end
+end
+
+##### SOURCE END #####
+--></body></html>

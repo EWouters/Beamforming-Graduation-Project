@@ -1,0 +1,235 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Delay and Sum Beamformer</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-07"><meta name="DC.source" content="bfDSB.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Delay and Sum Beamformer</h1><!--introduction--><p>Simple algorithm to beamform on a point in R^3.  Calculates the distances of all microphones to a sound source and applies a delay to each in reference to the closest as the time difference of arrival of the target waveform.</p><p><b>Syntax</b></p><pre>|y = dsb(x, xPrev, fs, s, m, c, iw)|</pre><p><b>Inputs</b></p><div><ul><li><tt>x</tt> - Matrix of raw audio data, each column a mic array track</li><li><tt>xPrev</tt> - Matrix of audio data from a previous window.  This      data allows for real data to be padded at the front of each      shifted track in the DSB algorithm.  Simply supply zeros if      no previous data exists.</li><li><tt>fs</tt> - Audio sampling rate (Hertz)</li><li><tt>s</tt> - 3x1 source location point (col vector) (meters)</li><li><tt>m</tt> - column matrix of 3D mic positions (meters)</li><li><tt>c</tt> - speed of sound (meters/sec)</li><li><tt>iw</tt> - (optional) if set to 1, the dsb will apply an inverse distance          weighting on the microphones, useful for near-field/immersive          applications.  Any other value or its absense will result in          the uniform weight dbs.</li></ul></div><p><b>Outputs</b></p><div><ul><li><tt>y</tt> - Beamformed output track</li></ul></div><p>Written by Phil Townsend (<a href="mailto:jptown0@engr.uky.edu">jptown0@engr.uky.edu</a>) January 23, 2008  Updated August 2014 by Kevin D Donohue to include inverse distance  weighting option</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Function Declaration</a></li><li><a href="#3">Argument Error Checking</a></li><li><a href="#4">Setup</a></li><li><a href="#5">Beamform</a></li></ul></div><h2>Function Declaration<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> y = bfDSB(x, xPrev, fs, s, m, c, iw)
+</pre><h2>Argument Error Checking<a name="3"></a></h2><pre class="codeinput"><span class="keyword">if</span> nargin == 6
+    iw = 0;  <span class="comment">%  Set flag to no weighting</span>
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> isempty(x) || ~isreal(x) || ~all(all(isfinite(x)))
+    error(<span class="string">'x must be a real matrix'</span>)
+<span class="keyword">elseif</span> isempty(xPrev) || ~isreal(xPrev) || ~all(all(isfinite(xPrev)))
+    error(<span class="string">'xPrev must be a real matrix'</span>)
+<span class="keyword">elseif</span> isempty(fs) || ~isreal(fs) || ~isscalar(fs) || ~isfinite(fs) <span class="keyword">...</span>
+	|| fs &lt;= 0
+    error(<span class="string">'fs must be positive real scalar'</span>);
+<span class="keyword">elseif</span> isempty(s) || ~isreal(s) || ~all(isfinite(s)) || size(s,1) ~= 3 <span class="keyword">...</span>
+        || size(s,2) ~= 1  || length(size(s)) ~= 2
+    error(<span class="string">'s must be a real 3x1 vector'</span>);
+<span class="keyword">elseif</span> ~isreal(m) || ~all(all(isfinite(m))) || size(m,1) ~= 3
+    error(<span class="string">'m must be a real matrix with 3 rows'</span>)
+<span class="keyword">elseif</span> isempty(c) || ~isreal(c) || ~isscalar(c) || ~isfinite(c) || <span class="keyword">...</span>
+        c &lt;= 0
+    error(<span class="string">'c must be positive real scalar'</span>);
+<span class="keyword">end</span>
+</pre><pre class="codeoutput error">Error using bfDSB (line 44)
+Not enough input arguments.
+</pre><h2>Setup<a name="4"></a></h2><p>Initialize vars and get some information about the target audio</p><pre class="codeinput">N = size(x,1); <span class="comment">% total number of samples in each audio track</span>
+M = size(x,2); <span class="comment">% number of microphones in the array</span>
+xShift = zeros(N, M);  <span class="comment">% initialize shifted track matrix</span>
+</pre><h2>Beamform<a name="5"></a></h2><p>The Delay-Sum Beamformer is the simplest of the beamforming algorithms, delaying each microphone track to bring the target signal into alignment and then adding all tracks together.</p><p><img src="bfDSB_eq18404847941524597209.png" alt="$$ d_i = \sqrt{(m_{i,x}\ ^\_\ s_x)^2+(m_{i,y}\ ^\_\ s_y)^2+&#xA;(m_{i,z}\ ^\_\ s_z)^2} \quad i \in [1, M] $$"></p><p><img src="bfDSB_eq09807686361358859111.png" alt="$$ \tau_i = f_s\left(\frac{d_{max}\ ^\_\ d_i}{c}\right) $$"></p><p><img src="bfDSB_eq09704039870120894225.png" alt="$$ y(n) = \sum_{i=1}^{M} x_i(n\ ^\_\ \tau_i)  $$"></p><pre class="codeinput"><span class="comment">% Find the distances of each mic to the source</span>
+dist = sqrt(sum((m-s*ones(1, size(m,2))).^2, 1))';
+<span class="keyword">if</span> any(dist==0), error(<span class="string">'Cant have a source on top of a mic'</span>), <span class="keyword">end</span>
+<span class="keyword">if</span> iw == 1
+    wghts = arweights(dist);  <span class="comment">% inverse distance weighting</span>
+<span class="keyword">else</span>
+    wghts = ones(size(dist));  <span class="comment">% no weighting</span>
+<span class="keyword">end</span>
+<span class="comment">% Divide distances by the speed of sound to find duration of travel</span>
+<span class="comment">% for each signal.  Take that time relative to the furthest mic,</span>
+<span class="comment">% since all other tracks will be delayed to match the wave that</span>
+<span class="comment">% took the longest to be recieved.</span>
+t = (max(dist)-dist)/c;
+
+<span class="comment">% Convert TDOA to integer delays</span>
+delays = round(t*fs);
+
+<span class="comment">% Shift each track.  Note that since we're recycling x into</span>
+<span class="comment">% xPrev on the next iteration we won't lose samples at the end</span>
+<span class="comment">% of x in the final track</span>
+<span class="keyword">for</span> k=1:size(x,2)
+    xShift(:,k) = wghts(k)*[xPrev(end-delays(k)+1:end, k);
+		   x(1:end-delays(k), k)];
+<span class="keyword">end</span>
+
+<span class="comment">% Sum the delayed tracks and save as the beamformer output</span>
+y = sum(xShift, 2);
+</pre><pre class="codeinput"><span class="keyword">end</span>  <span class="comment">% function dsb</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Delay and Sum Beamformer
+%
+% Simple algorithm to beamform on a point in R^3.  Calculates the
+% distances of all microphones to a sound source and applies a delay
+% to each in reference to the closest as the time difference of
+% arrival of the target waveform.
+%
+% *Syntax*
+%
+%  |y = dsb(x, xPrev, fs, s, m, c, iw)|
+%
+% *Inputs*
+%
+% * |x| - Matrix of raw audio data, each column a mic array track
+% * |xPrev| - Matrix of audio data from a previous window.  This
+%      data allows for real data to be padded at the front of each
+%      shifted track in the DSB algorithm.  Simply supply zeros if
+%      no previous data exists.
+% * |fs| - Audio sampling rate (Hertz)
+% * |s| - 3x1 source location point (col vector) (meters)
+% * |m| - column matrix of 3D mic positions (meters)
+% * |c| - speed of sound (meters/sec)
+% * |iw| - (optional) if set to 1, the dsb will apply an inverse distance 
+%          weighting on the microphones, useful for near-field/immersive
+%          applications.  Any other value or its absense will result in
+%          the uniform weight dbs.
+%
+% *Outputs*
+%
+% * |y| - Beamformed output track
+%
+% Written by Phil Townsend (jptown0@engr.uky.edu) January 23, 2008
+%  Updated August 2014 by Kevin D Donohue to include inverse distance
+%  weighting option
+
+%% Function Declaration
+function y = bfDSB(x, xPrev, fs, s, m, c, iw)
+
+%% Argument Error Checking
+if nargin == 6
+    iw = 0;  %  Set flag to no weighting
+end
+
+if isempty(x) || ~isreal(x) || ~all(all(isfinite(x)))
+    error('x must be a real matrix')
+elseif isempty(xPrev) || ~isreal(xPrev) || ~all(all(isfinite(xPrev)))
+    error('xPrev must be a real matrix')
+elseif isempty(fs) || ~isreal(fs) || ~isscalar(fs) || ~isfinite(fs) ...
+	|| fs <= 0 
+    error('fs must be positive real scalar');
+elseif isempty(s) || ~isreal(s) || ~all(isfinite(s)) || size(s,1) ~= 3 ...
+        || size(s,2) ~= 1  || length(size(s)) ~= 2
+    error('s must be a real 3x1 vector');
+elseif ~isreal(m) || ~all(all(isfinite(m))) || size(m,1) ~= 3
+    error('m must be a real matrix with 3 rows')
+elseif isempty(c) || ~isreal(c) || ~isscalar(c) || ~isfinite(c) || ...
+        c <= 0
+    error('c must be positive real scalar');
+end
+
+%% Setup
+% Initialize vars and get some information about the target audio
+N = size(x,1); % total number of samples in each audio track
+M = size(x,2); % number of microphones in the array
+xShift = zeros(N, M);  % initialize shifted track matrix
+
+%% Beamform
+% The Delay-Sum Beamformer is the simplest of the beamforming algorithms,
+% delaying each microphone track to bring the target signal into alignment
+% and then adding all tracks together.
+%
+% $$ d_i = \sqrt{(m_{i,x}\ ^\_\ s_x)^2+(m_{i,y}\ ^\_\ s_y)^2+
+% (m_{i,z}\ ^\_\ s_z)^2} \quad i \in [1, M] $$
+%
+% $$ \tau_i = f_s\left(\frac{d_{max}\ ^\_\ d_i}{c}\right) $$
+%
+% $$ y(n) = \sum_{i=1}^{M} x_i(n\ ^\_\ \tau_i)  $$
+%
+
+% Find the distances of each mic to the source
+dist = sqrt(sum((m-s*ones(1, size(m,2))).^2, 1))';
+if any(dist==0), error('Cant have a source on top of a mic'), end
+if iw == 1
+    wghts = arweights(dist);  % inverse distance weighting
+else
+    wghts = ones(size(dist));  % no weighting
+end
+% Divide distances by the speed of sound to find duration of travel
+% for each signal.  Take that time relative to the furthest mic,
+% since all other tracks will be delayed to match the wave that
+% took the longest to be recieved.
+t = (max(dist)-dist)/c;
+
+% Convert TDOA to integer delays
+delays = round(t*fs);
+
+% Shift each track.  Note that since we're recycling x into
+% xPrev on the next iteration we won't lose samples at the end
+% of x in the final track
+for k=1:size(x,2)
+    xShift(:,k) = wghts(k)*[xPrev(end-delays(k)+1:end, k); 
+		   x(1:end-delays(k), k)];
+end
+
+% Sum the delayed tracks and save as the beamformer output
+y = sum(xShift, 2);
+
+
+end  % function dsb
+##### SOURCE END #####
+--></body></html>

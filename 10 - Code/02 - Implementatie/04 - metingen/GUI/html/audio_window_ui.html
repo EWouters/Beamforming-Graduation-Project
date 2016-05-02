@@ -1,0 +1,627 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>audio_window_ui</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-07"><meta name="DC.source" content="audio_window_ui.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#3">Properties</a></li><li><a href="#4">Methods</a></li><li><a href="#5">Plot Audio Signals Constuctor</a></li><li><a href="#6">Button Update Callback</a></li><li><a href="#7">Button Update Data Callback</a></li><li><a href="#8">Button Play Callback</a></li><li><a href="#9">Audio Window Graphics Code</a></li></ul></div><pre class="codeinput"><span class="keyword">classdef</span> audio_window_ui &lt; handle
+</pre><pre class="codeinput">    <span class="comment">% AUDIO_WINDOW_UI Holds the gui elements for the audio window panel</span>
+    <span class="comment">%</span>
+    <span class="comment">%   AUDIO_WINDOW_UI() create ui in new figure</span>
+    <span class="comment">%   AUDIO_WINDOW_UI(PARENT) create ui in parent panel</span>
+    <span class="comment">%   AUDIO_WINDOW_UI(PARENT, MAINOBJ) create ui with handle to main object</span>
+    <span class="comment">%</span>
+    <span class="comment">% Example 1:</span>
+    <span class="comment">%   obj = audio_window_ui</span>
+    <span class="comment">%</span>
+    <span class="comment">% Example 2:</span>
+    <span class="comment">%   Parent = figure</span>
+    <span class="comment">%   obj = audio_window_ui(Parent)</span>
+    <span class="comment">%</span>
+    <span class="comment">% AUDIO_WINDOW_UI Methods:</span>
+    <span class="comment">%   audio_window_ui       - Constructor</span>
+    <span class="comment">%   pbUpdate_Callback     - Update channels in buffer</span>
+    <span class="comment">%   pbUpdateData_Callback - Update Data in plot</span>
+    <span class="comment">%   pbPlay_Callback       - Play selected audiodata</span>
+    <span class="comment">%   graphicsCode          - Graphics Generation Code</span>
+    <span class="comment">%</span>
+    <span class="comment">% AUDIO_WINDOW_UI Properties:</span>
+    <span class="comment">%   Parent        - Handle of panel to place ui in</span>
+    <span class="comment">%   MainObj       - Handle of main object</span>
+    <span class="comment">%   Name          - Name of UI</span>
+    <span class="comment">%   NChan         - Number of channels</span>
+    <span class="comment">%   TotalSamples  - Total length of the audio data in buffer in samples</span>
+    <span class="comment">%   WindowSize    - Window Size in samples</span>
+    <span class="comment">%   CurrentSample - Current Sample is first sample of window</span>
+    <span class="comment">%   GroupPlots    - Boolean for whether to group the plots to one axis</span>
+    <span class="comment">%   Axes          - Handle of axis</span>
+    <span class="comment">%   Lines         - Hanlde of plot</span>
+    <span class="comment">%   UI            - Cell UIs for the options</span>
+    <span class="comment">%   Update        - Update callback handle</span>
+    <span class="comment">%   Tag           - Tag to find object</span>
+    <span class="comment">%</span>
+    <span class="comment">%   Written for the BSc graduation project Acoustic Enhancement via</span>
+    <span class="comment">%   Beamforming Using Smartphones.</span>
+    <span class="comment">%</span>
+    <span class="comment">%   Team:       S. Bosma                R. Brinkman</span>
+    <span class="comment">%               T. de Rooij             R. Smeding</span>
+    <span class="comment">%               N. van Wijngaarden      E. Wouters</span>
+    <span class="comment">%</span>
+    <span class="comment">%   Supervisor: Jorge Mart&iacute;nez Casta&ntilde;eda</span>
+    <span class="comment">%</span>
+    <span class="comment">%   Contact: E.H.Wouters@student.tudelft.nl</span>
+    <span class="comment">%</span>
+    <span class="comment">%   See also BF_DATA, MAIN_WINDOW</span>
+</pre><h2>Properties<a name="3"></a></h2><pre class="codeinput">    properties
+        Parent                  <span class="comment">% Handle of parent</span>
+        MainObj                 <span class="comment">% Handle of Channel Map</span>
+        Name = <span class="string">'Signal Window'</span>; <span class="comment">% Name of UI</span>
+        NChan = 0;              <span class="comment">% Number of channels</span>
+        TotalSamples            <span class="comment">% Total length of the audio data in buffer in samples</span>
+        WindowSize              <span class="comment">% Window Size in samples</span>
+        CurrentSample           <span class="comment">% Current Sample is first sample of window</span>
+        GroupPlots = 1;         <span class="comment">% Boolean for whether to group the plots to one axis</span>
+        Axes                    <span class="comment">% Handle of axes</span>
+        Lines                   <span class="comment">% Hanlde of plot</span>
+        UI                      <span class="comment">% Cell UIs for the options</span>
+        Update                  <span class="comment">% Update callback handle</span>
+        Timer                   <span class="comment">% Timer object handle</span>
+        TimerPeriod = 0.5;      <span class="comment">% Timer update period in seconds</span>
+    <span class="keyword">end</span>
+</pre><h2>Methods<a name="4"></a></h2><pre class="codeinput">    methods
+</pre><h2>Plot Audio Signals Constuctor<a name="5"></a></h2><pre class="codeinput">        <span class="keyword">function</span> obj = audio_window_ui(parent, mainObj)
+            <span class="comment">% Parse Input</span>
+            <span class="comment">% figure Handle</span>
+            <span class="keyword">if</span> nargin == 0
+                obj.Parent = figure(<span class="string">'Name'</span>,obj.Name,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>,<span class="string">'resize'</span>,<span class="string">'on'</span>);
+            <span class="keyword">elseif</span> nargin &gt;= 1
+                <span class="keyword">if</span> ishandle(parent)
+                    obj.Parent = parent;
+                <span class="keyword">else</span>
+                    warning([<span class="string">'First argument needs to be a handle,'</span><span class="keyword">...</span>
+                        <span class="string">'new figure created.'</span>]);
+                    obj.Parent = figure(<span class="string">'Name'</span>,obj.Name,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>,<span class="string">'resize'</span>,<span class="string">'on'</span>);
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> nargin &gt;= 2
+                obj.MainObj = mainObj;
+            <span class="keyword">else</span>
+                obj.MainObj.DataBuffer = bf_data(obj.MainObj);
+                obj.MainObj.UI.PlotSettings = std_selector_ui(figure,obj.MainObj);
+                obj.MainObj.DataBuffer.setNChan(1);
+                obj.MainObj.DataBuffer.setTotalSamples(48000);
+            <span class="keyword">end</span>
+
+            <span class="comment">% Graphics Code</span>
+            obj.UI = obj.graphicsCode();
+
+            <span class="comment">% Link handle of update callback</span>
+            obj.Update = @obj.pbUpdate_Callback;
+
+            <span class="comment">% Plot Code</span>
+            obj.Axes{1} = axes(<span class="string">'Parent'</span>,obj.UI.PanPlots);
+            obj.Lines(1) = line(<span class="string">'XData'</span>, [], <span class="string">'YData'</span>, [], <span class="string">'Parent'</span>,obj.Axes{1});
+
+            <span class="comment">% Timer</span>
+            obj.Timer = timer(<span class="string">'TimerFcn'</span>,@obj.update,<span class="string">'ExecutionMode'</span>, <span class="string">'fixedRate'</span>);
+
+            <span class="comment">% Debug</span>
+<span class="comment">%             assignin('base','obj',obj)</span>
+        <span class="keyword">end</span>
+</pre><h2>Button Update Callback<a name="6"></a></h2><pre class="codeinput">        <span class="keyword">function</span> pbUpdate_Callback(obj,~,~)
+            chanNames = obj.MainObj.UI.PlotSettings.ChanNames;
+            <span class="comment">% Slider</span>
+            windowSize = str2double(obj.UI.edWindowSize.String);
+            <span class="keyword">if</span> isnumeric(windowSize) &amp;&amp; isfinite(windowSize)
+                obj.WindowSize = windowSize*obj.MainObj.DataBuffer.Fs;
+                obj.UI.edWindowSize.String = mat2str(windowSize);
+            <span class="keyword">end</span>
+            obj.CurrentSample = round(obj.UI.slCurrentSample.Value);
+            [yData, obj.TotalSamples] = obj.MainObj.DataBuffer.getAudioData(<span class="keyword">...</span>
+                obj.MainObj.UI.PlotSettings.ChanNames,<span class="keyword">...</span>
+                obj.CurrentSample,obj.CurrentSample+obj.WindowSize);
+            xData = ((1:length(yData))'+obj.CurrentSample)/obj.MainObj.DataBuffer.Fs;
+            <span class="keyword">if</span> obj.TotalSamples
+                obj.UI.slCurrentSample.Max = max(obj.TotalSamples-obj.WindowSize-1,2);
+                step1 = min(obj.WindowSize/2/obj.TotalSamples,0.05);
+                obj.UI.slCurrentSample.SliderStep = [step1 min(step1,0.1)];
+            <span class="keyword">end</span>
+            <span class="comment">% Timer updates</span>
+            <span class="keyword">if</span> obj.UI.cbContinuousUpdate.Value &amp;&amp; strcmp(obj.Timer.Running,<span class="string">'off'</span>)
+                obj.Timer.Period = obj.TimerPeriod;
+                start(obj.Timer);
+            <span class="keyword">elseif</span> strcmp(obj.Timer.Running,<span class="string">'on'</span>)
+                stop(obj.Timer);
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> ~isempty(yData)
+                <span class="comment">% Plots</span>
+                newNChan = size(chanNames,2);
+                <span class="keyword">if</span> obj.GroupPlots ~= obj.UI.cbGroupPlots.Value || obj.NChan ~= newNChan
+                    obj.GroupPlots = obj.UI.cbGroupPlots.Value;
+                    obj.NChan = newNChan;
+                    <span class="keyword">if</span> ~isempty(obj.Axes); delete([obj.Axes{:}]); <span class="keyword">end</span>
+                    <span class="keyword">if</span> obj.GroupPlots
+                        obj.Axes{1} = subplot(1,1,1, <span class="string">'Parent'</span>,obj.UI.PanPlots);
+                        colors1 = {<span class="string">'black'</span>,<span class="string">'blue'</span>,<span class="string">'green'</span>,<span class="string">'red'</span>,<span class="string">'cyan'</span>,<span class="string">'magenta'</span>,<span class="string">'yellow'</span>};
+                        <span class="keyword">for</span> ii = 1:newNChan
+                            obj.Lines(ii) = line(<span class="string">'XData'</span>, xData, <span class="string">'YData'</span>, yData(:,ii),<span class="keyword">...</span>
+                                <span class="string">'Parent'</span>,obj.Axes{1}, <span class="string">'Color'</span>, colors1{mod(newNChan-ii+1,length(colors1))});
+                        <span class="keyword">end</span>
+                        legend(obj.Axes{1},obj.MainObj.UI.PlotSettings.ChanNames);
+                    <span class="keyword">else</span>
+                        <span class="keyword">for</span> ii = 1:newNChan
+                            axes(obj.Axes{ii});cla;
+                            obj.Axes{ii} = subplot(newNChan,1,ii, <span class="string">'Parent'</span>,obj.UI.PanPlots);
+                            obj.Lines(ii) = line(<span class="string">'XData'</span>, xData, <span class="string">'YData'</span>, yData(:,ii),<span class="keyword">...</span>
+                                <span class="string">'Parent'</span>,obj.Axes{ii});
+                            legend(obj.Axes{ii},obj.MainObj.UI.PlotSettings.ChanNames{ii});
+                        <span class="keyword">end</span>
+                        linkaxes([obj.Axes{:}],<span class="string">'xy'</span>);
+                    <span class="keyword">end</span>
+                <span class="keyword">else</span>
+                    <span class="keyword">if</span> obj.CurrentSample+obj.WindowSize &lt; obj.TotalSamples
+                        xData = ((1:length(yData))'+obj.CurrentSample)/obj.MainObj.DataBuffer.Fs;
+                        <span class="keyword">for</span> ii = 1:obj.NChan
+                            set(obj.Lines(ii), <span class="string">'XData'</span>, xData, <span class="string">'YData'</span>, yData(:,ii));
+                        <span class="keyword">end</span>
+                    <span class="keyword">else</span>
+                        warning(<span class="string">'Sample window is above number of samples'</span>)
+                    <span class="keyword">end</span>
+                <span class="keyword">end</span>
+                ylim1 = max(abs(yData(:)));
+                set(obj.Axes{1}, <span class="string">'XLim'</span>, [xData(1)-2/obj.MainObj.DataBuffer.Fs xData(end)], <span class="string">'YLim'</span>, [-ylim1 ylim1]);
+<span class="comment">%                 set(obj.Axes{1}, 'XLim', [xData(1)-2/obj.MainObj.DataBuffer.Fs xData(end)]);</span>
+            <span class="keyword">else</span>
+                obj.UI.slCurrentSample.Value = obj.UI.slCurrentSample.Min;
+                warning(<span class="string">'yData is empty (audio window)'</span>)
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+</pre><h2>Button Update Data Callback<a name="7"></a></h2><pre class="codeinput">        <span class="keyword">function</span> pbUpdateData_Callback(obj,~,~)
+            <span class="keyword">if</span> obj.NChan ~= size(obj.MainObj.UI.PlotSettings.ChanNames,2)
+                obj.pbUpdate_Callback(obj);
+            <span class="keyword">end</span>
+            <span class="comment">% Slider</span>
+            windowSize = str2double(obj.UI.edWindowSize.String);
+            <span class="keyword">if</span> isnumeric(windowSize) &amp;&amp; isfinite(windowSize)
+                obj.WindowSize = windowSize*obj.MainObj.DataBuffer.Fs;
+                obj.UI.edWindowSize.String = mat2str(windowSize);
+            <span class="keyword">end</span>
+            obj.CurrentSample = round(obj.UI.slCurrentSample.Value);
+            [yData, obj.TotalSamples] = obj.MainObj.DataBuffer.getAudioData(<span class="keyword">...</span>
+                obj.MainObj.UI.PlotSettings.ChanNames,<span class="keyword">...</span>
+                obj.CurrentSample,obj.CurrentSample+obj.WindowSize);
+            <span class="keyword">if</span> obj.TotalSamples
+                obj.UI.slCurrentSample.Max = max(obj.TotalSamples-obj.WindowSize-1,2);
+                step1 = min(obj.WindowSize/2/obj.TotalSamples,1);
+                obj.UI.slCurrentSample.SliderStep = [step1 step1];
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> obj.CurrentSample+obj.WindowSize &lt; obj.TotalSamples
+                xData = ((1:length(yData))'+obj.CurrentSample)/obj.MainObj.DataBuffer.Fs;
+                <span class="keyword">for</span> ii = 1:obj.NChan
+                    set(obj.Lines(ii), <span class="string">'XData'</span>, xData, <span class="string">'YData'</span>, yData(:,ii));
+                <span class="keyword">end</span>
+                <span class="keyword">if</span> ~isempty(yData)
+                    ylim1 = max(abs(yData(:)));
+                    set(obj.Axes{1}, <span class="string">'XLim'</span>, [xData(1)-2/obj.MainObj.DataBuffer.Fs xData(end)], <span class="string">'YLim'</span>, [-ylim1 ylim1]);
+<span class="comment">%                     set(obj.Axes{1}, 'XLim', [xData(1)-2/obj.MainObj.DataBuffer.Fs xData(end)]);</span>
+                <span class="keyword">end</span>
+            <span class="keyword">else</span>
+                warning(<span class="string">'Sample window is above number of samples'</span>)
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="keyword">function</span> value = update(obj,~,~)
+<span class="comment">%             disp('Update recieved')</span>
+            value = 0;
+            <span class="keyword">while</span> obj.CurrentSample + obj.TimerPeriod*obj.MainObj.DataBuffer.Fs+obj.WindowSize &lt;= min(obj.MainObj.DataBuffer.CurrentSample(obj.MainObj.DataBuffer.names2inds(obj.MainObj.UI.PlotSettings.ChanNames)))
+                value = value + 1;
+                <span class="comment">% Load data from buffer</span>
+                obj.UI.slCurrentSample.Value = obj.CurrentSample + obj.TimerPeriod*obj.MainObj.DataBuffer.Fs;
+                obj.pbUpdateData_Callback();
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+</pre><h2>Button Play Callback<a name="8"></a></h2><pre class="codeinput">        <span class="keyword">function</span> pbPlay_Callback(obj,~,~)
+            <span class="keyword">if</span> obj.MainObj.DataBuffer.IsInitialized
+                firstSample = ceil(max(1,obj.Axes{1}.XLim(1)*obj.MainObj.DataBuffer.Fs));
+                lastSample = floor(min(obj.MainObj.DataBuffer.TotalSamples,obj.Axes{1}.XLim(2)*obj.MainObj.DataBuffer.Fs));
+                obj.MainObj.DataBuffer.play(obj.MainObj.UI.PlotSettings.ChanNames, firstSample, lastSample);
+            <span class="keyword">else</span>
+                warning(<span class="string">'Cannot play data, data buffer is not initialized'</span>)
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+</pre><h2>Audio Window Graphics Code<a name="9"></a></h2><pre class="codeinput">        <span class="keyword">function</span> UI = graphicsCode(obj)
+            <span class="comment">% GRAPHICSCODE Graphics Code</span>
+            <span class="comment">% Audio Window UI panel</span>
+            x=3;y=20;
+            UI.PanPlots = uipanel(obj.Parent, <span class="string">'Position'</span>,grid2pos([1,1,1,y-2,1,y]));
+            UI.slCurrentSample = uicontrol(obj.Parent,<span class="string">'Style'</span>,<span class="string">'slider'</span>,<span class="keyword">...</span>
+                <span class="string">'Callback'</span>,@obj.pbUpdateData_Callback,<span class="string">'Min'</span>,1,<span class="string">'Max'</span>,2,<span class="string">'Value'</span>,1,<span class="keyword">...</span>
+                <span class="string">'Units'</span>,<span class="string">'normalized'</span>,<span class="string">'Position'</span>,grid2pos([1,y-2,1,1,1,y]));
+            UI.txWindowSize = uicontrol(obj.Parent,<span class="string">'Style'</span>,<span class="string">'text'</span>,<span class="keyword">...</span>
+                <span class="string">'String'</span>,<span class="string">'Window size [s]'</span>,<span class="keyword">...</span>
+                <span class="string">'Units'</span>,<span class="string">'normalized'</span>,<span class="string">'Position'</span>,grid2pos([1,y-1,1,1,x,y]));
+            UI.edWindowSize = uicontrol(obj.Parent,<span class="string">'Style'</span>,<span class="string">'edit'</span>,<span class="keyword">...</span>
+                <span class="string">'String'</span>,<span class="string">'1'</span>,<span class="string">'Callback'</span>,@obj.pbUpdateData_Callback,<span class="keyword">...</span>
+                <span class="string">'Units'</span>,<span class="string">'normalized'</span>,<span class="string">'Position'</span>,grid2pos([1,y,1,1,x,y]));
+            UI.cbGroupPlots = uicontrol(obj.Parent,<span class="string">'Style'</span>,<span class="string">'checkbox'</span>,<span class="keyword">...</span>
+                <span class="string">'String'</span>,<span class="string">'Group Plots'</span>,<span class="string">'Value'</span>,obj.GroupPlots,<span class="string">'Callback'</span>,@obj.pbUpdate_Callback,<span class="keyword">...</span>
+                <span class="string">'Units'</span>,<span class="string">'normalized'</span>,<span class="string">'Position'</span>,grid2pos([2,y-1,1,1,x,y]));
+            UI.cbContinuousUpdate = uicontrol(obj.Parent,<span class="string">'Style'</span>,<span class="string">'checkbox'</span>,<span class="keyword">...</span>
+                <span class="string">'String'</span>,<span class="string">'Continuous Update'</span>,<span class="string">'Value'</span>,0,<span class="keyword">...</span>
+                <span class="string">'Units'</span>,<span class="string">'normalized'</span>,<span class="string">'Position'</span>,grid2pos([2,y,1,1,x,y]));
+            UI.pbPlay = uicontrol(obj.Parent,<span class="string">'Style'</span>,<span class="string">'pushbutton'</span>,<span class="keyword">...</span>
+                <span class="string">'String'</span>,<span class="string">'Play'</span>,<span class="string">'Callback'</span>,@obj.pbPlay_Callback,<span class="keyword">...</span>
+                <span class="string">'Units'</span>,<span class="string">'normalized'</span>,<span class="string">'Position'</span>,grid2pos([3,y-1,1,1,x,y]));
+            UI.pbUpdate = uicontrol(obj.Parent,<span class="string">'Style'</span>,<span class="string">'pushbutton'</span>,<span class="keyword">...</span>
+                <span class="string">'String'</span>,<span class="string">'Update'</span>,<span class="string">'Callback'</span>,@obj.pbUpdate_Callback,<span class="keyword">...</span>
+                <span class="string">'Units'</span>,<span class="string">'normalized'</span>,<span class="string">'Position'</span>,grid2pos([3,y,1,1,x,y]));
+        <span class="keyword">end</span>
+
+        <span class="comment">% Delete function</span>
+        <span class="keyword">function</span> delete(obj)
+            stop(obj.Timer);
+            delete(obj.Timer);
+        <span class="keyword">end</span>
+</pre><pre class="codeoutput">
+ans = 
+
+  audio_window_ui with properties:
+
+           Parent: [1x1 Figure]
+          MainObj: [1x1 struct]
+             Name: 'Signal Window'
+            NChan: 0
+     TotalSamples: []
+       WindowSize: []
+    CurrentSample: []
+       GroupPlots: 1
+             Axes: {[1x1 Axes]}
+            Lines: 11.0005
+               UI: [1x1 struct]
+           Update: @(varargin)obj.pbUpdate_Callback(varargin{:})
+            Timer: [1x1 timer]
+      TimerPeriod: 0.5000
+
+</pre><img vspace="5" hspace="5" src="audio_window_ui_01.png" alt=""> <pre class="codeinput">    <span class="keyword">end</span>
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+classdef audio_window_ui < handle
+    % AUDIO_WINDOW_UI Holds the gui elements for the audio window panel
+    %
+    %   AUDIO_WINDOW_UI() create ui in new figure
+    %   AUDIO_WINDOW_UI(PARENT) create ui in parent panel
+    %   AUDIO_WINDOW_UI(PARENT, MAINOBJ) create ui with handle to main object
+    %
+    % Example 1:
+    %   obj = audio_window_ui
+    %
+    % Example 2:
+    %   Parent = figure
+    %   obj = audio_window_ui(Parent)
+    %
+    % AUDIO_WINDOW_UI Methods:
+    %   audio_window_ui       - Constructor
+    %   pbUpdate_Callback     - Update channels in buffer
+    %   pbUpdateData_Callback - Update Data in plot
+    %   pbPlay_Callback       - Play selected audiodata
+    %   graphicsCode          - Graphics Generation Code
+    %
+    % AUDIO_WINDOW_UI Properties:
+    %   Parent        - Handle of panel to place ui in
+    %   MainObj       - Handle of main object
+    %   Name          - Name of UI
+    %   NChan         - Number of channels
+    %   TotalSamples  - Total length of the audio data in buffer in samples
+    %   WindowSize    - Window Size in samples
+    %   CurrentSample - Current Sample is first sample of window
+    %   GroupPlots    - Boolean for whether to group the plots to one axis
+    %   Axes          - Handle of axis
+    %   Lines         - Hanlde of plot
+    %   UI            - Cell UIs for the options
+    %   Update        - Update callback handle
+    %   Tag           - Tag to find object
+    %
+    %   Written for the BSc graduation project Acoustic Enhancement via
+    %   Beamforming Using Smartphones.
+    %
+    %   Team:       S. Bosma                R. Brinkman
+    %               T. de Rooij             R. Smeding
+    %               N. van Wijngaarden      E. Wouters
+    %
+    %   Supervisor: Jorge Martínez Castañeda
+    %
+    %   Contact: E.H.Wouters@student.tudelft.nl
+    %
+    %   See also BF_DATA, MAIN_WINDOW
+    
+    %% Properties
+    properties
+        Parent                  % Handle of parent
+        MainObj                 % Handle of Channel Map
+        Name = 'Signal Window'; % Name of UI
+        NChan = 0;              % Number of channels
+        TotalSamples            % Total length of the audio data in buffer in samples
+        WindowSize              % Window Size in samples
+        CurrentSample           % Current Sample is first sample of window
+        GroupPlots = 1;         % Boolean for whether to group the plots to one axis
+        Axes                    % Handle of axes
+        Lines                   % Hanlde of plot
+        UI                      % Cell UIs for the options
+        Update                  % Update callback handle
+        Timer                   % Timer object handle
+        TimerPeriod = 0.5;      % Timer update period in seconds
+    end
+    %% Methods
+    methods
+        %% Plot Audio Signals Constuctor
+        function obj = audio_window_ui(parent, mainObj)
+            % Parse Input
+            % figure Handle
+            if nargin == 0
+                obj.Parent = figure('Name',obj.Name,'NumberTitle','off','resize','on');
+            elseif nargin >= 1
+                if ishandle(parent)
+                    obj.Parent = parent;
+                else
+                    warning(['First argument needs to be a handle,'...
+                        'new figure created.']);
+                    obj.Parent = figure('Name',obj.Name,'NumberTitle','off','resize','on');
+                end
+            end
+            if nargin >= 2
+                obj.MainObj = mainObj;
+            else
+                obj.MainObj.DataBuffer = bf_data(obj.MainObj);
+                obj.MainObj.UI.PlotSettings = std_selector_ui(figure,obj.MainObj);
+                obj.MainObj.DataBuffer.setNChan(1);
+                obj.MainObj.DataBuffer.setTotalSamples(48000);
+            end
+            
+            % Graphics Code
+            obj.UI = obj.graphicsCode();
+            
+            % Link handle of update callback
+            obj.Update = @obj.pbUpdate_Callback;
+            
+            % Plot Code
+            obj.Axes{1} = axes('Parent',obj.UI.PanPlots);
+            obj.Lines(1) = line('XData', [], 'YData', [], 'Parent',obj.Axes{1});
+            
+            % Timer
+            obj.Timer = timer('TimerFcn',@obj.update,'ExecutionMode', 'fixedRate');
+            
+            % Debug
+%             assignin('base','obj',obj)
+        end
+        
+        %% Button Update Callback
+        function pbUpdate_Callback(obj,~,~)
+            chanNames = obj.MainObj.UI.PlotSettings.ChanNames;
+            % Slider
+            windowSize = str2double(obj.UI.edWindowSize.String);
+            if isnumeric(windowSize) && isfinite(windowSize)
+                obj.WindowSize = windowSize*obj.MainObj.DataBuffer.Fs;
+                obj.UI.edWindowSize.String = mat2str(windowSize);
+            end
+            obj.CurrentSample = round(obj.UI.slCurrentSample.Value);
+            [yData, obj.TotalSamples] = obj.MainObj.DataBuffer.getAudioData(...
+                obj.MainObj.UI.PlotSettings.ChanNames,...
+                obj.CurrentSample,obj.CurrentSample+obj.WindowSize);
+            xData = ((1:length(yData))'+obj.CurrentSample)/obj.MainObj.DataBuffer.Fs;
+            if obj.TotalSamples
+                obj.UI.slCurrentSample.Max = max(obj.TotalSamples-obj.WindowSize-1,2);
+                step1 = min(obj.WindowSize/2/obj.TotalSamples,0.05);
+                obj.UI.slCurrentSample.SliderStep = [step1 min(step1,0.1)];
+            end
+            % Timer updates
+            if obj.UI.cbContinuousUpdate.Value && strcmp(obj.Timer.Running,'off')
+                obj.Timer.Period = obj.TimerPeriod;
+                start(obj.Timer);
+            elseif strcmp(obj.Timer.Running,'on')
+                stop(obj.Timer);
+            end
+            if ~isempty(yData)
+                % Plots
+                newNChan = size(chanNames,2);
+                if obj.GroupPlots ~= obj.UI.cbGroupPlots.Value || obj.NChan ~= newNChan
+                    obj.GroupPlots = obj.UI.cbGroupPlots.Value;
+                    obj.NChan = newNChan;
+                    if ~isempty(obj.Axes); delete([obj.Axes{:}]); end
+                    if obj.GroupPlots
+                        obj.Axes{1} = subplot(1,1,1, 'Parent',obj.UI.PanPlots);
+                        colors1 = {'black','blue','green','red','cyan','magenta','yellow'};
+                        for ii = 1:newNChan
+                            obj.Lines(ii) = line('XData', xData, 'YData', yData(:,ii),...
+                                'Parent',obj.Axes{1}, 'Color', colors1{mod(newNChan-ii+1,length(colors1))});
+                        end
+                        legend(obj.Axes{1},obj.MainObj.UI.PlotSettings.ChanNames);
+                    else
+                        for ii = 1:newNChan
+                            axes(obj.Axes{ii});cla;
+                            obj.Axes{ii} = subplot(newNChan,1,ii, 'Parent',obj.UI.PanPlots);
+                            obj.Lines(ii) = line('XData', xData, 'YData', yData(:,ii),...
+                                'Parent',obj.Axes{ii});
+                            legend(obj.Axes{ii},obj.MainObj.UI.PlotSettings.ChanNames{ii});
+                        end
+                        linkaxes([obj.Axes{:}],'xy');
+                    end
+                else
+                    if obj.CurrentSample+obj.WindowSize < obj.TotalSamples
+                        xData = ((1:length(yData))'+obj.CurrentSample)/obj.MainObj.DataBuffer.Fs;
+                        for ii = 1:obj.NChan
+                            set(obj.Lines(ii), 'XData', xData, 'YData', yData(:,ii));
+                        end
+                    else
+                        warning('Sample window is above number of samples')
+                    end
+                end
+                ylim1 = max(abs(yData(:)));
+                set(obj.Axes{1}, 'XLim', [xData(1)-2/obj.MainObj.DataBuffer.Fs xData(end)], 'YLim', [-ylim1 ylim1]);
+%                 set(obj.Axes{1}, 'XLim', [xData(1)-2/obj.MainObj.DataBuffer.Fs xData(end)]);
+            else
+                obj.UI.slCurrentSample.Value = obj.UI.slCurrentSample.Min;
+                warning('yData is empty (audio window)')
+            end
+        end
+        
+        %% Button Update Data Callback
+        function pbUpdateData_Callback(obj,~,~)
+            if obj.NChan ~= size(obj.MainObj.UI.PlotSettings.ChanNames,2)
+                obj.pbUpdate_Callback(obj);
+            end
+            % Slider
+            windowSize = str2double(obj.UI.edWindowSize.String);
+            if isnumeric(windowSize) && isfinite(windowSize)
+                obj.WindowSize = windowSize*obj.MainObj.DataBuffer.Fs;
+                obj.UI.edWindowSize.String = mat2str(windowSize);
+            end
+            obj.CurrentSample = round(obj.UI.slCurrentSample.Value);
+            [yData, obj.TotalSamples] = obj.MainObj.DataBuffer.getAudioData(...
+                obj.MainObj.UI.PlotSettings.ChanNames,...
+                obj.CurrentSample,obj.CurrentSample+obj.WindowSize);
+            if obj.TotalSamples
+                obj.UI.slCurrentSample.Max = max(obj.TotalSamples-obj.WindowSize-1,2);
+                step1 = min(obj.WindowSize/2/obj.TotalSamples,1);
+                obj.UI.slCurrentSample.SliderStep = [step1 step1];
+            end
+            if obj.CurrentSample+obj.WindowSize < obj.TotalSamples
+                xData = ((1:length(yData))'+obj.CurrentSample)/obj.MainObj.DataBuffer.Fs;
+                for ii = 1:obj.NChan
+                    set(obj.Lines(ii), 'XData', xData, 'YData', yData(:,ii));
+                end
+                if ~isempty(yData)
+                    ylim1 = max(abs(yData(:)));
+                    set(obj.Axes{1}, 'XLim', [xData(1)-2/obj.MainObj.DataBuffer.Fs xData(end)], 'YLim', [-ylim1 ylim1]);
+%                     set(obj.Axes{1}, 'XLim', [xData(1)-2/obj.MainObj.DataBuffer.Fs xData(end)]);
+                end
+            else
+                warning('Sample window is above number of samples')
+            end
+        end
+        
+        function value = update(obj,~,~)
+%             disp('Update recieved')
+            value = 0;
+            while obj.CurrentSample + obj.TimerPeriod*obj.MainObj.DataBuffer.Fs+obj.WindowSize <= min(obj.MainObj.DataBuffer.CurrentSample(obj.MainObj.DataBuffer.names2inds(obj.MainObj.UI.PlotSettings.ChanNames)))
+                value = value + 1;
+                % Load data from buffer
+                obj.UI.slCurrentSample.Value = obj.CurrentSample + obj.TimerPeriod*obj.MainObj.DataBuffer.Fs;
+                obj.pbUpdateData_Callback();
+            end
+        end
+        
+        %% Button Play Callback
+        function pbPlay_Callback(obj,~,~)
+            if obj.MainObj.DataBuffer.IsInitialized
+                firstSample = ceil(max(1,obj.Axes{1}.XLim(1)*obj.MainObj.DataBuffer.Fs));
+                lastSample = floor(min(obj.MainObj.DataBuffer.TotalSamples,obj.Axes{1}.XLim(2)*obj.MainObj.DataBuffer.Fs));
+                obj.MainObj.DataBuffer.play(obj.MainObj.UI.PlotSettings.ChanNames, firstSample, lastSample);
+            else
+                warning('Cannot play data, data buffer is not initialized')
+            end
+        end
+        
+        %% Audio Window Graphics Code
+        
+        function UI = graphicsCode(obj)
+            % GRAPHICSCODE Graphics Code
+            % Audio Window UI panel
+            x=3;y=20;
+            UI.PanPlots = uipanel(obj.Parent, 'Position',grid2pos([1,1,1,y-2,1,y]));
+            UI.slCurrentSample = uicontrol(obj.Parent,'Style','slider',...
+                'Callback',@obj.pbUpdateData_Callback,'Min',1,'Max',2,'Value',1,...
+                'Units','normalized','Position',grid2pos([1,y-2,1,1,1,y]));
+            UI.txWindowSize = uicontrol(obj.Parent,'Style','text',...
+                'String','Window size [s]',...
+                'Units','normalized','Position',grid2pos([1,y-1,1,1,x,y]));
+            UI.edWindowSize = uicontrol(obj.Parent,'Style','edit',...
+                'String','1','Callback',@obj.pbUpdateData_Callback,...
+                'Units','normalized','Position',grid2pos([1,y,1,1,x,y]));
+            UI.cbGroupPlots = uicontrol(obj.Parent,'Style','checkbox',...
+                'String','Group Plots','Value',obj.GroupPlots,'Callback',@obj.pbUpdate_Callback,...
+                'Units','normalized','Position',grid2pos([2,y-1,1,1,x,y]));
+            UI.cbContinuousUpdate = uicontrol(obj.Parent,'Style','checkbox',...
+                'String','Continuous Update','Value',0,...
+                'Units','normalized','Position',grid2pos([2,y,1,1,x,y]));
+            UI.pbPlay = uicontrol(obj.Parent,'Style','pushbutton',...
+                'String','Play','Callback',@obj.pbPlay_Callback,...
+                'Units','normalized','Position',grid2pos([3,y-1,1,1,x,y]));
+            UI.pbUpdate = uicontrol(obj.Parent,'Style','pushbutton',...
+                'String','Update','Callback',@obj.pbUpdate_Callback,...
+                'Units','normalized','Position',grid2pos([3,y,1,1,x,y]));
+        end
+        
+        % Delete function
+        function delete(obj)
+            stop(obj.Timer);
+            delete(obj.Timer);
+        end
+        
+    end
+end
+
+##### SOURCE END #####
+--></body></html>

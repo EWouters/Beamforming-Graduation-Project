@@ -1,0 +1,16 @@
+\documentclass[a4paper, notitlepage]{report}
+\input{../title}
+\input{../preamble}
+\begin{document}
+
+\section{State of the art}
+\subsection{Time offset correction} 
+\label{sec:to_correction_state_of_art}
+The Network Time Protocol (NTP) is used worldwide for clock synchronization, but generally has errors on the order of tens of milliseconds, too much signal processing applications. The Global Positioning System (GPS) offers superior time stamp capability, in the order of $340~\mathrm{ns}$ but is unreliable indoors \cite{wehr2004}. Thus, for the purposes of this work, methods relying on an external clock were deemed inappropriate.
+
+Ballew, Kuzmanovic and Lee have explored the fusion of audio recordings of concerts made by smartphones \cite{ballew2011}. Of special interest for this work is the chosen synchronization algorithm, which uses cross correlation between different audio recordings to determine relative time offset of recorded sounds. However, this cross correlation is not performed with the intent of real-time synchronization but is performed in post-processing. As shown by Knapp and Carter \cite{Knapp1976}, the maximum value of the cross correlation is a maximum-likelihood estimator for the time delay between two input signals.
+
+\subsection{Sampling rate offset correction}
+Two methods for sampling rate offset correction were found in the literature, both relying on correlation processing. The first, proposed by Markovich-Golan, Gannot and Cohen \cite{golan2012} is based on the drift of the cross spectrum of two signals sampled at different sampling rates. The second, by Cherkassky and Gannot \cite{cherkassky2014}, derives an estimator for the relative sample rate offset between two signals based on a cross-wavelet transform. Both of these approaches are independent of resampling implementations and thus may use a range of resampling methods, including Lagrange polynomial interpolation \cite{pawig2010, golan2012} and spline interpolation \cite{cherkassky2014}.
+
+\end{document}

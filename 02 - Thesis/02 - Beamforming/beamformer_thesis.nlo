@@ -1,0 +1,40 @@
+\nomenclatureentry{a$\omega$@[{$\omega$}]\begingroup Frequency [rad/s]\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$L$@[{$L$}]\begingroup Largest array dimension [m]\nomeqref {2.0}|nompageref}{7}
+\nomenclatureentry{a$\lambda$@[{$\lambda$}]\begingroup Wavelength [m]\nomeqref {2.0}|nompageref}{7}
+\nomenclatureentry{a$M$@[{$M$}]\begingroup Number of microphones\nomeqref {2.0}|nompageref}{8}
+\nomenclatureentry{a$\textbf{p}$@[{$\textbf{p}$}]\begingroup Position vector in space [m]\nomeqref {2.0}|nompageref}{8}
+\nomenclatureentry{a$t$@[{$t$}]\begingroup Time [s]\nomeqref {2.0}|nompageref}{8}
+\nomenclatureentry{a$s(t)$@[{$s(t)$}]\begingroup Acoustic source signal in the time domain\nomeqref {2.0}|nompageref}{8}
+\nomenclatureentry{a$a$@[{$a$}]\begingroup Attenuation coefficient [$\text{m}^{-1}$]\nomeqref {2.0}|nompageref}{8}
+\nomenclatureentry{a$\tau$@[{$\tau$}]\begingroup Delay of a signal [s]\nomeqref {2.0}|nompageref}{8}
+\nomenclatureentry{a$v(t)$@[{$v(t)$}]\begingroup Undesired signal components in the time domain\nomeqref {2.0}|nompageref}{8}
+\nomenclatureentry{a$h(t)$@[{$h(t)$}]\begingroup Acoustic transfer function in the time domain\nomeqref {2.0}|nompageref}{8}
+\nomenclatureentry{a$H(\omega)$@[{$H(\omega)$}]\begingroup Acoustic transfer function in the frequency domain\nomeqref {2.1}|nompageref}{8}
+\nomenclatureentry{a$r$@[{$r$}]\begingroup Distance between source and mic [m]\nomeqref {2.1}|nompageref}{8}
+\nomenclatureentry{a$c$@[{$c$}]\begingroup Speed of sound [m/s]\nomeqref {2.1}|nompageref}{8}
+\nomenclatureentry{a$d(t,\theta,\phi)$@[{$d(t,\theta,\phi)$}]\begingroup Array response vector [s]\nomeqref {2.3}|nompageref}{8}
+\nomenclatureentry{a$g(t,\theta,\phi)$@[{$g(t,\theta,\phi)$}]\begingroup Directivity pattern of a microphone in the time domain\nomeqref {2.3}|nompageref}{8}
+\nomenclatureentry{a$\theta$@[{$\theta$}]\begingroup Azimuth [$\degree$]\nomeqref {2.3}|nompageref}{8}
+\nomenclatureentry{a$\phi$@[{$\phi$}]\begingroup Elevation [$\degree$]\nomeqref {2.3}|nompageref}{8}
+\nomenclatureentry{a$\textbf{d}(\omega,\theta,\phi)$@[{$\textbf{d}(\omega,\theta,\phi)$}]\begingroup Look vector of the array\nomeqref {2.4}|nompageref}{8}
+\nomenclatureentry{a$y(t)$@[{$y(t)$}]\begingroup Received audio signal by a microphone in the time domain\nomeqref {2.4}|nompageref}{8}
+\nomenclatureentry{a$Y(\omega)$@[{$Y(\omega)$}]\begingroup Received audio signal by a microphone in the frequency domain\nomeqref {2.6}|nompageref}{8}
+\nomenclatureentry{a$A(\omega,\theta,\phi)$@[{$A(\omega,\theta,\phi)$}]\begingroup Attenuation coefficient in the frequency domain, as a function of the look direction\nomeqref {2.6}|nompageref}{8}
+\nomenclatureentry{a$S(\omega)$@[{$S(\omega)$}]\begingroup Source signal in the frequency domain\nomeqref {2.6}|nompageref}{8}
+\nomenclatureentry{a$G(\omega,\theta,\phi)$@[{$G(\omega,\theta,\phi)$}]\begingroup Directivity pattern of a microphone in the frequency domain\nomeqref {2.6}|nompageref}{8}
+\nomenclatureentry{a$V(\omega)$@[{$V(\omega)$}]\begingroup Undesired signal components in the frequency domain\nomeqref {2.6}|nompageref}{8}
+\nomenclatureentry{a$\hat{S}(\omega)$@[{$\hat{S}(\omega)$}]\begingroup Estimated source signal\nomeqref {2.7}|nompageref}{8}
+\nomenclatureentry{a$\textbf{w}(\omega)$@[{$\textbf{w}(\omega)$}]\begingroup Vector of complex weighing factors\nomeqref {2.7}|nompageref}{8}
+\nomenclatureentry{a$G_\text{A}$@[{$G_\text{A}$}]\begingroup Array-gain\nomeqref {3.1}|nompageref}{13}
+\nomenclatureentry{a$SNR$@[{$SNR$}]\begingroup Signal-to-noise ratio [dB]\nomeqref {3.1}|nompageref}{13}
+\nomenclatureentry{aSTOI@[{STOI}]\begingroup Short-Time Objective Intelligibility measure\nomeqref {3.1}|nompageref}{13}
+\nomenclatureentry{aMOS@[{MOS}]\begingroup Mean opinion scores\nomeqref {3.1}|nompageref}{13}
+\nomenclatureentry{aPESQ@[{PESQ}]\begingroup Perceptual evaluation of speech\nomeqref {3.1}|nompageref}{13}
+\nomenclatureentry{a$\overline{x}(n)$@[{$\overline{x}(n)$}]\begingroup Average estimated clean speech signal in the time domain\nomeqref {4.1}|nompageref}{17}
+\nomenclatureentry{a$\hat{\textbf{w}}$@[{$\hat{\textbf{w}}$}]\begingroup Vector of estimated complex weights\nomeqref {4.4}|nompageref}{17}
+\nomenclatureentry{a$\Phi$@[{$\Phi$}]\begingroup Covariance matrix of the microhone signals\nomeqref {4.4}|nompageref}{17}
+\nomenclatureentry{a$x(n)$@[{$x(n)$}]\begingroup Clean speech signal in the time domain\nomeqref {4.9}|nompageref}{18}
+\nomenclatureentry{a$\hat{x}(n)$@[{$\hat{x}(n)$}]\begingroup Distorted speech signal in the time domain\nomeqref {4.9}|nompageref}{18}
+\nomenclatureentry{a$N$@[{$N$}]\begingroup Number of samples\nomeqref {4.9}|nompageref}{18}
+\nomenclatureentry{a$\text{SNR}_\text{seg}$@[{$\text{SNR}_\text{seg}$}]\begingroup Segmental signal-to-noise ratio [dB]\nomeqref {4.10}|nompageref}{18}
+\nomenclatureentry{a$L_{f}$@[{$L_{f}$}]\begingroup Frame length of the segmental signal-to-noise ratio [s]\nomeqref {4.10}|nompageref}{18}

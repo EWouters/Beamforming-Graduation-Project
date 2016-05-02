@@ -1,0 +1,169 @@
+Simulaties
+sim1
+Processed 584118 samples using DSB beamformer form 3 microphones
+    White noise gain = -4.637285 dB
+Processed 584118 samples using MVDR beamformer form 3 microphones
+    White noise gain = 51.924484 dB
+
+sim2
+Processed 584118 samples using DSB beamformer form 3 microphones
+    White noise gain = -4.637285 dB
+Processed 584118 samples using MVDR beamformer form 3 microphones
+    White noise gain = 52.685031 dB
+	
+sim3
+Processed 584118 samples using DSB beamformer form 3 microphones
+    White noise gain = -4.637285 dB
+Initialized MVDR beamformer for 3 microphones
+Processed 584118 samples using MVDR beamformer form 3 microphones
+    White noise gain = 50.939893 dB
+
+sim4
+Processed 584118 samples using DSB beamformer form 3 microphones
+    White noise gain = -4.637285 dB
+Processed 584118 samples using MVDR beamformer form 3 microphones
+    White noise gain = 50.955405 dB
+	
+sim5
+Processed 584118 samples using DSB beamformer form 3 microphones
+    White noise gain = -4.637285 dB
+Processed 584118 samples using MVDR beamformer form 3 microphones
+    White noise gain = 50.932322 dB
+
+
+
+sim6
+Processed 584118 samples using DSB beamformer form 3 microphones
+    White noise gain = -4.637285 dB
+Initialized MVDR beamformer for 3 microphones
+Processed 584118 samples using MVDR beamformer form 3 microphones
+    White noise gain = 51.050150 dB
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Experimenten
+Zonder interference
+18u27
+Processed 528673 samples using DSB beamformer form 3 microphones
+    White noise gain = -4.637285 dB
+Processed 528673 samples using MVDR beamformer form 3 microphones
+    White noise gain = 50.990340 dB
+Processed 528673 samples using MVDR beamformer with directivity form 3 microphones
+    White noise gain = 105.060965 dB
+	
+20u09
+Processed 455342 samples using DSB beamformer form 3 microphones
+    White noise gain = -4.637285 dB
+Processed 455342 samples using MVDR beamformer with directivity form 3 microphones
+    White noise gain = 52.241245 dB
+Processed 455342 samples using MVDR beamformer with directivity form 3 microphones
+    White noise gain = 96.587710 dB
+
+20u29
+Processed 455342 samples using DSB beamformer form 3 microphones
+    White noise gain = -4.637285 dB
+Initialized MVDR beamformer for 3 microphones
+Processed 455342 samples using MVDR beamformer form 3 microphones
+    White noise gain = 52.213688 dB
+Initialized MVDR beamformer with directivity for 3 microphones
+Processed 455342 samples using MVDR beamformer with directivity form 3 microphones
+    White noise gain = 93.800438 dB
+	
+20u46
+Processed 455342 samples using DSB beamformer form 3 microphones
+    White noise gain = -4.637285 dB
+Initialized MVDR beamformer for 3 microphones
+Processed 455342 samples using MVDR beamformer form 3 microphones
+    White noise gain = 52.661579 dB
+Initialized MVDR beamformer with directivity for 3 microphones
+Processed 455342 samples using MVDR beamformer with directivity form 3 microphones
+    White noise gain = 96.187323 dB
+
+21u01
+Processed 455342 samples using DSB beamformer form 3 microphones
+    White noise gain = -4.770760 dB
+Processed 455342 samples using MVDR beamformer form 3 microphones
+    White noise gain = 54.080922 dB
+Initialized MVDR beamformer with directivity for 3 microphones
+Processed 455342 samples using MVDR beamformer with directivity form 3 microphones
+    White noise gain = 105.099697 dB
+
+
+
+
+
+
+
+
+
+
+18u36
+Processed 455342 samples using DSB beamformer form 3 microphones
+    White noise gain = -4.637285 dB
+Initialized MVDR beamformer for 3 microphones
+Processed 455342 samples using MVDR beamformer form 3 microphones
+    White noise gain = 52.819579 dB
+Initialized MVDR beamformer with directivity for 3 microphones
+Processed 455342 samples using MVDR beamformer with directivity form 3 microphones
+    White noise gain = 105.083248 dB
+	
+20u21
+Processed 455342 samples using DSB beamformer form 3 microphones
+    White noise gain = -4.637285 dB
+Initialized MVDR beamformer for 3 microphones
+Processed 455342 samples using MVDR beamformer form 3 microphones
+    White noise gain = 52.326739 dB
+Initialized MVDR beamformer with directivity for 3 microphones
+Processed 455342 samples using MVDR beamformer with directivity form 3 microphones
+    White noise gain = 96.527883 dB
+	
+20u39
+Processed 455342 samples using DSB beamformer form 3 microphones
+    White noise gain = -4.637285 dB
+Initialized MVDR beamformer for 3 microphones
+Processed 455342 samples using MVDR beamformer form 3 microphones
+    White noise gain = 51.960714 dB
+Initialized MVDR beamformer with directivity for 3 microphones
+Processed 455342 samples using MVDR beamformer with directivity form 3 microphones
+    White noise gain = 93.821908 dB
+	
+20u55
+Processed 455342 samples using DSB beamformer form 3 microphones
+    White noise gain = -4.637285 dB
+Initialized MVDR beamformer for 3 microphones
+Processed 455342 samples using MVDR beamformer form 3 microphones
+    White noise gain = 52.236470 dB
+Processed 455342 samples using MVDR beamformer with directivity form 3 microphones
+    White noise gain = 98.879524 dB
+	
+21u07
+Processed 455342 samples using DSB beamformer form 3 microphones
+    White noise gain = -4.770760 dB
+Processed 455342 samples using MVDR beamformer form 3 microphones
+    White noise gain = 54.555774 dB
+Processed 455342 samples using MVDR beamformer with directivity form 3 microphones
+    White noise gain = 104.985790 dB

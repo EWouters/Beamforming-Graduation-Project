@@ -1,0 +1,248 @@
+sim1
+ArrayGainDSB =
+
+    2.0319
+
+
+ArrayGainMvdr =
+
+    5.6103
+	
+
+sim2
+ArrayGainDSB =
+
+    2.7837
+
+
+ArrayGainMvdr =
+
+    2.9257
+	
+	
+sim3
+ArrayGainDSB =
+
+    2.2227
+
+
+ArrayGainMvdr =
+
+    3.2671
+	
+	
+sim4
+ArrayGainDSB =
+
+    3.1920
+
+
+ArrayGainMvdr =
+
+    3.8842
+	
+
+sim5
+ArrayGainDSB =
+
+    1.9305
+
+
+ArrayGainMvdr =
+
+    2.3985
+
+	
+	
+	
+sim6
+ArrayGainDSB =
+
+    1.5128
+
+
+ArrayGainMvdr =
+
+    1.1767
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Without interference:
+
+18u27
+ArrayGainDSB =
+
+    0.8965
+
+
+ArrayGainMvdr =
+
+    1.4349
+
+
+ArrayGainMvdrDir =
+
+    4.9050
+
+20u09
+ArrayGainDSB =
+
+    0.9202
+
+
+ArrayGainMvdr =
+
+    2.1248
+
+
+ArrayGainMvdrDir =
+
+    7.0217
+	
+20u46
+ArrayGainDSB =
+
+    0.9143
+
+
+ArrayGainMvdr =
+
+    1.5412
+
+
+ArrayGainMvdrDir =
+
+    5.4613
+	
+	
+21u01
+ArrayGainDSB =
+
+    1.2086
+
+
+ArrayGainMvdr =
+
+    1.8356
+
+
+ArrayGainMvdrDir =
+
+    7.7935
+
+
+
+
+With interference:
+
+18u36
+ArrayGainDSB =
+
+    0.8575
+
+ArrayGainMvdr =
+
+    1.0326
+
+ArrayGainMvdrDir =
+
+    4.3870
+	
+	
+20u21
+ArrayGainDSB =
+
+    0.8648
+
+
+ArrayGainMvdr =
+
+    1.2151
+
+
+ArrayGainMvdrDir =
+
+    4.2527
+	
+	
+20u39
+ArrayGainDSB =
+
+    0.9618
+
+
+ArrayGainMvdr =
+
+    2.0541
+
+
+ArrayGainMvdrDir =
+
+    7.8627
+	
+	
+20u55
+ArrayGainDSB =
+
+    0.8793
+
+
+ArrayGainMvdr =
+
+    1.1640
+
+
+ArrayGainMvdrDir =
+
+    4.1955
+	
+	
+21u07
+ArrayGainDSB =
+
+    0.8626
+
+
+ArrayGainMvdr =
+
+    1.0128
+
+
+ArrayGainMvdrDir =
+
+    4.7753

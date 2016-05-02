@@ -1,0 +1,29 @@
+Introduction
+	[Intro]				Roy
+	Problem formulation		Roy
+	Requirements			Sjoerd
+	System overview			Roy
+	State of the art		Sjoerd
+
+Synchronization
+	[Intro]				Sjoerd
+	Problem formulation		Sjoerd
+	State of the art		Roy
+	Algorithm			Roy
+	Simulation			Roy
+	Results				Roy
+
+System implementation
+	[Intro]				Roy
+	Problem formulation		???
+	State of the art		???
+	Android app			Roy
+	MATLAB implementation		Sjoerd
+	System performance		android (Roy) & matlab (Sjoerd)
+
+System test
+	[Intro]				Sjoerd
+	Set-up				Sjoerd
+	Results				Sjoerd
+
+Conclusion				Both?

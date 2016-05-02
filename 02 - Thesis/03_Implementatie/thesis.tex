@@ -1,0 +1,39 @@
+\documentclass[a4paper, notitlepage, twoside]{report}
+\input{title}			% Document metadata
+	
+\input{preamble}		% imported packages, as well as options for them and formatting/styling stuff
+
+\begin{document}
+\pagenumbering{roman}		% roman numbers for pre-introduction stuff
+
+\input{front}			% Title page, abstract, TOC
+
+\null
+\thispagestyle{empty}
+\newpage
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\lhead{\fancyplain{}{\textsf{\nouppercase{\leftmark}}}} % leave left header empty
+\rhead{\fancyplain{\textsf{\thepage}}{\textsf{\thepage}}}
+
+\subimport{}{introduction}		% Introduction
+
+\cleardoublepage
+\subimport{}{synchronization}		% Synchronization subsystem
+
+\cleardoublepage
+\subimport{}{implementation}		% System implementation
+
+\cleardoublepage
+\subimport{}{test}			% System test
+
+\cleardoublepage
+\subimport{}{conclusion}		% Final conclusion
+
+\singlespace %closer spaced vertical lines for bibliography
+\subimport{}{bibliography}		% Bibliography
+\onehalfspacing % further apart line height again
+\subimport{}{appendix}
+
+\end{document}

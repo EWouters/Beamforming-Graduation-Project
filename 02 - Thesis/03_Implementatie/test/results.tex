@@ -1,0 +1,34 @@
+\documentclass[a4paper, notitlepage]{report}
+\input{../title}
+\input{../preamble}
+\begin{document}
+
+\section{Results}
+Results of the system test are shown in Fig.~\ref{tab:test-result}. It can be seen that contrary to the expected results, the algorithm performed better (with errors of 5 and 6 samples) in the low-volume case than in the high-volume case (where the synchronization error was 26 samples). Further discussion of the results may be found in section \ref{sec:disc_test}.
+
+\begin{figure}[H]
+\begin{adjustwidth}{-1in}{-1in}
+\centering
+\begin{subfigure}{0.5\textwidth}
+	\includegraphics[width=\textwidth]{figures/system_test/setup}
+	\caption[Complete system test setup.]{An overview of the system test setup.}
+	\label{fig:system_test_setup}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\begin{tabular}{l l}
+		\textbf{Description of background noise}&\textbf{Error} [samples] \\
+		Silence & 26\\
+		Voice & 26\\
+		Voice (low MLS volume) & 5\\
+		Music (low MLS volume) & 6\\
+		\end{tabular}
+		\caption{Synchronization error for different scenarios.}
+		\label{tab:test-result}
+	\end{subfigure}
+	\caption[Measurement results of synchronization.]{Measurement results for real-life synchronization tests. Fig.~\ref{fig:system_test_setup} shows the set-up.}
+\label{fig:system_test_setup_total}
+\end{adjustwidth}
+\end{figure}
+
+
+\end{document}

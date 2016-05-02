@@ -1,0 +1,40 @@
+Telefoon --> Server
+Nieuwe verbinding
+	- identificatie
+Nieuwe audio frame
+Orientatie || DIT WORDT DE EERSTE TESTCASE
+	- azimuth 
+	- elevation
+
+
+
+
+---------------------
+Server --> Telefoon
+
+
+
+
+---------------------
+Server --> GUI
+Orientatie											bfcom.orientationChange(string phoneID, int azimuth, int elevation)		// in PoC
+	- azimuth
+	- elevation
+	- telefoon ID
+NxM matrix met samples								bfcom.newSamplesAvailable(matrix Samples, array phoneIDs)			// niet in PoC
+																		// Note: phoneIDs is cell of strings
+Telefoon new connection (dus N wordt groter)		bfcom.newConnection(string phoneID, int azimuth, int elevation)			// in PoC
+Telefoon connection lost (dus N wordt kleiner)		bfcom.lostConnection(string phoneID)						// in PoC
+Telefoon maakt grote beweging (optioneel)			bfcom.isMoving(string phoneID)
+
+
+---------------------
+GUI --> Server											
+Settings (globaal) || DIT WORDT DE EERSTE TESTCASE	WEG? mitm.startListening(int sample_rate) 	// in PoC
+	- Sample rate
+Settings (per telefoon)								mitm.startStreaming(string phoneID);		// niet in PoC
+	- Audio source (MIC, Voice_CONF etc.)
+Stop streaming										mitm.stopStreaming(string phoneID);			// niet in PoC
+Get phone IDs	(list of connected phones)			mitm.getPhoneIDs();							// in PoC
+
+---------------------

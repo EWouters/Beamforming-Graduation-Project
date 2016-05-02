@@ -1,0 +1,52 @@
+#################
+## LaTeX files
+#################
+
+01 - Literatuuronderzoek/*.pdf
+*.aux
+*.bbl
+*.blg
+*.log
+*.synctex.gz
+*.exe.stackdump
+*.out
+*.pdf
+
+#Thesis ignore stuff
+*.toc
+*.lof
+*.tex.bak
+
+10 - Code/02 - Implementatie/02 - MATLAB/MARDY/*.wav
+
+# Matlab temp file
+*.asv
+*.manifest
+
+# te grote matlabfiles
+**/nietopgit
+**/tmp
+**/Recordings
+
+# include everything in images folder
+!02 - Thesis/02 - Beamforming/images/*
+
+# =========================
+# Windows detritus
+# =========================
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Mac desktop service store files
+.DS_Store
+__MACOSX
+10 - Code/03 - Beamforming/BeamformGUI_v1.0/files/Recording 2015-06-05 11u58.wav
+10 - Code/02 - Implementatie/02 - MATLAB/plots/result.mat

@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".SetupActivity">
+    <item android:id="@+id/action_start_service" android:title="@string/action_start_service"
+        android:orderInCategory="100" app:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/action_stop_service" android:title="@string/action_stop_service"
+        android:orderInCategory="200" app:showAsAction="ifRoom|withText" />
+</menu>

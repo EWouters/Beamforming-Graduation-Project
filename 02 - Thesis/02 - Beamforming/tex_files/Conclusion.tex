@@ -1,0 +1,34 @@
+\chapter{Conclusion}
+\label{chap:conclusion}
+
+The goal of the research was to compare the performance of existing wide-band near-field beamforming algorithms in enhancing audio from microphone arrays, and the adaptation of directivity patterns in the microphone response. Measurements have been performed both in an anechoic environment and in a typical office environment. Data has been gathered and processed using the beamforming toolbox written for this project. The data was analyzed and compared in both objective and subjective metrics, as is common in the literature about this subject \citep{brandstein2001,gaubitch2014,martinez2015,griffiths1982,kjellson2014sound,ba2007,habets2010,doclo2003}. The objective audio quality measures show very high correlation with each other. They also show high correlation to the power ralated metrics, except when they are used on a very noisy signal. In that case both STOI and PESQ become unreliable.
+
+\section{Simulation}
+\label{sec:conc:sim}
+The simulations show improvement on all metrics for both DSB and MVDR in the measurement scenario. They also show better intelligibility for MVDR than for DSB in all scenarios, for both STOI and PESQ.\newline
+%\subsection{Power metrics}
+%\label{sec:conc:sim:snr}
+When the scene is simulated with low noise, no reverberations and no error in the locations the MVDR shows huge improvement in the $SNR_{seg}$ of up to $24 dB$. This is expected because the MVDR beamforming algorithm is statistically optimal. The DSB shows a more moderate improvement of about $5 dB$ in the same scenario. When the reverberations are also simulated $SNR_{seg}$ for DSB stays about equal. This is expected because the DSB is good at canceling spatially white noise. The $SNR_{seg}$ of the MVDR will drop down to about the same level as the DSB when reverberations are simulated. When errors in the localization are simulated the performance increase almost vanishes. These results have the same trend as results by Mart\'inez et al. \cite{martinez2015} This means that both beamformers are not robust in localization errors.
+
+%\subsection{Intelligibility}
+%\label{sec:conc:sim:intel}
+
+\section{Measurements}
+\label{sec:conc:meas}
+Measurements on a typical setup for teleconferencing with one English speaking source and an English speaking interferer and office background noise show that in our particular setup the MVDR never beats the performance of the DSB for all the presented scenarios and metrics. 
+
+In general, the results of the DSB show a moderate improvement in both the power related measures and the intelligibility measures. The DSB showed a consistant performance these measurements. In contrary to the DSB, the MVDR did not improve either of the metrics in the measured scenarios. 
+
+The white noise gains for each beamformer is very constant in for all scenarios in both simulations and measurements. The average white noise gain for the DSB is $-4.6 dB$, for the MVDR $52dB$ and MVDR with Directivity $98dB$. These values indicate that the MVDR algorithm will amplify spatially white noise much more than desired. 
+
+
+
+%--- hier nog aanvullen ---
+
+\section{Location errors}
+\label{sec:conc:loc}
+It is a well known fact in literature that the MVDR beamformer performance degrades significantly when there are errors in the estimated locations. The simulations are able to reproduce this effect. The DSB beamformer also shows degradation of the Intelligibility and $SNR$ when there is a simulated normal distributed position error with a standard deviation of $5 cm$ on every coordinate, the MVDR shows irregular results in measurement scenarios. Possibly, this is the reason for the difference in performance between the simulation and the measurement scenarios.
+
+\section{Directivity}
+\label{sec:conc:dir}
+Because the MVDR without directivity does not show improvement in our measurement scenario, it may be questionable how useful the results about the MVDR with directivity are. And as the simulations do not use microphone directivity responses the performance can not be compared with the simulations. However, we can see that including the directivities as described in section \ref{sec:des_mvdr_dir} delivers mostly noise. There can be multiple reasons for this. It may be that there is an error in the implementation of the algorithm or it may be that the directivity impulse responses are not used in the correct way or the smartphones might have too erratic directivity patterns. This setup unfortunately does not show the same promising results as the literature does on the directivity measurements.

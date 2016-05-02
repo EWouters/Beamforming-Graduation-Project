@@ -1,0 +1,26 @@
+\documentclass[a4paper, notitlepage]{report}
+\input{../title}
+\input{../preamble}
+\begin{document}
+
+\section{Set-up}
+The setup for the experiment is shown in Fig.~\ref{fig:system_test_setup}: two smartphones are placed on a table in a room representative of a reverberant office environment. A loudspeaker was also placed in the room, acting as a source of the synchronization signal and an additional background signal. The placement of the loudspeaker, $l_1$, was chosen such that smartphones $m_1, m_2$ were equally spaced (within measurement error) from speaker $l_1$.
+
+\paragraph*{}
+To perform an experiment, the smartphones were first placed in the \textsc{streaming} state using the \matlab server application. Next, a background signal (silence, voice or music) was played over speaker $l_1$. After several seconds, the beacon signal (see also section \ref{sec:mls}) was played, and the time-domain synchronization algorithm (described in section \ref{sec:algorithm}) was invoked on the audio recordings transmitted to the \matlab application up to that point. Recording was continued for approximately ten seconds after the pulse, then halted by sending a \textsc{stop\_streaming} packet to both smartphones.
+
+This experiment was repeated for three background signals (silence, voice and music) and two amplitudes of the beacon signal (100\% and 20\% of full scale, respectively). For both beacon signal amplitudes, the amplitude of the background signal was left at the same level.
+
+\subsection{Expected results}
+Based on the simulation data described in section \ref{sec:sync-simulation}, the recordings on $m_1$ and $m_2$ played from $l_1$ are expected to be synchronized within one sample of one another. However, error in the placement of the loudspeaker and smartphones causes an unknown arrival time difference that contributes linearly to the synchronization error. For example, if the accuracy of placement of the smartphones and loudspeakers is $\Delta d = \pm1~\mathrm{cm}$, the maximum synchronization error $\epsilon$ is
+$$
+\epsilon = \pm f_s\frac{4\Delta d}{v} = \pm 48\cdot10^3\frac{0.04}{343} = \pm 5.6~\mathrm{samples}
+$$
+with $v$ the speed of sound in air and $f_s=48\cdot10^3$ the used sampling frequency. 
+
+Furthermore, an error in the speed of sound leads to a TO mismatch linear with the TDOA error. For example, let the expected TDOA be $10~\mathrm{ms}$, (corresponding to a distance of approximately $3.4~\mathrm{m}$) and let the error in speed of sound be $1\%$. Then, the actual TDOA lies between $9.9$ and $10.1~\mathrm{ms}$. This $0.2~\mathrm{ms}$ margin leads to a margin of $9.6~\mathrm{samples}$. TDOA compensation is not performed in this experiment.
+
+\paragraph*{}
+Based on the above remarks, it is expected that the synchronization will be up to $15~\mathrm{samples}$ off, assuming a $1~\mathrm{cm}$ error in position per smartphone and loudspeaker and perfect synchronization algorithm. It is also expected that playing the beacon signal at a higher volume will yield a lower error, as the ratio of the beacon amplitude to the background amplitude is higher.
+
+\end{document}

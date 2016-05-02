@@ -1,0 +1,74 @@
+%algemeen beamforming							(Niels)
+Beamformers provide an effective and versatile means of spatial filtering \cite{VanVeen19884}. This is useful when distinguishing desired signals from noise and interference based on their locations \cite{himawan2011}. There are different beamforming algorithms with their own advantages and disadvantages. We will consider the delay-and-sum beamforming algorithm \cite{elko1996}, the MVDR algorithm \cite{springer2010} and a broadband region-based near-field beamforming algorithm \cite{martinez2015} that we refer to here as the ``Delft'' algorithm.
+
+In the scenario outlined in section \ref{sec:introduction} the dimensions of the microphone array are large with respect to the distance between the array and the source. Therefore we can assume that the sources of interest are mostly in the near-field region \cite{Gaubitch2014}. In addition, the positioning of the microphones is arbitrary, but known. As such, the main focus for our implementation will be near-field beamforming with ad-hoc microphone arrays. In particular, we will research the benefits of compensating for the directivities of the microphones in the smartphones, as \cite{Gaubitch2014} shows this having a positive effect on beamformer performance. To estimate the performance of our algorithms, the results will be evaluated using different intelligibility measures \cite{taal2010,rix2001}.
+
+\subsection{Delay-and-sum beamformer}
+The delay-and-sum beamformer (DSB) first delays and weighs the microphone signals and then sums the results for all the microphones.
+Consider an array of smartphone microphones with uniform directional gain. At a time $t$ the the sampled microphone signal for each microphone consists of delayed and attenuated versions of the source signal $a_{i}s(t-\tau_{i})$ with noise $v_{i}(t)$ added to it. In the fourier domain the received signal for microphone $i$ can be written as:
+\[
+Y_{i}(\omega) = a_{i}S(\omega)e^{-j\omega\tau_{i}} + V_{i}(\omega)
+\]
+The attenuation factor $a_{i}$ is the ratio of the distance between the source and the reference microphone (located at the source) over the distance between the source and $i^{th}$ microphone. The delay between when the signal is at the reference microphone and the $i^{th}$ microphone is $\tau_{i} = \frac{d_{i}-d_{ref}}{c}$ where $c$ denotes the speed of sound.
+
+We can combine the attenuation and delay for all microphones into one vector:
+\[
+\textbf{d}(\omega) = [a_{1}e^{-j\omega\tau_{1}},a_{2}e^{-j\omega\tau_{2}},...,a_{N}e^{-j\omega\tau_{N}}]^{T}
+\]
+By choosing the values for $a_{i}$ and $\tau_{i}$ one can steer the beam in any direction spanned by the position vectors of the array. The desired signal can be recovered by multiplying the microphone signals by a complex weighing factor $\textbf{w}(\omega)$ which can depend on the frequency:
+\[
+S(\omega) = \textbf{w}^{H}(\omega)\textbf{Y}(\omega)
+\]
+where $\textbf{a}^{H}$ denotes the Hermitian transpose of the vector $\textbf{a}$. By choosing sensible weights this algorithm can perform spatial filtering with the goal of maximizing the intelligibility of the received signal.
+
+%Delay-and-sum
+Another way of implementing the DSB is described by Naylor et al.\ \cite{naylor2010speech}. For this discrete-time implementation the output can be written as:
+
+\[
+\overline{x}[n] = \sum_{m=1}^{M} w_{m}x_{m}[n-\tau_{n}]
+\]
+
+With M the number of microphones, $w_{m}$ the weight applied to sensor m and $\tau_{m}$ the propagation delay in samples. The direct path components of the microphone signals will be coherent and therefore added constructively. The incoherent components, due to reverberation and noise, will be attenuated.
+
+\subsection{Minimum variance distortionless response}
+%MVDR 											(Niels)
+The minimum variance distortionless response (MVDR) beamformer is one of the most widely used beamformers. A general description of MVDR beamformers in room acoustics and the trade-off between speech dereverberation and noise reduction is described by Cohen et al.\ \cite{springer2010} and Habets et al.\ \cite{habets2010}. 
+
+To illustrate how to include the microphone directivities in the algorithm a similar approach to Gaubitch et al.\ \cite{Gaubitch2014} will be followed, which outline is in this section. This algorithm is based on the signal received at each microphone ($Y_{i}$) which consists of the following components:
+
+\[
+Y_{i}(\omega) = S(\omega)H_{i}(\omega)G_{i}(\omega, \theta, \phi) + V_{i}(\omega)
+\]
+
+$S(\omega)$ is the acoustic source signal, $H_{i}(\omega)$ is the acoustic transfer function (ATF) of the room, $G_{i}(\omega, \theta, \phi)$ is the frequency response of the microphone which will be measured with respect to the azimuth $\theta$ and the elevation $\phi$. $\textbf{V}_{i}(\omega)$ is the vector of noise components of the received signal. $H_{i}(\omega)$ is the ATF of the room and will initially be the ATF of an anechoic room:
+
+\[
+H_{i}(\omega) = \frac{\exp(-j\omega \textbf{r}_{i})}{4\pi \textbf{r}_{i}}
+\]
+with
+\[
+\textbf{r}_{i} = \norm{\textbf{p}_{mic}^{i}-\textbf{p}_{src}}
+\]
+The positions and orientations of the microphones are assumed to be known. The weights are estimated by generating the covariance matrix of the signals recorded by the microphones:
+\[
+\Phi_{y} = E\{\textbf{y}\textbf{y}^{H}\}
+\]
+Then using the formula:
+\[
+\hat{\textbf{w}} = \frac{\Phi_{y}^{-1}\textbf{d}}{\textbf{d}^{H}\Phi_{y}^{-1}\textbf{d}}
+\]
+The estimated source signal is then calculated by:
+\[
+\hat{S}(\omega) = \textbf{w}^{H}(\omega)\textbf{y}(\omega)
+\]
+
+\subsection{Delft beamforming algorithm}
+%Delft beamforming algorithm					(Erik)
+The Delft beamforming algorithm is a a beamforming algorithm which uses an eigenfilter structure with a minimum-energy cost function based on desired and undesired near-field regions \cite{martinez2015}. It differs from the MVDR by using a more elaborate model of the room reverberations and by being able to focus on a given volume in the room whereas the MVDR algorithm can only set the direction of the beam.
+
+\subsection{Remarks}
+The localization of the source is critical for the operation of a beamforming algorithm. Cha Zhang et al.\ \cite{zhang2008} propose an eMVDR which has good localization in reverberant environments. Instead of improving the localization, one can also make the algorithm less sensitive to a change of the source location \cite{ehrenberg2010}. Localization is generally performed by using time differences of arrival from one source to the multiple microphones. For this calculation, the locations of the microphones are assumed to be known. However, there is also the possibility to use self-localization to find out the locations of the microphones \cite{hennecke2011}.
+
+Differences in sample rate and time references between devices can heavily impact the effectiveness of the beamformer \cite{schm2013}. Possible solutions to this have been outlined in subsection \ref{subsec:synch}. In addition, room reverberations can be very hard to invert because the ATF changes with time and with the position of the source \cite{jin2010}.
+
+Different kinds of noise call for different beamforming algorithms. The DSB has the property that it suppresses white noise sources well \cite{brandstein2001}, whereas the MVDR beamformer can suppress coherent noise sources \cite{naylor2010speech} better.

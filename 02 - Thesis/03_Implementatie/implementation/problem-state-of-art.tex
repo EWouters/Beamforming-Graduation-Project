@@ -1,0 +1,14 @@
+\documentclass[a4paper, notitlepage]{report}
+\input{../title}
+\input{../preamble}
+\begin{document}
+
+\section{State of the art}
+\subsection{Android OS} The Android operating system is the most popular mobile platform globally, with a market share of nearly 80\% at the time of writing \cite{IDC-android}. Android is not a real-time operating system (RTOS) \cite{Maya2010}, and thus has no timing guarantees on task completion. 
+However, Moore's Law scaling has led to huge performance boosts in computers in general and smartphones in particular in the last five years which might mean smartphones are already fast enough for real-time audio streaming. Since Google provides a development kit in the form of the SDK \cite{android-getting-started}, performance issues can easily be assessed on the used hardware. Furthermore, if performance remains an issue, Android has a Native Development Kit available to access low-level functionality in C or C++ \cite{android-ndk}. Android native development may have performance increases, but is not recommended as a starting point for general-purpose applications \cite{liu2013}.
+
+\subsection{Smartphone localization} While necessary for synchronization, the smartphone locations are also required to perform beamforming and calculate directivities of the microphones. There are several ways of localization for smartphones: GSM trilateration and GPS sensors use hardware supported by a broad range of smartphone models. GSM based localization is accurate up to 5 meters indoors or 75 meters outdoors \cite{varshavsky2006} while GPS typically does not work indoors \cite{wehr2004}. A solution for indoor acoustic self-localization on smartphones is discussed by Henneke and Fink, who achieve root-mean-squared errors of $6~\textrm{cm}$ based on an array with $40~\mathrm{cm}$ diameter \cite{hennecke2011}.
+
+\subsection{Orientation} For gain calculation from directivity measurements, the orientation of the microphone is needed as an input. Smartphones typically have two sensors to measure orientation relative to the Earth: a compass and an accelerometer \cite{brahler2010}. These measurements provide an azimuth, pitch and roll angle, defined in Fig.~\ref{app:coordinate_system}. Even though the raw output obtained when reading these sensors on Android is inaccurate, an extended Kalman filter (EKF) may be applied to correct some noise, leading to an error of around 10 degrees \cite{goslinski2015}. As the measurement setup described in \cite{goslinski2015} is not necessarily representative of the usage scenario covered in this work, it was decided to evaluate the performance of Android's orientation estimation functionality in a more representative environment.
+
+\end{document}

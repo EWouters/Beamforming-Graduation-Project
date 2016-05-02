@@ -1,0 +1,33 @@
+Each packet starts with a byte indicating the type of packet.
+
+1: SETUP: set up initial parameters and request identifier
+Contents:
+	- 4 bytes sample rate in Hz
+	- 4 bytes block length in 16-bit words
+	- 1 byte: stereo or mono
+
+2: ACK_SETUP: acknowledge SETUP packet and send identifier
+	- 4 byte: length of HW identifier in bytes
+	- string: hardware identifier of phone
+echo -ne '\x02\x00\x00\x00\x06\x00h\x00o\x00i' | nc -vq -1 192.168.0.102 1337
+windoze:
+echo -ne "\x02\x00\x00\x00\x06\x00h\x00o\x00i" | nc -v localhost 1337
+
+3: START_STREAMING: command to start streaming audio data
+	- audio source: enumeration stored in 1 byte:
+		- Follows Android values
+
+4: STOP_STREAMING: command to stop streaming audio data
+	- No contents
+
+5: ACK_STOP: acknowledgement of stop command
+	- No contents
+
+6: STREAM_DATA: packet containing audio data
+	- Block length (see above) * 16 bit words
+
+7: ORIENTATION_UPDATE: packet containing updated orientation data
+	- 4 byte floating point azimuth
+	- 4 byte floating point pitch
+	- 4 byte floating point roll
+	- 1 byte Flag indicating device is moving (1) or not (0)

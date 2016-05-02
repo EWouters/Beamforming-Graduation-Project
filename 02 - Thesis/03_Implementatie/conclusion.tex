@@ -1,0 +1,75 @@
+\documentclass[a4paper, notitlepage]{report}
+\input{title}
+\input{preamble}
+\begin{document}
+
+\chapter{Discussion and recommendations}
+\label{ch:conclusion}
+This chapter contains a discussion of the various results obtained in this work, followed by a number of suggestions to improve the various aspects of the system, as a basis for future research. Finally, an overarching conclusion is given regarding the presented results.
+
+\section{Discussion}
+\subsection{SRO measurements}
+\label{sec:disc_sro}
+A measurement of the sample rate offset (SRO) present in the smartphone was performed. This test is described in section \ref{sec:sro-characterization}. Complete results are shown in Fig.~\ref{app:sro_total} in appendix \ref{app:results}.
+
+The effect of sampling rate offset on the audio recordings is quite evident. After an hour of recording -- a typical time for a conference call -- the phones with the most diverging SRO (phone 2 and 3 in Fig.~\ref{fig:sro_30sec}) will have drifted apart by an order of $60\cdot60\cdot0.2=720$ samples.
+
+The need for resampling is more pronounced than expected and should be compensated in future work. Alternatively, more frequent time-offset correction could be applied. The disadvantage of this approach is that periodic playback of the beacon signal (section \ref{sec:mls}) could be considered unpleasant.
+
+\subsection{Orientation measurement}
+\label{sec:disc_orient}
+As described in section \ref{sec:orientation_measurement}, the orientation of the smartphones was computed over a period of time to determine the accuracy and stability of these estimates. Results for this rest are shown in appendix \ref{app:results}, Fig.~\ref{app:orientation_total}.
+
+It can be seen that the orientation estimation problem is exacerbated for all different positions on the table. It is hypothesized that this is due to the difference in metal content near the smartphone, as well as the variable magnetic environment in an indoor environment in general. As the offset for each smartphone is different for each different position, it is expected that this cannot be reliably accounted for by processing the sensor signals.
+
+The pitch and roll angles (Figs. \ref{app:orientation_pi_loc1} and \ref{app:orientation_ro_loc1}), defined in appendix \ref{app:coordinate_system}, show similar offset between phones, but on a different scale. Pitch offset is on the order of $1~\mathrm{degree}$ and roll offset on the order of $0.5~\mathrm{degree}$. These measurements are more usable for orientation estimation applied to beamforming, but further filtering may be used to compensate for the measured noise levels \cite{goslinski2015}.
+
+\subsection{TO simulation}
+\label{sec:disc_to}
+In section \ref{sec:sync-simulation}, a simulated experiment was performed to characterise the performance of the proposed synchronization algorithms in a variety of different scenarios. The results of this simulation can be found in appendix \ref{app:results}, Fig.~\ref{app:sync-simulation}.
+
+In Fig.~\ref{fig:sync-simulation-reflection}, the root-mean-square (RMS) error over a number of runs is plotted as a function of the different reflection coefficients used in the simulation. This plot was made for a simulated SNR of $60~\mathrm{dB}$ and a delay of $0.1~\mathrm{s}$. It can be seen that the reflection coefficient has no influence on the performance of the time-domain algorithm. The effect on the frequency-domain algorithm is similarly small, until the reflection coefficient reaches a value of about $0.8$. At this point, the amplitude of the initial peak is about $2.8$ times the amplitude of the largest reflection and the least-squares fit in the frequency domain no longer finds the true delay. It is hypothesized that this performance degradation occurs because, as described in \ref{subsubsec:fd_algo}, for this algorithm it is assumed that the phase contribution of the acoustic impulse response is low compared to the phase contribution of the delay.
+
+Fig.~\ref{app:sync-simulation-delay} shows the RMS error over $N$ runs versus the delay that was inserted in the simulation. This plot was made at a simulated signal-to-noise-ratio of $60~\mathrm{dB}$ and a wall reflection coefficient of 0. In this case, it can be seen that the error is limited to within one sample, showing that while the algorithm does not perform with sub-sample accuracy, in an idealized scenario it performs with error close to this one-sample limit.
+
+Finally, Fig.~\ref{fig:sync-simulation-noise} shows the RMS error as a function of the standard deviation of the added Gaussian noise. The frequency-domain algorithm quickly gains a large error as the noise power increases. In contrast, the error of the time-domain estimator only starts to increase around a noise variance of 20 -- as the variance in the original pulse is 1, this is equivalent to a signal-to-noise ratio of $-26~\mathrm{dB}$. It is not expected that such low signal-to-noise ratios will be encountered during normal system operation.
+
+\subsection{System test}
+\label{sec:disc_test}
+A test of the entire subsystem was performed in order to test the synchronization algorithm in a more realistic scenario. This test is described in chapter \ref{ch:test}. The results of this test are shown in table \ref{tab:test-result} of that chapter.
+
+The magnitude of the error was close to the expected results. However, while it was expected that a more quiet beacon would yield a higher error, the results indicate that the algorithm performs better (showing a synchronization error of approximately 5 samples instead of 26 samples) when the beacon signal is played back at 20\% of full scale. It is hypothesized that this is due to distortion occurring in the signal path at full-scale playback, yielding a distorted pulse that does not match the intended reference signal. When the signal is later correlated with this intended reference signal, the performance is degraded.
+
+As such, it is recommended that future tests of this system account for the effect of distortion on the pulse signal.
+
+\section{Future work}
+In light of the results presented here, there are a variety of possible future projects that could be based on this work.
+
+First of all, the Java server application and MATLAB signal processing are not yet optimized for performance. As such, they could be reimplemented in for example the C programming language to run natively on the host computer. This would likely improve the power efficiency of the software, as well as facilitating a real-time reimplementation of the beamforming system described by Van Wijngaarden and Wouters \cite{BAP:ErikNiels}.
+
+\paragraph*{}
+In addition, while it was decided not to compensate for sample rate offset in this work, such compensation could be integrated in the system to evaluate performance gains.
+
+It may be worth evaluating the merit of cross correlating the different smartphone microphone signals instead of correlating each signal with a known reference. The advantage of this is that in this case, it may be possible to use arbitrary audio as a synchronization reference instead of a predetermined beacon signal. The disadvantage is the increased complexity caused by the unknown correlation properties of arbitrary audio.
+
+\paragraph*{}
+It was also shown that the orientation sensing features present in the Android application programming interface were not suitable for our assumed usage scenario. As such, further research into these sensor technologies, signal processing algorithms to improve their precision, and alternative methods of orientation estimation are warranted.
+
+As the smartphone locations were presumed known, another avenue for improvement lies in integrating existing audio-based localization algorithms \cite{hennecke2011} into the existing system.
+
+\paragraph*{}
+Finally, the need for a centralized processing server could be avoided by instead implementing a set of algorithms on the smartphones which, using message passing, distributes the processing over the smartphones themselves. This approach, however, would require a significantly different architecture from the model presented in this work.
+
+\section{Conclusion}
+
+A time offset compensation system was designed and implemented on smartphones and in \matlab with application to beamforming. Two strategies for time offset compensation were implemented: one based on time-domain cross correlation and a maximum search, the other based on frequency-domain cross correlation and least-squares estimation.
+
+A simulation was made to evaluate these algorithms, showing that the potential of the frequency-domain method for sub-sample accuracy was not realized and the time-domain method was more robust in highly noisy or reverberant situations. Real-life experiments show a synchronization offset of $5$ to $6~\mathrm{samples}$ for the time-domain algorithm.
+
+Orientation measurements obtained from Android smartphones were shown to be unsuitable for use in this work. On a table in an office environment, the reported orientations were found to be inconsistent both between different devices and between the same device in different locations. 
+
+In addition, the sampling rate offset of Nexus 5 phones was characterized and found to be on the order of $10~\mathrm{mHz}$. Based on this result, it was decided not to implement a compensation algorithm in this work. 
+
+The Android platform was used extensively to record audio, but it was found to lack adequate provisions to query the supported audio recording settings of a device. Further, it is difficult to obtain raw audio recordings for use in signal processing, as the amount of preprocessing done on the microphone signal is device-dependent and opaque.
+
+\end{document}

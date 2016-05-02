@@ -1,0 +1,64 @@
+\documentclass[a4paper, notitlepage]{report}
+\input{../title}
+\input{../preamble}
+\begin{document}
+
+\section{SRO characterization}
+\label{sec:sro-characterization}
+An attempt has been made to characterize the degree of sampling rate offset in the used smartphones. Based on the literature (see section \ref{sec:problem-sro}), it is expected that the offset is quite low compared to the used sampling rate. Therefore, this work has focused on providing quantitative measurements of sample rate offset. Implementation and comparison of correction algorithms was left as a topic of future research. 
+
+\subsection{Measurement setup}
+In order to measure SRO, the anechoic chamber at the Delft University of Technology was set up with three identical Nexus 5 smartphones streaming audio to a computer at a nominal sampling frequency of $48~\mathrm{kHz}$. The audio source consisted of a loudspeaker connected to a high-fidelity audio interface, RME Fireface 800. The measurement setup is depicted in Fig.~\ref{fig:sro_measurement_setup} and a picture of the actual setup is shown in Fig.~\ref{fig:sro_measurement_picture}.
+
+The audio interface produced an hour-long continuous sine waveform of $15~\mathrm{kHz}$ which was recorded by the smartphones and sent to the computer, with the intent of computing the sample rate offset from the ideal $48~\mathrm{kHz}$ value.
+
+As will become clear in the next section, this offset is detect when a higher-frequency sine wave is used. However, if the frequency is chosen too high, the response of the microphone is no longer adequate for receiving the signal. Therefore, $15~\mathrm{kHz}$ was chosen to strike a balance between high frequency and and good microphone gain. The microphone response was taken from the results of Gaubitch, Martinez, Kleijn and Heusdens \cite{Gaubitch2014} and preliminary results from Brinkman and De Rooij \cite{BAP:RosalieTim} for Nexus 5 microphone directivities.
+
+\begin{figure}[hbt]
+	\centering
+		\includegraphics[width=0.8\textwidth]{figures/sro-measurement/measurement_setup}
+		\caption[Measurement setup used for SRO measurements.]{Schematic representation of the measurement setup used for SRO measurements. The figure shows the anechoic chamber at the Delft University of Technology with three smartphones and a loudspeaker. Not depicted: computer connected via Wi-Fi to receive the sent audio signals.}
+		\label{fig:sro_measurement_setup}
+\end{figure}
+
+\begin{figure}[bht]
+	\centering
+		\includegraphics[width=0.8\textwidth]{figures/sro-measurement/measurement_picture}
+		\caption[SRO measurement setup in the anechoic chamber.]{An actual picture of the setup in the anechoic chamber. The three phones are resting on a piece of foam in the top half of the image, with the speaker visible in the lower right.}
+		\label{fig:sro_measurement_picture}
+\end{figure}
+
+\subsection{SRO estimation}
+The resolution at which the frequency can be estimated can be calculated from the properties of the discrete Fourier transform (DFT). Let $N$ be the number of time-domain samples in the series $\vec{s}[t]~,t\in\{0,1,\dots N-1\}$. The DFT is then the frequency-domain representation of the periodically extended discrete-time signal $\vec{s}[t]$, and is given by $\vec{S}[2\pi k/N],~k\in\{0, 1\dots N-1\}$. Thus, we also have $N$ samples in the frequency domain \cite[p.~421-422]{Proakis2007}.
+Recalling that the DFT consists of frequencies from $-f_s/2$ to $f_s/2$ (assuming the time-domain signal was bandlimited below $f_s/2$), the frequency resolution can be calculated from $\Delta f=f_s/N$. But since $N=Tf_s$, $\Delta f = 1/T$ where $T$ represents the duration in seconds of the sampled signal $s[t]$.
+
+It can be seen that a short DFT window provides fine time resolution but coarse frequency resolution, and conversely a long DFT window provides fine-grained time resolution at the expense of coarse frequency resolution. Put differently, a long DFT window provides more detailed information about the frequencies present in a signal, but provides less detail about \emph{when} these frequencies are present in time.
+
+For these experiments, a sampling rate of $48~\mathrm{kHz}$ was chosen as this is the highest widely supported sampling rate on Android smartphones. Window lengths varying from $5~\mathrm{minutes}$ ($\Delta f = 3.3~\mathrm{mHz}$) to $30~\mathrm{seconds}$ ($\Delta f = 33~\mathrm{mHz}$) were chosen for performing the DFT.
+
+
+Once the recorded frequency is known, the SRO can be determined:
+$$\text{SRO} = \frac{\left(f_{\text{play}}-f_{\text{detected}}\right)\cdot f_s}{f_\text{play}}$$
+where $f_{\text{play}}, f_{\text{detected}}, f_{\text{s}}$ indicate played audio frequency, detected audio frequency from the recording and sampling frequency, respectively.
+
+\subsection{Results}
+The SRO for these smartphones is lower than predicted by the literature, in the order of $0.2~\mathrm{Hz}$ (Fig.~\ref{fig:sro_result}) and does not change rapidly with time. Full DFT plots for all window lengths may be found in Fig.~\ref{app:sro_total} in appendix \ref{app:results} and a discussion of the results in section \ref{sec:disc_sro}.
+
+\begin{figure}[htb]
+\begin{adjustwidth}{-1in}{-1in}
+\centering
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth]{figures/sro-measurement/sro-30sec}
+		\caption{30 second DFT window, $\Delta f=33~\mathrm{mHz}$.}
+		\label{fig:sro_30sec}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=\textwidth]{figures/sro-measurement/sro-5min}
+		\caption{Five minute DFT window, $\Delta f=3.3~\mathrm{mHz}$}
+		\label{fig:sro_5min}
+	\end{subfigure}	
+\end{adjustwidth}
+\caption[SRO measurement result.]{Sampling rate offset measurements for two DFT window lengths. A larger DFT window gives a higher frequency resolution $\Delta f$ but lower time resolution.}
+\label{fig:sro_result}
+\end{figure}
+\end{document}

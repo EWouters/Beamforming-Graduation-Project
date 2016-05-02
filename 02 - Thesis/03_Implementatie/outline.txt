@@ -1,0 +1,33 @@
+vim: ts=8 sts=8 expandtab sw=8
+
+- Abstract
+- Table of contents
+- List of tables
+- List of figures
+
+- Introduction
+
+- Synchronization
+        - Problem description
+                - Sample rate offset
+                - Sample time offset
+
+        - Algorithm
+
+        - Simulation results and discussion
+
+- System implementation
+        - Android
+        - MATLAB
+
+        - Performance of individual aspects
+
+- System test
+        - Set-up
+        - Results
+        - Discussion of results
+
+- Conclusion
+- Future work
+
+- Bibliography

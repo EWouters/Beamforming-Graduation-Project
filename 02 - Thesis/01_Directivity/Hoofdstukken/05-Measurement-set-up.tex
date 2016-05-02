@@ -1,0 +1,170 @@
+\chapter{Measurements}
+\label{chap:measurements}
+For determining the directivity of the smartphone microphone, measurements must be conducted.
+This process of determining the measurement set-up is discussed in this chapter. 
+The hardware which was at our disposal will be adressed first, because it influenced some choices made.
+After that, the application of two different sampling schemes will be discussed, from which one is chosen, and the choice of impulse response technique is discussed.
+This chapter is concluded with the measurement set-up, some preliminary results and a recap of this chapter.
+A summary of this chapter and an overview of our final measurement set-up (for replication) can be found in Appendix \ref{app:setupoverview}. 
+
+During the measurements there were some drawbacks, which will be explained further in the last section of this chapter (Section \ref{sec:prelim_res}).
+A solution will be presented in Chapter \ref{chap:equalization}.
+These drawbacks were caused by the response of the acoustic system of the measurement set-up, which had more influence on the results than expected.
+
+\section{Measurement hardware}
+% refereren naar appendix hier
+\begin{figure}[b!]
+        \centering
+        \begin{subfigure}[t]{0.4\textwidth}
+                \centering
+    			\includegraphics[height=8cm, width=8cm,keepaspectratio]{afbeeldingen/opstelling_pptx.png}
+			    \caption{A sketch of the measurement set-up}
+			    \label{fig:opstelling_pptx}
+        \end{subfigure}%
+        \quad %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[t]{0.5\textwidth}
+                \centering
+    			\includegraphics[height=8cm]{cover/onzecover.jpg}
+			    \caption{A picture of the measurement set-up in the anechoic room at the Faculty of TNW at the Delft University of Technology}
+			    \label{fig:opstelling_foto}
+        \end{subfigure}
+        \caption{Measurement set-up}
+        \label{fig:opstelling_beide}
+\end{figure}
+
+In order to determine the directivity of the smartphone microphone, the impulse response of the microphone is measured in the anechoic room at the Delft University of Technology.
+This room gives as little disturbance as possible from the surroundings.
+Figure \ref{fig:opstelling_beide} shows the final measurement set-up, this set-up is already presented here to clarify the terms of the hardware.
+As mentioned earlier, \nexus \cite{nexus5} is used and from now on the term $\it{smartphone}$ will refer to this specific phone. 
+
+An aluminium arc with a radius of 1.21 meter will be positioned in the middle of the anechoic room.
+This arc has a range from $-75^\circ$ tot $75^\circ$ (as a reference: $0^\circ$ is the horizon). A loudspeaker (with a length of 0.21 meter) is attached to this arc, which can be moved along the arc.
+The loudspeaker and accompanying hanging system have a length of 0.21 meter, so the radius of the arc with loudspeaker is 1 meter. 
+
+The phone is positioned on a turntable\footnote{This turntable is a part of the remote controllable Br\"uel \& Kj\ae r 9640 turntable system. \cite{manual:turntable}} in such a way that the distance between the speaker cone and the smartphone microphone is 1 meter for all measurements.
+This turntable can only be turned in full degrees.
+
+In order to record the sound on the smartphone, an application specifically made for this project was used, which allowed the smartphone to send the recordings via WiFi directly to \matlab.
+The implementation of this smartphone application is detailed in \cite{BAP:RoySjoerd}.
+The audio source consisted of a loudspeaker connected to a high-fidelity audio interface, an RME FireFace 800 \cite{manual:fireface}, connected to an audio amplifier\footnote{The amplifier that was used is a custom-built 8-channel amplifier built around the Philips TDA8560Q integrated circuit, capable of delivering 25W per channel into a 4$\Omega$ load.}.
+The loudspeaker used, is a Tymphany 4" Midrange loudspeaker, type number M10MD-39-08 \cite{manual:loudspeaker}, which specifications can be found in Figure \ref{fig:app:hardware:loudspeaker}. 
+This speaker is contained by a custom enclosure, for placement on the arc.
+
+A Br\"uel \& Kj\ae r Free-field microphone \cite{manual:microphone} was available to use to determine the impulse response of the acoustic equipment without the disturbance by the smartphone microphone.
+Specifications of this microphone can be found in Figure \ref{fig:app:hardware:mic}.
+
+\input{Hoofdstukken/sampling-scheme}
+
+\section{The measurement set-up}
+The decisions concerning the measurement set-up are based on the hardware, theory and techniques mentioned above. The choice of measurement scheme is already explained in the above section.
+
+In case of the impulse response measurement methods, both the TSP and MLS methods are used.
+These measurement techniques should give the same impulse response result, which makes them suitable to verify the measurements while measuring.
+If both techniques gave the same result, the measurement can be assumed to be succeeded. 
+
+\subsection{Settings}
+As much equipment was used for these measurements, values for many parameters had to be chosen.
+First of all, the sound volume settings of the loudspeaker need to be in the desired range: loud enough for the phone to register, but not so loud it could saturate or force the speaker.
+The volume settings are verified by looking at the signal amplitude measured by the smartphone. Many smartphones operate an automatic gain control: a controlled signal output despite variation of the input signal. This automatic gain control could give distortions in the measurement results. Keeping the signal amplitude measured by the smartphone between 10\% to 15\% of its maximum amplitude scale will prevent this. 
+
+For the setting of the volume of the computer, it was important to not let the audio interface clip.
+The software belonging to the Fireface clearly shows whether there is clipping or not. 
+The clipping could be prevented by lowering the volume of the operating system (Windows in this case) or multiplying the \matlab-generated signal with a gain factor.
+The final used settings were a volume of 5\% in Windows and a gain factor of -7 dB (power-dB) in \matlab.
+
+Generating and analysing the TSP and MLS signals is done with \matlab~ code by Thomas \cite{Thomas2006}.
+In order to use these codes, the order of the TSP and MLS, and the number of repetitions of each signal had to be chosen.
+At the \matlab~ side, we chose for both the MLS and the TSP a sequence of order 15, with ten repetitions.
+These sequences were played and recorded with a sampling frequency of 48 kHz.
+This sampling frequency gives a Nyquist frequency of 24 kHz, which is more than enough for our application (remember $f_{\text{voice}_\text{max}}=8$ kHz).
+The combination of the length of the signal and the sampling frequency made it possible to do approximately two measurements per minute, if multiplied by 762, a full sphere takes about 6 hours to measure.
+When also the time to check and the manual movements of the speaker are taken into account, a full sphere takes about 8 hours (one work day) to measure.
+So these choices give a achievable time schedule, with a good resolution and frequency range.
+
+Measurements were conducted on different days, so the results of different days may differ due to analogue settings on the amplifier.
+Therefore some showed preliminary results will not be alike. 
+In the next chapter, our choice of equalizing the different measurements will be explained.
+
+\subsection{Hardware placement}
+The measurement set-up is shown in Figure \ref{fig:opstelling_pptx}.
+In this set-up the following settings will be tested:
+\begin{itemize}
+\item The smartphone in mid-air\\
+To measure the smartphone in mid-air, it will be positioned on a small supporting stick, covered with foam.
+The foam is sound absorbing and smaller than the phone.
+It supports the phone but does not change the path of the sound.
+For measurements $\phi\geq90^\circ$ the phone will be placed upside down on the foam and will be turned the other way around.
+This way, the foam and the stick will disturb the signal as little as possible and the measurement will be the same as when the speaker is set-up larger than $\phi=90^\circ$.
+\item The smartphone on a surface\\
+For the measurements on a surface there is another set-up available: a plywood plate with dimensions of $290\times240\times8$ mm placed on a stick.
+The difference between the impulse response in mid-air and the impulse response on a surface is interesting because it will show whether the directivity of the phone in mid-air is representative of the behaviour on a surface.
+The overall goal is to use the directivity in a system in which the phones will be positioned on a surface. If the results on a table are too different from those in mid air, the conclusion may be that there is too much difference between mid-air and table to use the mid-air measurements in the beamforming algorithm.
+
+The smartphone has two configurations on a surface:
+\begin{itemize}
+\item Face up\\
+With the back of the phone on the table.
+\item Face down\\
+With the screen of the phone on the table.
+\end{itemize}
+\end{itemize}
+
+The last part of the measurement set-up concerns angles on the arc larger than $75^\circ$ and smaller than $-75^\circ$, because the arc does not reach that far.
+To reach angles in $[75,90]$ and $[-90,-75]$ the turntable can be placed at an angle, to cover the last $15^\circ$. For instance: to measure at an angle of $82^\circ$, the speaker will be set at $75^\circ$ and the table will be tilted $7^\circ$.
+This of course causes the smartphone to slide, so it will be secured with double-sided tape (1 mm thick).
+
+For the smartphone in mid-air at angles smaller than $-75^\circ$ the described set-up with the double-sided tape will be used, but with the smartphone turned upside down. For the set-up with the smartphone on a surface, this cannot be applied, so there will be no measurements done at angles lower than $-45^\circ$, because an audio signal coming from angles smaller than $0^\circ$ will probably be attenuated very fast.
+
+For the measurements with the table, the same sampling sphere will be used.
+
+Pictures of the measurement set-up can be found in Figure \ref{fig:app:overview} in Appendix \ref{app:setupoverview}.
+
+\section{Expectations}
+\label{sec:ms-expectations}
+\begin{wrapfigure}{r}{0.4\textwidth}
+        \centering
+		\includegraphics[]{afbeeldingen/device_a.png}
+	    \caption[Device A from \cite{Gaubitch2014}]{Device A (\nexus) from Figure 1 from \cite{Gaubitch2014}: \textit{Average responses for three smartphone models in one-third octave bands. The results are presented as the average responses per smartphone model.}}
+	    \label{fig:Gaubitch}
+\end{wrapfigure}
+There were already some expected results before the start of the measurements, mostly based on the measurements done previously by Gaubitch et al. \cite{Gaubitch2014} (Figure \ref{fig:Gaubitch}) and the physical characteristics of \nexus.
+A non-symmetric directivity pattern in the $\theta$-axis is expected as the microphone of \nexus~ is not positioned in the middle of the smartphone but about two centimeters to the right. 
+When turning the smartphone with the turntable, the microphone will thus not be completely turned away at $\theta=180^\circ$.
+Furthermore, a turned away microphone should give less gain than a microphone directed towards the loudspeaker. 
+Another expectation is that the measurements on a surface and in mid-air will give different results.
+The surface is expected to cause reflections of the signal, so there will be multipath interference patterns to observe. For $\phi>90^\circ$ a high gain loss is expected because the surface will hamper the signal for such angles.  
+
+\section{Preliminary results}
+\label{sec:prelim_res}
+The preliminary results of our measurements, plotted on a linear frequency axis, are shown in Figure \ref{fig:prelim:NX506_TSP_090_full} and \ref{fig:prelim:NX506_MLS_090_full} at the end of this chapter.
+The first things to notice are the very low gains at the lowest and highest frequencies.
+For the used decibel-scale 0 dB stands for no gain, which in this case means that the sent audiosignal is received with a gain of 1 at the microphone speaker.
+The given decibel scale comes from the settings of the computer, equipment and the attenuation through the air, which all cause the signal to have very high weakening. 
+These gains are the result of the loudspeaker, which frequency response for frequencies larger than 20 kHz is unknown \cite{manual:loudspeaker} and therefore considered low.
+This can be seen in Figure \ref{fig:app:hardware:loudspeaker} in Appendix \ref{app:hardware-data}.
+For frequencies smaller than approximately 125 Hz, the gain of the speaker is also decreasing very quickly.
+
+To let not cloud our results by these limitations of the loudspeaker these plots are replotted with a limited frequency axis.
+These are shown in Figure \ref{fig:prelim:NX506_TSP_090} and \ref{fig:prelim:NX506_MLS_090}.
+
+One very important thing to notice is the presence of the line of lower gain at about 13.5 kHz.
+This line was not expected, because these measurements were performed with the same smartphone as used by \cite{Gaubitch2014} (Figure \ref{fig:Gaubitch}).
+Although these results are plotted in octave bands, there is no line of reduced gain visible around 13.5 kHz.
+In the search for the cause, different smartphones, microphones and another loudspeaker of the same type \cite{manual:loudspeaker} were tested.
+It is concluded that this reduced gain was probably a result of the use of the available banana connector cable of which 10 meter was used to transport the signal from the audio amplifier to the loudspeaker.
+Because this cable is not as good as a normal transmission line (like a coaxial cable), there could be some frequency dependencies in the cable.
+
+To determine the smartphone directivity, the frequency dependencies of the acoustic system need to be eliminated from the result.
+Therefore the microphone \cite{manual:microphone} is used: the impulse response of the acoustic system is measured using both MLS and TSP and these measured responses are used for equalization.
+How this equalization is done will be explained in Section \ref{sec:eq-design}.
+The impulse responses given by the TSP and MLS signals are very much alike.
+From now on all the plotted impulse responses will be those using the TSP-method as they are the same as the MLS results.
+
+\section*{Measurements - Conclusion}
+In this chapter an equiangular sampling scheme (with latitudes and longitudes $9^ \circ$ apart) for determining the smartphone directivity was presented.
+Measurements using this scheme were conducted using the TSP and MLS impulse response determination techniques.
+A summary of this chapter can be found in Appendix \ref{app:setupoverview}, for replication of our measurements.
+The preliminary results of these measurements were given in Figure \ref{fig:prelim:NX506_090}. These results point out some effects, which did not match with the expectations. Therefore a way of equalizing the acquired dataset will be presented in the next chapter.
+
+\input{afbeeldingen/files/05-fig-prelim}

@@ -1,0 +1,76 @@
+\documentclass[a4paper]{article}
+\usepackage[a4paper,top=1.25in,right=1in,bottom=1.25in,left=1in]{geometry}
+\usepackage[utf8]{inputenc} 
+\usepackage{amsmath} %some standard math functions
+\usepackage{amssymb} %more mathematical symbols
+\usepackage{amsbsy} %enables bold mathematics
+\usepackage{amsthm} %enable theorem statements
+\usepackage[small, bf, hang]{caption} %captions for floats (images etc.)
+\usepackage{subcaption} %subcaptions for floats (images etc.)
+\usepackage{enumitem}
+\usepackage{adjustbox}
+\usepackage{lastpage}
+%\usepackage{mathtools}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{subcaption}
+\usepackage{url}
+\usepackage{color}
+\usepackage{sectsty}
+\usepackage{microtype}
+\pagestyle{fancy}
+\setlength{\headwidth}{\textwidth}
+\lhead{} % leave left header empty
+\chead{\textsf{Acoustic Enhancement via Beamforming Using Smartphones}}
+\rhead{} % leave right header empty
+\lfoot{} % leave left footer empty
+\cfoot{} % leave center footer empty
+\rfoot{\textsf{Page~\thepage~of \pageref{LastPage}}}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0pt}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\renewcommand \thesection{\arabic{section}} %
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}} % Remove from subsections
+\renewcommand{\thesubsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}	
+% Nice enumerations
+\newlist{enum}{enumerate}{1}
+\setlist[enum]{label=\textbf{\alph*})} % \arabic or \alpha
+\definecolor{title-gray}{gray}{0.45} %grijstint voor headers
+\allsectionsfont{\sffamily\color{title-gray}} %sans-serif in headers
+\newcommand{\matlab}{\textsc{Matlab} } %fancy Matlab commando
+\onehalfspacing %ruime tekst marges
+\usepackage[colorlinks=false]{hyperref} %klikbare links in PDF
+
+\begin{document}
+\title{{\sffamily Literature review for Bachelor Graduation Project\\Acoustic Enhancement via Beamforming Using Smartphones}}
+\author{{\sffamily\small S. Bosma, R. Brinkman, T. de Rooij, R. Smeding, N. van Wijngaarden, E. Wouters}}
+\date{}
+\maketitle
+\section{Introduction}
+\label{sec:introduction}
+\input{introduction.tex}
+
+\section{(Android) implementation}
+\label{sec:android}
+\input{android_implementation.tex}
+
+\section{Microphone directivity}
+\label{sec:microphone}
+\input{directivity.tex}
+
+\section{Acoustic beamforming}
+\label{sec:beamforming}
+\input{beamforming.tex}
+
+%Please do not change!
+\newpage
+\bibliography{references/references}{}
+\label{sec:bibliography}
+\bibliographystyle{references/IEEEtran}
+\end{document}
+
+\end{document}

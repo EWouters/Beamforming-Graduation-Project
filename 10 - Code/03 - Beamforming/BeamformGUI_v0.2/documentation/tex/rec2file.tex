@@ -1,0 +1,81 @@
+
+% This LaTeX was auto-generated from MATLAB code.
+% To make changes, update the MATLAB code and republish this document.
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{color}
+
+\sloppy
+\definecolor{lightgray}{gray}{0.5}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+    
+    
+\subsection*{Contents}
+
+\begin{itemize}
+\setlength{\itemsep}{-1ex}
+   \item Rec2file Class
+   \item Properties
+   \item Methods
+\end{itemize}
+\begin{verbatim}
+classdef rec2file
+\end{verbatim}
+
+
+\subsection*{Rec2file Class}
+
+
+\begin{verbatim}Class to record audio samples to file as .mat or .wav (or others)\end{verbatim}
+    
+\begin{verbatim}Example:
+ obj = rec2file
+ obj.save([1,2,3,4],1)\end{verbatim}
+    
+
+\subsection*{Properties}
+
+\begin{verbatim}
+    properties
+        fileName                                        % Name of the audio file to save including extention
+        filePath                                        % Path of the audio file to save
+        Title = sprintf('Recorded on %s',datestr(now)); % Set Title to current date and time
+        Comment = 'Beamforming Audio recording';        % Add comment to audio file
+    end
+\end{verbatim}
+
+
+\subsection*{Methods}
+
+\begin{verbatim}
+    methods
+        function save(obj,samples,fs)
+            if isempty([obj.fileName obj.filePath])
+                [obj.fileName,obj.filePath] = uiputfile(...
+                    {'*.wav','Waveform Audio File Format (*.wav)';...
+                    '*.mat','MAT-files (*.mat)';...
+                    '*.*',  'All Files (*.*)'},...
+                    'Save File','fileName');
+            end
+            if isempty(strfind(obj.fileName,'.mat'))
+                audiowrite(fullfile(obj.filePath,obj.fileName),samples,fs);
+            else
+                audio.samples = samples;
+                audio.fs = fs; %#ok<STRNU>
+                save(fullfile(obj.filePath,obj.fileName),'audio');
+            end
+        end
+    end
+\end{verbatim}
+\begin{verbatim}
+end
+\end{verbatim}
+
+
+
+\end{document}
+    
